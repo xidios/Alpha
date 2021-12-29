@@ -32,13 +32,13 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.StateDescriptionInput = new System.Windows.Forms.RichTextBox();
-            this.StateNameInput = new System.Windows.Forms.TextBox();
+            this.stateDescriptionInput = new System.Windows.Forms.RichTextBox();
+            this.stateNameInput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(81, 173);
+            this.buttonAdd.Location = new System.Drawing.Point(70, 173);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 0;
@@ -48,7 +48,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(162, 173);
+            this.buttonClose.Location = new System.Drawing.Point(151, 173);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
@@ -74,31 +74,31 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Description";
             // 
-            // StateDescriptionInput
+            // stateDescriptionInput
             // 
-            this.StateDescriptionInput.Location = new System.Drawing.Point(12, 71);
-            this.StateDescriptionInput.MaxLength = 255;
-            this.StateDescriptionInput.Name = "StateDescriptionInput";
-            this.StateDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.StateDescriptionInput.Size = new System.Drawing.Size(282, 96);
-            this.StateDescriptionInput.TabIndex = 11;
-            this.StateDescriptionInput.Text = "";
+            this.stateDescriptionInput.Location = new System.Drawing.Point(12, 71);
+            this.stateDescriptionInput.MaxLength = 255;
+            this.stateDescriptionInput.Name = "stateDescriptionInput";
+            this.stateDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
+            this.stateDescriptionInput.Size = new System.Drawing.Size(282, 96);
+            this.stateDescriptionInput.TabIndex = 11;
+            this.stateDescriptionInput.Text = "";
             // 
-            // StateNameInput
+            // stateNameInput
             // 
-            this.StateNameInput.Location = new System.Drawing.Point(12, 32);
-            this.StateNameInput.MaxLength = 100;
-            this.StateNameInput.Name = "StateNameInput";
-            this.StateNameInput.Size = new System.Drawing.Size(282, 20);
-            this.StateNameInput.TabIndex = 10;
+            this.stateNameInput.Location = new System.Drawing.Point(12, 32);
+            this.stateNameInput.MaxLength = 100;
+            this.stateNameInput.Name = "stateNameInput";
+            this.stateNameInput.Size = new System.Drawing.Size(282, 20);
+            this.stateNameInput.TabIndex = 10;
             // 
             // PopupWindowForAddState
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 216);
-            this.Controls.Add(this.StateDescriptionInput);
-            this.Controls.Add(this.StateNameInput);
+            this.ClientSize = new System.Drawing.Size(306, 217);
+            this.Controls.Add(this.stateDescriptionInput);
+            this.Controls.Add(this.stateNameInput);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonClose);
@@ -116,7 +116,7 @@
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox StateDescriptionInput;
-        private System.Windows.Forms.TextBox StateNameInput;
+        private System.Windows.Forms.RichTextBox stateDescriptionInput;
+        private System.Windows.Forms.TextBox stateNameInput;
     }
 }

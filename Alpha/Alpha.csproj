@@ -99,11 +99,23 @@
     <Compile Include="PopupWindowForAddState.Designer.cs">
       <DependentUpon>PopupWindowForAddState.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopupWindowForCheckpointsTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopupWindowForCheckpointsTable.Designer.cs">
+      <DependentUpon>PopupWindowForCheckpointsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="PopupWindowForEditAlpha.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PopupWindowForEditAlpha.Designer.cs">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PopupWindowForEditState.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopupWindowForEditState.Designer.cs">
+      <DependentUpon>PopupWindowForEditState.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,8 +129,14 @@
     <EmbeddedResource Include="PopupWindowForAddState.resx">
       <DependentUpon>PopupWindowForAddState.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PopupWindowForCheckpointsTable.resx">
+      <DependentUpon>PopupWindowForCheckpointsTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PopupWindowForEditAlpha.resx">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopupWindowForEditState.resx">
+      <DependentUpon>PopupWindowForEditState.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

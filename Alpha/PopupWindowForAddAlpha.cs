@@ -31,7 +31,7 @@ namespace Alpha
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            string alphaName = AlphaNameInput.Text;
+            string alphaName = alphaNameInput.Text;
             Alpha alphaParent = null;
             if (alphaName == null || alphaName == "")
             {
@@ -39,7 +39,7 @@ namespace Alpha
                 return;
             }
             
-            string alphaDescription = AlphaDescriptionInput.Text;
+            string alphaDescription = alphaDescriptionInput.Text;
             if (alphaDescription == null || alphaDescription == "")
             {
                 MessageBox.Show("Please enter alpha's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);

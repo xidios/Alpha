@@ -19,6 +19,7 @@ namespace Alpha
     {
         private List<Alpha> Alphas = new List<Alpha>();
         private string PathToAlphasFile = "alphas.json";
+        private string PathToStatesFile = "states.json";
         public Form1()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace Alpha
 
         public void UpdateAlphasTable()
         {
-            DeserializeJsonToAlphas();
+            DeserializeJsonFiles();
             tableLayoutPanel1.Controls.Clear();
 
             tableLayoutPanel1.RowCount = Alphas.Count() + 1;
@@ -66,7 +67,7 @@ namespace Alpha
             {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
                 Alpha alpha = Alphas[i - 1];
-                
+                Guid alphaId = alpha.GetAlphaId();
 
                 Button editButton = new Button();
                 editButton.Text = "Edit";
@@ -75,7 +76,7 @@ namespace Alpha
 
                 Button deleteButton = new Button();
                 deleteButton.Text = "Delete";
-                deleteButton.AccessibleName = (i - 1).ToString();
+                deleteButton.AccessibleName = alphaId.ToString();
                 deleteButton.Click += new EventHandler(buttonDelete_Click);
 
                 Label alphaNameLabel = new Label();
@@ -95,11 +96,13 @@ namespace Alpha
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void DeserializeJsonFiles()
         {
+            DeserializeJsonAlphas();
+            DeserializeJsonStates();
 
         }
-        private void DeserializeJsonToAlphas()
+        private void DeserializeJsonAlphas()
         {
             if (File.Exists(PathToAlphasFile))
             {
@@ -113,9 +116,39 @@ namespace Alpha
             {
                 File.Create(PathToAlphasFile);
             }
-
         }
-
+        private void DeserializeJsonStates()
+        {
+            if (File.Exists(PathToStatesFile))
+            {
+                string jsonString = File.ReadAllText(PathToStatesFile);
+                List<State> states = new List<State>();
+                if (jsonString != null && jsonString != "")
+                {
+                    states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var state in states)
+                {
+                    Alpha alpha = Alphas.First(a => a.Id == state.AlphaId);
+                    if (alpha != null)
+                    {
+                        alpha.AddState(state);
+                    }
+                }
+                SortAlphasStatesByOrder();
+            }
+            else
+            {
+                File.Create(PathToStatesFile);
+            }
+        }
+        private void SortAlphasStatesByOrder()
+        {
+            foreach (var alpha in Alphas)
+            {
+                alpha.SortListOfStatesByOrder();
+            }
+        }
         private void AddAlpha_Click(object sender, EventArgs e)
         {
             PopupWindowForAddAlpha popupWindowForAddAlpha = new PopupWindowForAddAlpha(this);
@@ -125,7 +158,7 @@ namespace Alpha
         public void AddNewAlpha(Alpha alpha)
         {
             Alphas.Add(alpha);
-            ExportAlphasToJson();
+            ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -133,29 +166,55 @@ namespace Alpha
             Button b = (Button)sender;
             int alphaId = Int32.Parse(b.AccessibleName);
             Alpha alpha = Alphas[alphaId];
-            PopupWindowForEditAlpha popupWindowForEditAlpha = new PopupWindowForEditAlpha(this,alpha);
+            PopupWindowForEditAlpha popupWindowForEditAlpha = new PopupWindowForEditAlpha(this, alpha);
             popupWindowForEditAlpha.ShowDialog();
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(dialogResult == DialogResult.No)
+            if (dialogResult == DialogResult.No)
             {
                 return;
             }
             Button b = (Button)sender;
-            int alphaId = Int32.Parse(b.AccessibleName);
-            Alpha alpha = Alphas[alphaId];
+            Guid alphaId = Guid.Parse(b.AccessibleName);
+            Alpha alpha = Alphas.First(a=>a.GetAlphaId()==alphaId);
+            if(alpha == null)
+            {
+                MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Alphas.Remove(alpha);
-            ExportAlphasToJson();
+            ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
-        public void ExportAlphasToJson()
+        public void ExportAllToJsonFiles()
         {
-            var json = JsonSerializer.Serialize(Alphas, new JsonSerializerOptions {
+            var jsonAlphas = JsonSerializer.Serialize(Alphas, new JsonSerializerOptions
+            {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true });
-            File.WriteAllText(PathToAlphasFile, json);
+                WriteIndented = true
+            });
+            File.WriteAllText(PathToAlphasFile, jsonAlphas);
+
+            SortAlphasStatesByOrder();
+            var jsonStates = JsonSerializer.Serialize(GetAllStates(), new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+            File.WriteAllText(PathToStatesFile, jsonStates);
+
+        }
+        public List<State> GetAllStates()
+        {
+            List<State> states = new List<State>();
+            foreach (var alpha in Alphas)
+            {
+                states.AddRange(alpha.GetStates());
+            }
+            return states;
+
         }
     }
 }

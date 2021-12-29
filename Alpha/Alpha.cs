@@ -36,5 +36,13 @@ namespace Alpha
         {
             States.Add(state);
         }
+        public Guid GetAlphaId()
+        {
+            return Id;
+        }
+        public void SortListOfStatesByOrder()
+        {
+            States.Sort((x,y)=>x.Order.CompareTo(y.Order));
+        }
     }
 }

@@ -30,8 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.labelAlphaName = new System.Windows.Forms.Label();
-            this.AlphaDescriptionInput = new System.Windows.Forms.RichTextBox();
-            this.AlphaNameInput = new System.Windows.Forms.TextBox();
+            this.alphaDescriptionInput = new System.Windows.Forms.RichTextBox();
+            this.alphaNameInput = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.checkBoxChildAlpha = new System.Windows.Forms.CheckBox();
@@ -60,23 +60,23 @@
             this.labelAlphaName.TabIndex = 10;
             this.labelAlphaName.Text = "Alpha name";
             // 
-            // AlphaDescriptionInput
+            // alphaDescriptionInput
             // 
-            this.AlphaDescriptionInput.Location = new System.Drawing.Point(12, 71);
-            this.AlphaDescriptionInput.MaxLength = 255;
-            this.AlphaDescriptionInput.Name = "AlphaDescriptionInput";
-            this.AlphaDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.AlphaDescriptionInput.Size = new System.Drawing.Size(282, 96);
-            this.AlphaDescriptionInput.TabIndex = 9;
-            this.AlphaDescriptionInput.Text = "";
+            this.alphaDescriptionInput.Location = new System.Drawing.Point(12, 71);
+            this.alphaDescriptionInput.MaxLength = 255;
+            this.alphaDescriptionInput.Name = "alphaDescriptionInput";
+            this.alphaDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
+            this.alphaDescriptionInput.Size = new System.Drawing.Size(282, 96);
+            this.alphaDescriptionInput.TabIndex = 9;
+            this.alphaDescriptionInput.Text = "";
             // 
-            // AlphaNameInput
+            // alphaNameInput
             // 
-            this.AlphaNameInput.Location = new System.Drawing.Point(12, 32);
-            this.AlphaNameInput.MaxLength = 100;
-            this.AlphaNameInput.Name = "AlphaNameInput";
-            this.AlphaNameInput.Size = new System.Drawing.Size(282, 20);
-            this.AlphaNameInput.TabIndex = 8;
+            this.alphaNameInput.Location = new System.Drawing.Point(12, 32);
+            this.alphaNameInput.MaxLength = 100;
+            this.alphaNameInput.Name = "alphaNameInput";
+            this.alphaNameInput.Size = new System.Drawing.Size(282, 20);
+            this.alphaNameInput.TabIndex = 8;
             // 
             // buttonAdd
             // 
@@ -131,24 +131,25 @@
             // tableLayoutPanelOfStates
             // 
             this.tableLayoutPanelOfStates.AutoScroll = true;
-            this.tableLayoutPanelOfStates.ColumnCount = 3;
+            this.tableLayoutPanelOfStates.ColumnCount = 6;
             this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelOfStates.Location = new System.Drawing.Point(449, 44);
+            this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfStates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfStates.Location = new System.Drawing.Point(376, 44);
             this.tableLayoutPanelOfStates.Name = "tableLayoutPanelOfStates";
             this.tableLayoutPanelOfStates.RowCount = 2;
             this.tableLayoutPanelOfStates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelOfStates.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelOfStates.Size = new System.Drawing.Size(441, 266);
+            this.tableLayoutPanelOfStates.Size = new System.Drawing.Size(612, 266);
             this.tableLayoutPanelOfStates.TabIndex = 15;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(446, 16);
+            this.label3.Location = new System.Drawing.Point(373, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 16;
@@ -156,9 +157,9 @@
             // 
             // buttonAddState
             // 
-            this.buttonAddState.Location = new System.Drawing.Point(489, 12);
+            this.buttonAddState.Location = new System.Drawing.Point(416, 11);
             this.buttonAddState.Name = "buttonAddState";
-            this.buttonAddState.Size = new System.Drawing.Size(40, 23);
+            this.buttonAddState.Size = new System.Drawing.Size(41, 23);
             this.buttonAddState.TabIndex = 17;
             this.buttonAddState.Text = "Add";
             this.buttonAddState.UseVisualStyleBackColor = true;
@@ -177,8 +178,8 @@
             this.Controls.Add(this.listBoxAlphas);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelAlphaName);
-            this.Controls.Add(this.AlphaDescriptionInput);
-            this.Controls.Add(this.AlphaNameInput);
+            this.Controls.Add(this.alphaDescriptionInput);
+            this.Controls.Add(this.alphaNameInput);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonClose);
             this.Name = "PopupWindowForEditAlpha";
@@ -192,8 +193,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelAlphaName;
-        private System.Windows.Forms.RichTextBox AlphaDescriptionInput;
-        private System.Windows.Forms.TextBox AlphaNameInput;
+        private System.Windows.Forms.RichTextBox alphaDescriptionInput;
+        private System.Windows.Forms.TextBox alphaNameInput;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.CheckBox checkBoxChildAlpha;

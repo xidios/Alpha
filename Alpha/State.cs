@@ -12,12 +12,22 @@ namespace Alpha
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid AlphaId { get; set; }
+        public int Order { get; set; }
 
-        public State (string name, string desctiption, Alpha alpha)
+        public State()
+        {
+
+        }
+        public State (string name, string desctiption,int order, Alpha alpha)
         {
             Name = name;
             Description = desctiption;
+            Order = order;
             AlphaId = alpha.Id;
+        }
+        public Guid GetStateId()
+        {
+            return Id;
         }
     }
 }

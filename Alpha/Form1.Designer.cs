@@ -30,7 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.AddAlpha = new System.Windows.Forms.Button();
+            this.addAlphaButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,22 +63,22 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(570, 391);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // AddAlpha
+            // addAlphaButton
             // 
-            this.AddAlpha.Location = new System.Drawing.Point(12, 12);
-            this.AddAlpha.Name = "AddAlpha";
-            this.AddAlpha.Size = new System.Drawing.Size(104, 41);
-            this.AddAlpha.TabIndex = 2;
-            this.AddAlpha.Text = "Add Alpha";
-            this.AddAlpha.UseVisualStyleBackColor = true;
-            this.AddAlpha.Click += new System.EventHandler(this.AddAlpha_Click);
+            this.addAlphaButton.Location = new System.Drawing.Point(12, 12);
+            this.addAlphaButton.Name = "addAlphaButton";
+            this.addAlphaButton.Size = new System.Drawing.Size(104, 41);
+            this.addAlphaButton.TabIndex = 2;
+            this.addAlphaButton.Text = "Add Alpha";
+            this.addAlphaButton.UseVisualStyleBackColor = true;
+            this.addAlphaButton.Click += new System.EventHandler(this.AddAlpha_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 450);
-            this.Controls.Add(this.AddAlpha);
+            this.Controls.Add(this.addAlphaButton);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Alpha";
@@ -91,7 +91,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button AddAlpha;
+        private System.Windows.Forms.Button addAlphaButton;
     }
 }
 

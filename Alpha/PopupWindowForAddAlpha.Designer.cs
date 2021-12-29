@@ -30,8 +30,8 @@
         {
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
-            this.AlphaNameInput = new System.Windows.Forms.TextBox();
-            this.AlphaDescriptionInput = new System.Windows.Forms.RichTextBox();
+            this.alphaNameInput = new System.Windows.Forms.TextBox();
+            this.alphaDescriptionInput = new System.Windows.Forms.RichTextBox();
             this.labelAlphaName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.listBoxAlphas = new System.Windows.Forms.ListBox();
@@ -59,23 +59,23 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // AlphaNameInput
+            // alphaNameInput
             // 
-            this.AlphaNameInput.Location = new System.Drawing.Point(106, 39);
-            this.AlphaNameInput.MaxLength = 100;
-            this.AlphaNameInput.Name = "AlphaNameInput";
-            this.AlphaNameInput.Size = new System.Drawing.Size(282, 20);
-            this.AlphaNameInput.TabIndex = 2;
+            this.alphaNameInput.Location = new System.Drawing.Point(106, 39);
+            this.alphaNameInput.MaxLength = 100;
+            this.alphaNameInput.Name = "alphaNameInput";
+            this.alphaNameInput.Size = new System.Drawing.Size(282, 20);
+            this.alphaNameInput.TabIndex = 2;
             // 
-            // AlphaDescriptionInput
+            // alphaDescriptionInput
             // 
-            this.AlphaDescriptionInput.Location = new System.Drawing.Point(106, 65);
-            this.AlphaDescriptionInput.MaxLength = 255;
-            this.AlphaDescriptionInput.Name = "AlphaDescriptionInput";
-            this.AlphaDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.AlphaDescriptionInput.Size = new System.Drawing.Size(282, 96);
-            this.AlphaDescriptionInput.TabIndex = 3;
-            this.AlphaDescriptionInput.Text = "";
+            this.alphaDescriptionInput.Location = new System.Drawing.Point(106, 65);
+            this.alphaDescriptionInput.MaxLength = 255;
+            this.alphaDescriptionInput.Name = "alphaDescriptionInput";
+            this.alphaDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
+            this.alphaDescriptionInput.Size = new System.Drawing.Size(282, 96);
+            this.alphaDescriptionInput.TabIndex = 3;
+            this.alphaDescriptionInput.Text = "";
             // 
             // labelAlphaName
             // 
@@ -135,8 +135,8 @@
             this.Controls.Add(this.listBoxAlphas);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelAlphaName);
-            this.Controls.Add(this.AlphaDescriptionInput);
-            this.Controls.Add(this.AlphaNameInput);
+            this.Controls.Add(this.alphaDescriptionInput);
+            this.Controls.Add(this.alphaNameInput);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonClose);
             this.Name = "PopupWindowForAddAlpha";
@@ -150,8 +150,8 @@
 
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonAdd;
-        private System.Windows.Forms.TextBox AlphaNameInput;
-        private System.Windows.Forms.RichTextBox AlphaDescriptionInput;
+        private System.Windows.Forms.TextBox alphaNameInput;
+        private System.Windows.Forms.RichTextBox alphaDescriptionInput;
         private System.Windows.Forms.Label labelAlphaName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox listBoxAlphas;

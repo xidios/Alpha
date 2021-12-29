@@ -18,30 +18,30 @@ namespace Alpha
         {
             InitializeComponent();
             this.alpha = alpha;
-            this.popupWindowForEditAlpha= popupWindowForEditAlpha;
+            this.popupWindowForEditAlpha = popupWindowForEditAlpha;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            string stateName = StateNameInput.Text;
+            string stateName = stateNameInput.Text;
             if (stateName == null || stateName == "")
             {
                 MessageBox.Show("Please enter state's name", "Nullable name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string stateDescription = StateDescriptionInput.Text;
+            string stateDescription = stateDescriptionInput.Text;
             if (stateDescription == null || stateDescription == "")
             {
                 MessageBox.Show("Please enter state's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            State state = new State(stateName, stateDescription, alpha);
+            int stateOrder = alpha.GetStates().Count() * 10;
+            State state = new State(stateName, stateDescription, stateOrder, alpha);
             alpha.AddState(state);
             popupWindowForEditAlpha.UpdateStatesTable();
             this.Close();
-            
+
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
