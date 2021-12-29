@@ -99,17 +99,17 @@ namespace Alpha
                 deleteStateButton.AccessibleName = stateId.ToString();
                 deleteStateButton.Click += new EventHandler(buttonDeleteState_Click);
 
-                Button edirStateButton = new Button();
-                edirStateButton.Text = "Edit";
-                edirStateButton.AccessibleName = stateId.ToString();
-                edirStateButton.Click += new EventHandler(buttonEditState_Click);
+                Button editStateButton = new Button();
+                editStateButton.Text = "Edit";
+                editStateButton.AccessibleName = stateId.ToString();
+                editStateButton.Click += new EventHandler(buttonEditState_Click);
 
 
                 tableLayoutPanelOfStates.Controls.Add(stateNameLabel, 0, i);
                 tableLayoutPanelOfStates.Controls.Add(stateDescription, 1, i);
                 tableLayoutPanelOfStates.Controls.Add(stateOrder, 2, i);
                 tableLayoutPanelOfStates.Controls.Add(openCheckpointsButton, 3, i);
-                tableLayoutPanelOfStates.Controls.Add(edirStateButton, 4, i);
+                tableLayoutPanelOfStates.Controls.Add(editStateButton, 4, i);
                 tableLayoutPanelOfStates.Controls.Add(deleteStateButton, 5, i);
             }
 
@@ -209,6 +209,8 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(state);
+            popupWindowForCheckpointsTable.ShowDialog();
         }
         private void buttonEditState_Click(object sender, EventArgs e)
         {

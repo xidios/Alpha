@@ -8,11 +8,12 @@ namespace Alpha
 {
     public class State : ICheckable
     {
-        private Guid Id = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid AlphaId { get; set; }
         public int Order { get; set; }
+        private List<Checkpoint> Checkpoints = new List<Checkpoint>();
 
         public State()
         {
@@ -28,6 +29,10 @@ namespace Alpha
         public Guid GetStateId()
         {
             return Id;
+        }
+        public List<Checkpoint> GetCheckpoints() 
+        {
+            return Checkpoints;
         }
     }
 }
