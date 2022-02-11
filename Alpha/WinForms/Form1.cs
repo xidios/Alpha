@@ -15,17 +15,18 @@ using System.Text.Encodings.Web;
 
 namespace Alpha
 {
+    // TODO: Там нужно будет добавить поле, которого не было в исходном, типа степени влияния...
+    // TODO: checkpoint tests
     public partial class Form1 : Form
     {
         private List<Alpha> Alphas = new List<Alpha>();
         private string PathToAlphasFile = "alphas.json";
         private string PathToStatesFile = "states.json";
+        private string PathToCheckpointsFile = "checkpoints.json";
         public Form1()
         {
             InitializeComponent();
             UpdateAlphasTable();
-
-
         }
 
         public List<Alpha> GetListOfAlphas()
@@ -134,12 +135,46 @@ namespace Alpha
                     {
                         alpha.AddState(state);
                     }
-                }
+                }                
                 SortAlphasStatesByOrder();
+                DeserializeJsonCheckpoints(states);
             }
             else
             {
                 File.Create(PathToStatesFile);
+            }
+        }
+        private void DeserializeJsonCheckpoints(List<State> states)
+        {
+            if (File.Exists(PathToCheckpointsFile))
+            {
+                string jsonString = File.ReadAllText(PathToCheckpointsFile);
+                List<Checkpoint> checkpoints = new List<Checkpoint>();
+                if (jsonString != null && jsonString != "")
+                {
+                    checkpoints = JsonSerializer.Deserialize<List<Checkpoint>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var checkpoint in checkpoints)
+                {
+                    State state = states.First(s => s.Id == checkpoint.StateId);
+                    if (state != null)
+                    {
+                        state.AddCheckpoint(checkpoint);
+                    }
+                }
+                SortStatesCheckpointsByOrder(states);
+            }
+            else
+            {
+                File.Create(PathToStatesFile);
+            }
+        }
+        // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
+        private void SortStatesCheckpointsByOrder(List<State> states)
+        {
+            foreach (var state in states)
+            {
+                state.SortListOfCheckpointsByOrder();
             }
         }
         private void SortAlphasStatesByOrder()
@@ -149,6 +184,7 @@ namespace Alpha
                 alpha.SortListOfStatesByOrder();
             }
         }
+        //
         private void AddAlpha_Click(object sender, EventArgs e)
         {
             PopupWindowForAddAlpha popupWindowForAddAlpha = new PopupWindowForAddAlpha(this);
@@ -198,15 +234,27 @@ namespace Alpha
             File.WriteAllText(PathToAlphasFile, jsonAlphas);
 
             SortAlphasStatesByOrder();
-            var jsonStates = JsonSerializer.Serialize(GetAllStates(), new JsonSerializerOptions
+            List<State> states = GetAllStates();
+            var jsonStates = JsonSerializer.Serialize(states, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
             File.WriteAllText(PathToStatesFile, jsonStates);
 
+            SortStatesCheckpointsByOrder(states);
+            List<Checkpoint> checkpoints = GetAllCheckpoints(states);
+            var jsonCheckpoints = JsonSerializer.Serialize(checkpoints, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+            File.WriteAllText(PathToCheckpointsFile, jsonCheckpoints);
+
+
         }
-        public List<State> GetAllStates()
+        // TODO интерфейс для GetAll
+        private List<State> GetAllStates()
         {
             List<State> states = new List<State>();
             foreach (var alpha in Alphas)
@@ -214,7 +262,16 @@ namespace Alpha
                 states.AddRange(alpha.GetStates());
             }
             return states;
+        }
 
+        private List<Checkpoint> GetAllCheckpoints(List<State> states)
+        {
+            List<Checkpoint> checkpoints = new List<Checkpoint>();
+            foreach (var state in states)
+            {
+                checkpoints.AddRange(state.GetCheckpoints());
+            }
+            return checkpoints;
         }
     }
 }

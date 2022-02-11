@@ -13,9 +13,11 @@ namespace Alpha
     public partial class PopupWindowForCheckpointsTable : Form
     {
         State state;
-        public PopupWindowForCheckpointsTable(State state)
+        Form1 form1;
+        public PopupWindowForCheckpointsTable(Form1 form1, State state)
         {
             InitializeComponent();
+            this.form1 = form1;
             this.state = state;
             this.Text = $"Checkpoints of {state.Name}";
             UpdateCheckpointsTable();
@@ -24,7 +26,7 @@ namespace Alpha
         public void UpdateCheckpointsTable()
         {
 
-            //form1.ExportAllToJsonFiles();
+            form1.ExportAllToJsonFiles();
             tableLayoutPanelOfCheckpoints.Controls.Clear();
 
             tableLayoutPanelOfCheckpoints.RowCount = state.GetCheckpoints().Count() + 1; //не бейте
@@ -47,12 +49,12 @@ namespace Alpha
             {
                 Text = "Edit",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
-            }, 4, 0);
+            }, 3, 0);
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
                 Text = "Delete",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
-            }, 5, 0);
+            }, 4, 0);
             List<Checkpoint> checkpoints = state.GetCheckpoints();
             for (int i = 1; i <= checkpoints.Count; i++)
             {
@@ -71,12 +73,12 @@ namespace Alpha
                 Button deleteCheckpointButton = new Button();
                 deleteCheckpointButton.Text = "Delete";
                 deleteCheckpointButton.AccessibleName = stateId.ToString();
-                //deleteStateButton.Click += new EventHandler(buttonDeleteState_Click);
+                deleteCheckpointButton.Click += new EventHandler(buttonDeleteCheckpoint_Click);
 
                 Button editCheckpointButton = new Button();
                 editCheckpointButton.Text = "Edit";
                 editCheckpointButton.AccessibleName = stateId.ToString();
-                //edirStateButton.Click += new EventHandler(buttonEditState_Click);
+                editCheckpointButton.Click += new EventHandler(buttonEditCheckpoint_Click);
 
 
                 tableLayoutPanelOfCheckpoints.Controls.Add(checkpointNameLabel, 0, i);
@@ -90,7 +92,42 @@ namespace Alpha
         }
         private void buttonAddCheckpoint_Click(object sender, EventArgs e)
         {
+            PopupWindowForAddCheckpoint popupWindowForAddState = new PopupWindowForAddCheckpoint(this,state);
+            popupWindowForAddState.ShowDialog();
+        }
+        private void buttonDeleteCheckpoint_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            Button b = (Button)sender;
+            Guid checkpointId = Guid.Parse(b.AccessibleName);
+            List<Checkpoint> checkpoints = state.GetCheckpoints();
+            Checkpoint checkpoint = checkpoints.First(c => c.GetCheckpointId() == checkpointId);
+            if (checkpoint == null)
+            {
+                MessageBox.Show("Some problems with checkpoint", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            checkpoints.Remove(checkpoint);
+            UpdateCheckpointsTable();
+        }
 
+        private void buttonEditCheckpoint_Click(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            Guid checkpointId = Guid.Parse(b.AccessibleName);
+            List<Checkpoint> checkpoints = state.GetCheckpoints();
+            Checkpoint checkpoint = checkpoints.First(c => c.GetCheckpointId() == checkpointId);
+            if (checkpoint == null)
+            {
+                MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            PopupWindowForEditCheckpoint popupWindowForEditCheckpoint = new PopupWindowForEditCheckpoint(this, checkpoint);
+            popupWindowForEditCheckpoint.ShowDialog();
         }
     }
 }

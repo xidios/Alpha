@@ -30,8 +30,8 @@ namespace Alpha
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonAddCheckpoint = new System.Windows.Forms.Button();
             this.tableLayoutPanelOfCheckpoints = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonAddCheckpoint = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,19 +44,9 @@ namespace Alpha
             this.panel1.Size = new System.Drawing.Size(856, 398);
             this.panel1.TabIndex = 0;
             // 
-            // buttonAddCheckpoint
-            // 
-            this.buttonAddCheckpoint.Location = new System.Drawing.Point(12, 23);
-            this.buttonAddCheckpoint.Name = "buttonAddCheckpoint";
-            this.buttonAddCheckpoint.Size = new System.Drawing.Size(75, 23);
-            this.buttonAddCheckpoint.TabIndex = 1;
-            this.buttonAddCheckpoint.Text = "Add";
-            this.buttonAddCheckpoint.UseVisualStyleBackColor = true;
-            this.buttonAddCheckpoint.Click += new System.EventHandler(this.buttonAddCheckpoint_Click);
-            // 
             // tableLayoutPanelOfCheckpoints
             // 
-            this.tableLayoutPanelOfCheckpoints.ColumnCount = 7;
+            this.tableLayoutPanelOfCheckpoints.ColumnCount = 5;
             this.tableLayoutPanelOfCheckpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfCheckpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfCheckpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -67,8 +57,19 @@ namespace Alpha
             this.tableLayoutPanelOfCheckpoints.Name = "tableLayoutPanelOfCheckpoints";
             this.tableLayoutPanelOfCheckpoints.RowCount = 2;
             this.tableLayoutPanelOfCheckpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelOfCheckpoints.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelOfCheckpoints.Size = new System.Drawing.Size(856, 398);
             this.tableLayoutPanelOfCheckpoints.TabIndex = 0;
+            // 
+            // buttonAddCheckpoint
+            // 
+            this.buttonAddCheckpoint.Location = new System.Drawing.Point(12, 23);
+            this.buttonAddCheckpoint.Name = "buttonAddCheckpoint";
+            this.buttonAddCheckpoint.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddCheckpoint.TabIndex = 1;
+            this.buttonAddCheckpoint.Text = "Add";
+            this.buttonAddCheckpoint.UseVisualStyleBackColor = true;
+            this.buttonAddCheckpoint.Click += new System.EventHandler(this.buttonAddCheckpoint_Click);
             // 
             // PopupWindowForCheckpointsTable
             // 

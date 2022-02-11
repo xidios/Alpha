@@ -8,6 +8,7 @@ namespace Alpha
 {
     public class Alpha
     {
+        // TODO Parent contains only ID
         public Alpha Parent { get; set; } = null;
         public string Name { get; set; }
         public string Description { get; set; }

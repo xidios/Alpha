@@ -15,6 +15,17 @@ namespace Alpha
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid StateId { get; set; }
 
+        public Checkpoint()
+        {
+
+        }
+        public Checkpoint(string name,string description,int order, State state)
+        {
+            Name = name;
+            Description = description;
+            Order = order;
+            StateId = state.GetStateId();
+        }
         public Guid GetCheckpointId()
         {
             return Id;

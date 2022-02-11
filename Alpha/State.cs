@@ -30,6 +30,14 @@ namespace Alpha
         {
             return Id;
         }
+        public void AddCheckpoint(Checkpoint checkpoint)
+        {
+            Checkpoints.Add(checkpoint);
+        }
+        public void SortListOfCheckpointsByOrder()
+        {
+            Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
+        }
         public List<Checkpoint> GetCheckpoints() 
         {
             return Checkpoints;

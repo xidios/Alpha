@@ -209,7 +209,7 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(state);
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(form1,state);
             popupWindowForCheckpointsTable.ShowDialog();
         }
         private void buttonEditState_Click(object sender, EventArgs e)
