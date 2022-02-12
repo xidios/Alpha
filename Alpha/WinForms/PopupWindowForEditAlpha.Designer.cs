@@ -35,7 +35,7 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.checkBoxChildAlpha = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelAlphaParent = new System.Windows.Forms.Label();
             this.listBoxAlphas = new System.Windows.Forms.ListBox();
             this.tableLayoutPanelOfStates = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,9 +45,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.upperBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.lowerBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelSubAlpha = new System.Windows.Forms.Label();
             this.listBoxOfSubAlphas = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonDeleteSupAlpha = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.upperBoundNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lowerBoundNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -111,7 +112,7 @@
             // checkBoxChildAlpha
             // 
             this.checkBoxChildAlpha.AutoSize = true;
-            this.checkBoxChildAlpha.Location = new System.Drawing.Point(96, 180);
+            this.checkBoxChildAlpha.Location = new System.Drawing.Point(15, 197);
             this.checkBoxChildAlpha.Name = "checkBoxChildAlpha";
             this.checkBoxChildAlpha.Size = new System.Drawing.Size(121, 17);
             this.checkBoxChildAlpha.TabIndex = 14;
@@ -119,21 +120,21 @@
             this.checkBoxChildAlpha.UseVisualStyleBackColor = true;
             this.checkBoxChildAlpha.CheckedChanged += new System.EventHandler(this.checkBoxChildAlpha_CheckedChanged);
             // 
-            // label2
+            // labelAlphaParent
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 181);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Alpha parent";
+            this.labelAlphaParent.AutoSize = true;
+            this.labelAlphaParent.Location = new System.Drawing.Point(12, 181);
+            this.labelAlphaParent.Name = "labelAlphaParent";
+            this.labelAlphaParent.Size = new System.Drawing.Size(67, 13);
+            this.labelAlphaParent.TabIndex = 13;
+            this.labelAlphaParent.Text = "Alpha parent";
             // 
             // listBoxAlphas
             // 
             this.listBoxAlphas.Enabled = false;
             this.listBoxAlphas.FormattingEnabled = true;
             this.listBoxAlphas.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.listBoxAlphas.Location = new System.Drawing.Point(12, 203);
+            this.listBoxAlphas.Location = new System.Drawing.Point(12, 215);
             this.listBoxAlphas.Name = "listBoxAlphas";
             this.listBoxAlphas.Size = new System.Drawing.Size(282, 95);
             this.listBoxAlphas.TabIndex = 12;
@@ -204,6 +205,7 @@
             // 
             // upperBoundNumericUpDown
             // 
+            this.upperBoundNumericUpDown.DecimalPlaces = 2;
             this.upperBoundNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -221,6 +223,7 @@
             // 
             // lowerBoundNumericUpDown
             // 
+            this.lowerBoundNumericUpDown.DecimalPlaces = 2;
             this.lowerBoundNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -236,14 +239,14 @@
             this.lowerBoundNumericUpDown.Size = new System.Drawing.Size(120, 20);
             this.lowerBoundNumericUpDown.TabIndex = 22;
             // 
-            // label7
+            // labelSubAlpha
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(15, 463);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(94, 13);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "Subordinate Alpha";
+            this.labelSubAlpha.AutoSize = true;
+            this.labelSubAlpha.Location = new System.Drawing.Point(15, 463);
+            this.labelSubAlpha.Name = "labelSubAlpha";
+            this.labelSubAlpha.Size = new System.Drawing.Size(94, 13);
+            this.labelSubAlpha.TabIndex = 23;
+            this.labelSubAlpha.Text = "Subordinate Alpha";
             // 
             // listBoxOfSubAlphas
             // 
@@ -251,27 +254,38 @@
             this.listBoxOfSubAlphas.Location = new System.Drawing.Point(18, 480);
             this.listBoxOfSubAlphas.Name = "listBoxOfSubAlphas";
             this.listBoxOfSubAlphas.ScrollAlwaysVisible = true;
-            this.listBoxOfSubAlphas.Size = new System.Drawing.Size(276, 30);
+            this.listBoxOfSubAlphas.Size = new System.Drawing.Size(276, 69);
             this.listBoxOfSubAlphas.TabIndex = 24;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(18, 516);
+            this.button1.Location = new System.Drawing.Point(18, 555);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(134, 23);
             this.button1.TabIndex = 25;
             this.button1.Text = "Save Alpha Containment";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.buttonSaveConteinment_Click);
+            // 
+            // buttonDeleteSupAlpha
+            // 
+            this.buttonDeleteSupAlpha.Location = new System.Drawing.Point(219, 555);
+            this.buttonDeleteSupAlpha.Name = "buttonDeleteSupAlpha";
+            this.buttonDeleteSupAlpha.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteSupAlpha.TabIndex = 26;
+            this.buttonDeleteSupAlpha.Text = "Delete";
+            this.buttonDeleteSupAlpha.UseVisualStyleBackColor = true;
+            this.buttonDeleteSupAlpha.Click += new System.EventHandler(this.buttonDeleteSupAlpha_Click);
             // 
             // PopupWindowForEditAlpha
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 602);
+            this.ClientSize = new System.Drawing.Size(1008, 594);
+            this.Controls.Add(this.buttonDeleteSupAlpha);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBoxOfSubAlphas);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelSubAlpha);
             this.Controls.Add(this.lowerBoundNumericUpDown);
             this.Controls.Add(this.upperBoundNumericUpDown);
             this.Controls.Add(this.label6);
@@ -281,7 +295,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tableLayoutPanelOfStates);
             this.Controls.Add(this.checkBoxChildAlpha);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelAlphaParent);
             this.Controls.Add(this.listBoxAlphas);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelAlphaName);
@@ -307,7 +321,7 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.CheckBox checkBoxChildAlpha;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelAlphaParent;
         private System.Windows.Forms.ListBox listBoxAlphas;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOfStates;
         private System.Windows.Forms.Label label3;
@@ -317,8 +331,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown upperBoundNumericUpDown;
         private System.Windows.Forms.NumericUpDown lowerBoundNumericUpDown;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelSubAlpha;
         private System.Windows.Forms.ListBox listBoxOfSubAlphas;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonDeleteSupAlpha;
     }
 }

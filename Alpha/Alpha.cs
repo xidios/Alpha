@@ -30,6 +30,10 @@ namespace Alpha
             Description = description;
             Parent = parent;
         }
+        public string GetName()
+        {
+            return Name;
+        }
         public List<State> GetStates()
         {
             return States;
@@ -53,6 +57,10 @@ namespace Alpha
         public AlphaContaiment GetAlphaContainment()
         {
             return AlphaContaiment;
+        }
+        public void DeleteAlphaConteinment()
+        {
+            AlphaContaiment = null;
         }
     }
 }

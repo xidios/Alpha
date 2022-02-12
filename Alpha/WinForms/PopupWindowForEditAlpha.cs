@@ -19,19 +19,14 @@ namespace Alpha
         public PopupWindowForEditAlpha(Form1 form, Alpha alpha)
         {
             InitializeComponent();
+            this.Text = $"Edit {alpha.Name}";
             form1 = form;
             this.alpha = alpha;
             alphaNameInput.Text = alpha.Name;
-            alphaDescriptionInput.Text = alpha.Description;
-
-            var alphasName = form1.GetListOfAlphas().Select(o => o.Name).ToList();
-            foreach (var name in alphasName)
-                if (alpha.Name != name)
-                {
-                    listBoxAlphas.Items.Add(name);
-                    listBoxOfSubAlphas.Items.Add(name);
-                }
-
+            alphaDescriptionInput.Text = alpha.Description;           
+            
+            UpdateListBoxes();
+            UpdateAplhaContainmentAndLabel();
 
             if (alpha.Parent != null)
             {
@@ -39,20 +34,43 @@ namespace Alpha
                 listBoxAlphas.Enabled = true;
             }
 
-            this.Text = $"Edit {alpha.Name}";
+            UpdateAlphaParentLabel();
             UpdateStatesTable();
         }
-        private void UpdateAplhaContainment() {
+        private void UpdateAlphaParentLabel()
+        {
+            if (alpha.Parent == null)
+            {
+                labelAlphaParent.Text = "Alpha parent: null";
+            }
+            else
+            {
+                labelAlphaParent.Text = $"Alpha parent: {alpha.Parent.GetName()}";
+            }
+        }
+        private void UpdateListBoxes()
+        {
+            var alphasName = form1.GetListOfAlphas().Select(o => o.Name).ToList();
+            foreach (var name in alphasName)
+                if (alpha.Name != name)
+                {
+                    listBoxAlphas.Items.Add(name);
+                    listBoxOfSubAlphas.Items.Add(name);
+                }
+        }
+        private void UpdateAplhaContainmentAndLabel()
+        {
 
             alphaContaiment = alpha.GetAlphaContainment();
             if (alphaContaiment == null)
-            { 
+            {
+                labelSubAlpha.Text = "Subordinate Alpha: null";
                 return;
             }
-
+            string subAlphaName = alphaContaiment.GetSubAlpha().GetName();
+            labelSubAlpha.Text = $"Subordinate Alpha: {subAlphaName}";
             lowerBoundNumericUpDown.Value = alphaContaiment.LowerBound;
             upperBoundNumericUpDown.Value = alphaContaiment.UpperBound;
-            //listBoxOfSubAlphas.V
         }
         public void UpdateStatesTable()
         {
@@ -199,7 +217,7 @@ namespace Alpha
                 if (alphaPatentName != null && alphaPatentName != "")
                 {
                     var allAlphas = form1.GetListOfAlphas();
-                    alphaParent = allAlphas.First(a => a.Name == alphaPatentName);
+                    alphaParent = allAlphas.FirstOrDefault(a => a.Name == alphaPatentName);
                     alpha.Parent = alphaParent;
                 }
             }
@@ -225,7 +243,7 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(form1,state);
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(form1, state);
             popupWindowForCheckpointsTable.ShowDialog();
         }
         private void buttonEditState_Click(object sender, EventArgs e)
@@ -239,7 +257,7 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditState popupWindowForEditState = new PopupWindowForEditState(state,form1,this);
+            PopupWindowForEditState popupWindowForEditState = new PopupWindowForEditState(state, form1, this);
             popupWindowForEditState.ShowDialog();
         }
         private void buttonDeleteState_Click(object sender, EventArgs e)
@@ -263,9 +281,60 @@ namespace Alpha
             UpdateStatesTable();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSaveConteinment_Click(object sender, EventArgs e)
         {
+            var subAlphaName = listBoxOfSubAlphas.Text;
+            if (subAlphaName == null || subAlphaName == "" && alphaContaiment == null)
+            {
+                MessageBox.Show("Subordinate Alpha was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var allAlphas = form1.GetListOfAlphas();
+            var subAlpha = allAlphas.FirstOrDefault(a => a.Name == subAlphaName);
+            if (subAlpha == null && alphaContaiment == null)
+            {
+                MessageBox.Show("Some problems with Subordinate Alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            decimal lowerBound = lowerBoundNumericUpDown.Value;
+            decimal upperBound = upperBoundNumericUpDown.Value;
+            if (alphaContaiment == null)
+            {
+                AlphaContaiment tempAlphaContaiment = new AlphaContaiment(lowerBound, upperBound, alpha, subAlpha);
+                alphaContaiment = tempAlphaContaiment;
+                alpha.SetAlphaContainment(alphaContaiment);
+                form1.AddAlphaConteinment(tempAlphaContaiment);
+            }
+            else
+            {
+                if(subAlpha == null)
+                {
+                    subAlpha = alphaContaiment.GetSubAlpha();
+                }
+                alphaContaiment.SetSubAlpha(subAlpha);
+                alphaContaiment.UpperBound = upperBound;
+                alphaContaiment.LowerBound = lowerBound;
+                form1.ExportAllToJsonFiles();
 
+            }
+            UpdateAplhaContainmentAndLabel();
+        }
+
+        private void buttonDeleteSupAlpha_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            if (alphaContaiment == null)
+            {
+                return;
+            }
+            alpha.DeleteAlphaConteinment();
+            form1.DeleteAlphaConteinmentFromList(alphaContaiment);
+            alphaContaiment = null;
+            UpdateAplhaContainmentAndLabel();
         }
     }
 }

@@ -8,13 +8,27 @@ namespace Alpha
 {
     public class AlphaContaiment
     {
-        public decimal LowerBound;
-        public decimal UpperBound;
-        public Guid AlphaId;
-        private Alpha SupAlpha;
-        public Guid SubAlphaId;
-        private Alpha SubAlpha;
+        public decimal UpperBound { get; set; }
+        public decimal LowerBound { get; set; }      
+        public Guid AlphaId { get; set; }
+        private Alpha SupAlpha { get; set; } = null;
+        public Guid SubAlphaId { get; set; }
+        private Alpha SubAlpha { get; set; } = null;
 
+        public AlphaContaiment()
+        {
+
+        }
+
+        public AlphaContaiment(decimal upper, decimal lower, Alpha supAlpha, Alpha subAlpha)
+        {
+            UpperBound = upper;
+            LowerBound = lower;
+            SupAlpha = supAlpha;
+            AlphaId = supAlpha.GetAlphaId();
+            SubAlpha = subAlpha;
+            SubAlphaId = subAlpha.GetAlphaId();
+        }
         public Guid GetSupAlphaId()
         {
             return AlphaId;
@@ -24,13 +38,19 @@ namespace Alpha
         {
             return SubAlphaId;
         }
+        public Alpha GetSubAlpha()
+        {
+            return SubAlpha;
+        }
         public void SetSupAlpha(Alpha alpha)
         {
             SupAlpha = alpha;
+            AlphaId = alpha.GetAlphaId();
         }
         public void SetSubAlpha(Alpha alpha)
         {
             SubAlpha = alpha;
+            SubAlphaId = alpha.GetAlphaId();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Alpha
     // TODO: Там нужно будет добавить поле, которого не было в исходном, типа степени влияния...
     // TODO: REFACTORING
     // TODO: checkpoint tests
-    // TODO: AlphaContainment
+    // TODO: AlphaContainment tests
     public partial class Form1 : Form
     {
         private List<Alpha> Alphas = new List<Alpha>();
@@ -36,6 +36,16 @@ namespace Alpha
         public List<Alpha> GetListOfAlphas()
         {
             return Alphas;
+        }
+        public void AddAlphaConteinment(AlphaContaiment alphaContaiment)
+        {
+            AlphaContaiments.Add(alphaContaiment);
+            ExportAllToJsonFiles();
+        }
+        public void DeleteAlphaConteinmentFromList(AlphaContaiment alphaContaiment)
+        {
+            AlphaContaiments.Remove(alphaContaiment);
+            ExportAllToJsonFiles();
         }
 
         
@@ -105,7 +115,7 @@ namespace Alpha
         {
             DeserializeJsonAlphas();
             DeserializeJsonStates();
-            //DeserializeJsonAlphaContainments();
+            DeserializeJsonAlphaContainments();
         }
         private void DeserializeJsonAlphas()
         {
@@ -119,7 +129,7 @@ namespace Alpha
             }
             else
             {
-                File.Create(PathToAlphasFile);
+                using (File.Create(PathToAlphasFile)) { }
             }
         }
         private void DeserializeJsonStates()
@@ -145,7 +155,7 @@ namespace Alpha
             }
             else
             {
-                File.Create(PathToStatesFile);
+                using (File.Create(PathToStatesFile)) { }
             }
         }
         private void DeserializeJsonCheckpoints(List<State> states)
@@ -170,7 +180,7 @@ namespace Alpha
             }
             else
             {
-                File.Create(PathToStatesFile);
+                using (File.Create(PathToStatesFile)) { }
             }
         }
 
@@ -200,7 +210,7 @@ namespace Alpha
             }
             else
             {
-                File.Create(PathToAlphaContainmentsFile);
+                using (File.Create(PathToAlphaContainmentsFile)) { }
             }
         }
         // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
