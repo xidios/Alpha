@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alpha.cs" />
+    <Compile Include="AlphaContaiment.cs" />
     <Compile Include="Checkpoint.cs" />
     <Compile Include="WinForms\PopupWindowForEditCheckpoint.cs">
       <SubType>Form</SubType>

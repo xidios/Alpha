@@ -14,6 +14,7 @@ namespace Alpha
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<State> States { get; set; } = new List<State>();
+        private AlphaContaiment AlphaContaiment { get; set; } = null;
         public Alpha()
         {
 
@@ -44,6 +45,14 @@ namespace Alpha
         public void SortListOfStatesByOrder()
         {
             States.Sort((x,y)=>x.Order.CompareTo(y.Order));
+        }
+        public void SetAlphaContainment(AlphaContaiment alphaContaiment)
+        {
+            AlphaContaiment = alphaContaiment;
+        }
+        public AlphaContaiment GetAlphaContainment()
+        {
+            return AlphaContaiment;
         }
     }
 }

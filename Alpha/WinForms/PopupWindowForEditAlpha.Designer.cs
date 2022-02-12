@@ -40,6 +40,16 @@
             this.tableLayoutPanelOfStates = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonAddState = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.upperBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lowerBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.listBoxOfSubAlphas = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -101,7 +111,7 @@
             // checkBoxChildAlpha
             // 
             this.checkBoxChildAlpha.AutoSize = true;
-            this.checkBoxChildAlpha.Location = new System.Drawing.Point(98, 192);
+            this.checkBoxChildAlpha.Location = new System.Drawing.Point(96, 180);
             this.checkBoxChildAlpha.Name = "checkBoxChildAlpha";
             this.checkBoxChildAlpha.Size = new System.Drawing.Size(121, 17);
             this.checkBoxChildAlpha.TabIndex = 14;
@@ -112,7 +122,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 192);
+            this.label2.Location = new System.Drawing.Point(12, 181);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 13);
             this.label2.TabIndex = 13;
@@ -123,7 +133,7 @@
             this.listBoxAlphas.Enabled = false;
             this.listBoxAlphas.FormattingEnabled = true;
             this.listBoxAlphas.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.listBoxAlphas.Location = new System.Drawing.Point(15, 215);
+            this.listBoxAlphas.Location = new System.Drawing.Point(12, 203);
             this.listBoxAlphas.Name = "listBoxAlphas";
             this.listBoxAlphas.Size = new System.Drawing.Size(282, 95);
             this.listBoxAlphas.TabIndex = 12;
@@ -165,11 +175,108 @@
             this.buttonAddState.UseVisualStyleBackColor = true;
             this.buttonAddState.Click += new System.EventHandler(this.buttonAddState_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(14, 359);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(95, 13);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Alpha containment";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(15, 424);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Lower bound";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(15, 385);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(69, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Upper bound";
+            // 
+            // upperBoundNumericUpDown
+            // 
+            this.upperBoundNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.upperBoundNumericUpDown.Location = new System.Drawing.Point(17, 401);
+            this.upperBoundNumericUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.upperBoundNumericUpDown.Name = "upperBoundNumericUpDown";
+            this.upperBoundNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.upperBoundNumericUpDown.TabIndex = 21;
+            // 
+            // lowerBoundNumericUpDown
+            // 
+            this.lowerBoundNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.lowerBoundNumericUpDown.Location = new System.Drawing.Point(17, 440);
+            this.lowerBoundNumericUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.lowerBoundNumericUpDown.Name = "lowerBoundNumericUpDown";
+            this.lowerBoundNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.lowerBoundNumericUpDown.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 463);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(94, 13);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "Subordinate Alpha";
+            // 
+            // listBoxOfSubAlphas
+            // 
+            this.listBoxOfSubAlphas.FormattingEnabled = true;
+            this.listBoxOfSubAlphas.Location = new System.Drawing.Point(18, 480);
+            this.listBoxOfSubAlphas.Name = "listBoxOfSubAlphas";
+            this.listBoxOfSubAlphas.ScrollAlwaysVisible = true;
+            this.listBoxOfSubAlphas.Size = new System.Drawing.Size(276, 30);
+            this.listBoxOfSubAlphas.TabIndex = 24;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(18, 516);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(134, 23);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Save Alpha Containment";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // PopupWindowForEditAlpha
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 347);
+            this.ClientSize = new System.Drawing.Size(1008, 602);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.listBoxOfSubAlphas);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lowerBoundNumericUpDown);
+            this.Controls.Add(this.upperBoundNumericUpDown);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonAddState);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tableLayoutPanelOfStates);
@@ -184,6 +291,8 @@
             this.Controls.Add(this.buttonClose);
             this.Name = "PopupWindowForEditAlpha";
             this.Text = "PopupWindowForEditAlpha";
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,5 +312,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOfStates;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonAddState;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown upperBoundNumericUpDown;
+        private System.Windows.Forms.NumericUpDown lowerBoundNumericUpDown;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ListBox listBoxOfSubAlphas;
+        private System.Windows.Forms.Button button1;
     }
 }

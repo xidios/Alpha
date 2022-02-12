@@ -16,13 +16,17 @@ using System.Text.Encodings.Web;
 namespace Alpha
 {
     // TODO: Там нужно будет добавить поле, которого не было в исходном, типа степени влияния...
+    // TODO: REFACTORING
     // TODO: checkpoint tests
+    // TODO: AlphaContainment
     public partial class Form1 : Form
     {
         private List<Alpha> Alphas = new List<Alpha>();
+        private List<AlphaContaiment> AlphaContaiments = new List<AlphaContaiment>();
         private string PathToAlphasFile = "alphas.json";
         private string PathToStatesFile = "states.json";
         private string PathToCheckpointsFile = "checkpoints.json";
+        private string PathToAlphaContainmentsFile = "alphaContainments.json";
         public Form1()
         {
             InitializeComponent();
@@ -34,7 +38,7 @@ namespace Alpha
             return Alphas;
         }
 
-
+        
         public void UpdateAlphasTable()
         {
             DeserializeJsonFiles();
@@ -53,7 +57,7 @@ namespace Alpha
             }, 1, 0);
             tableLayoutPanel1.Controls.Add(new Label
             {
-                Text = "Edit",
+                Text = "More",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 2, 0);
             tableLayoutPanel1.Controls.Add(new Label
@@ -101,7 +105,7 @@ namespace Alpha
         {
             DeserializeJsonAlphas();
             DeserializeJsonStates();
-
+            //DeserializeJsonAlphaContainments();
         }
         private void DeserializeJsonAlphas()
         {
@@ -169,6 +173,36 @@ namespace Alpha
                 File.Create(PathToStatesFile);
             }
         }
+
+        private void DeserializeJsonAlphaContainments()
+        {
+            if (File.Exists(PathToAlphaContainmentsFile))
+            {
+                string jsonString = File.ReadAllText(PathToAlphaContainmentsFile);
+                if (jsonString != null && jsonString != "")
+                {
+                    AlphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var alphaContaiment in AlphaContaiments)
+                {
+                    Alpha supAlpha = Alphas.First(a => a.Id == alphaContaiment.GetSupAlphaId());
+                    Alpha subAlpha = Alphas.First(a => a.Id == alphaContaiment.GetSubAlphaId());
+                    if(supAlpha != null)
+                    {
+                        supAlpha.SetAlphaContainment(alphaContaiment);
+                    }
+                    if (supAlpha != null && subAlpha != null)
+                    {
+                        alphaContaiment.SetSupAlpha(supAlpha);
+                        alphaContaiment.SetSubAlpha(subAlpha);
+                    }
+                }
+            }
+            else
+            {
+                File.Create(PathToAlphaContainmentsFile);
+            }
+        }
         // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
         private void SortStatesCheckpointsByOrder(List<State> states)
         {
@@ -197,6 +231,7 @@ namespace Alpha
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
+        // TODO: edit by AlphaId
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -224,6 +259,7 @@ namespace Alpha
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
+        // TODO: split this method
         public void ExportAllToJsonFiles()
         {
             var jsonAlphas = JsonSerializer.Serialize(Alphas, new JsonSerializerOptions
@@ -251,7 +287,12 @@ namespace Alpha
             });
             File.WriteAllText(PathToCheckpointsFile, jsonCheckpoints);
 
-
+            var jsonAlphaContainments = JsonSerializer.Serialize(AlphaContaiments, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+            File.WriteAllText(PathToAlphaContainmentsFile, jsonAlphaContainments);
         }
         // TODO интерфейс для GetAll
         private List<State> GetAllStates()

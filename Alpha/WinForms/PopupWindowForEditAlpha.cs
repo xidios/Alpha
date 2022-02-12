@@ -15,6 +15,7 @@ namespace Alpha
         private Form1 form1;
         private Alpha alpha;
         private Alpha alphaParent;
+        private AlphaContaiment alphaContaiment;
         public PopupWindowForEditAlpha(Form1 form, Alpha alpha)
         {
             InitializeComponent();
@@ -26,7 +27,11 @@ namespace Alpha
             var alphasName = form1.GetListOfAlphas().Select(o => o.Name).ToList();
             foreach (var name in alphasName)
                 if (alpha.Name != name)
+                {
                     listBoxAlphas.Items.Add(name);
+                    listBoxOfSubAlphas.Items.Add(name);
+                }
+
 
             if (alpha.Parent != null)
             {
@@ -37,7 +42,18 @@ namespace Alpha
             this.Text = $"Edit {alpha.Name}";
             UpdateStatesTable();
         }
+        private void UpdateAplhaContainment() {
 
+            alphaContaiment = alpha.GetAlphaContainment();
+            if (alphaContaiment == null)
+            { 
+                return;
+            }
+
+            lowerBoundNumericUpDown.Value = alphaContaiment.LowerBound;
+            upperBoundNumericUpDown.Value = alphaContaiment.UpperBound;
+            //listBoxOfSubAlphas.V
+        }
         public void UpdateStatesTable()
         {
             form1.ExportAllToJsonFiles();
@@ -245,6 +261,11 @@ namespace Alpha
             states.Remove(state);
             form1.ExportAllToJsonFiles();
             UpdateStatesTable();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
