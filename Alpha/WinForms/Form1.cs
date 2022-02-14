@@ -21,12 +21,12 @@ namespace Alpha
     // TODO: AlphaContainment tests
     public partial class Form1 : Form
     {
-        private List<Alpha> Alphas = new List<Alpha>();
-        private List<AlphaContaiment> AlphaContaiments = new List<AlphaContaiment>();
-        private string PathToAlphasFile = "alphas.json";
-        private string PathToStatesFile = "states.json";
-        private string PathToCheckpointsFile = "checkpoints.json";
-        private string PathToAlphaContainmentsFile = "alphaContainments.json";
+        private List<Alpha> alphas = new List<Alpha>();
+        private List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();
+        private string pathToAlphasFile = "alphas.json";
+        private string pathToStatesFile = "states.json";
+        private string pathToCheckpointsFile = "checkpoints.json";
+        private string pathToAlphaContainmentsFile = "alphaContainments.json";
         public Form1()
         {
             InitializeComponent();
@@ -35,16 +35,16 @@ namespace Alpha
 
         public List<Alpha> GetListOfAlphas()
         {
-            return Alphas;
+            return alphas;
         }
         public void AddAlphaConteinment(AlphaContaiment alphaContaiment)
         {
-            AlphaContaiments.Add(alphaContaiment);
+            alphaContaiments.Add(alphaContaiment);
             ExportAllToJsonFiles();
         }
         public void DeleteAlphaConteinmentFromList(AlphaContaiment alphaContaiment)
         {
-            AlphaContaiments.Remove(alphaContaiment);
+            alphaContaiments.Remove(alphaContaiment);
             ExportAllToJsonFiles();
         }
 
@@ -54,7 +54,7 @@ namespace Alpha
             DeserializeJsonFiles();
             tableLayoutPanel1.Controls.Clear();
 
-            tableLayoutPanel1.RowCount = Alphas.Count() + 1;
+            tableLayoutPanel1.RowCount = alphas.Count() + 1;
             tableLayoutPanel1.Controls.Add(new Label
             {
                 Text = "Alpha",
@@ -78,10 +78,10 @@ namespace Alpha
 
 
 
-            for (int i = 1; i <= Alphas.Count; i++)
+            for (int i = 1; i <= alphas.Count; i++)
             {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
-                Alpha alpha = Alphas[i - 1];
+                Alpha alpha = alphas[i - 1];
                 Guid alphaId = alpha.GetAlphaId();
 
                 Button editButton = new Button();
@@ -119,24 +119,24 @@ namespace Alpha
         }
         private void DeserializeJsonAlphas()
         {
-            if (File.Exists(PathToAlphasFile))
+            if (File.Exists(pathToAlphasFile))
             {
-                string jsonString = File.ReadAllText(PathToAlphasFile);
+                string jsonString = File.ReadAllText(pathToAlphasFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    Alphas = JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    alphas = JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
                 }
             }
             else
             {
-                using (File.Create(PathToAlphasFile)) { }
+                using (File.Create(pathToAlphasFile)) { }
             }
         }
         private void DeserializeJsonStates()
         {
-            if (File.Exists(PathToStatesFile))
+            if (File.Exists(pathToStatesFile))
             {
-                string jsonString = File.ReadAllText(PathToStatesFile);
+                string jsonString = File.ReadAllText(pathToStatesFile);
                 List<State> states = new List<State>();
                 if (jsonString != null && jsonString != "")
                 {
@@ -144,7 +144,7 @@ namespace Alpha
                 }
                 foreach (var state in states)
                 {
-                    Alpha alpha = Alphas.First(a => a.Id == state.AlphaId);
+                    Alpha alpha = alphas.First(a => a.Id == state.AlphaId);
                     if (alpha != null)
                     {
                         alpha.AddState(state);
@@ -155,14 +155,14 @@ namespace Alpha
             }
             else
             {
-                using (File.Create(PathToStatesFile)) { }
+                using (File.Create(pathToStatesFile)) { }
             }
         }
         private void DeserializeJsonCheckpoints(List<State> states)
         {
-            if (File.Exists(PathToCheckpointsFile))
+            if (File.Exists(pathToCheckpointsFile))
             {
-                string jsonString = File.ReadAllText(PathToCheckpointsFile);
+                string jsonString = File.ReadAllText(pathToCheckpointsFile);
                 List<Checkpoint> checkpoints = new List<Checkpoint>();
                 if (jsonString != null && jsonString != "")
                 {
@@ -180,23 +180,23 @@ namespace Alpha
             }
             else
             {
-                using (File.Create(PathToStatesFile)) { }
+                using (File.Create(pathToStatesFile)) { }
             }
         }
 
         private void DeserializeJsonAlphaContainments()
         {
-            if (File.Exists(PathToAlphaContainmentsFile))
+            if (File.Exists(pathToAlphaContainmentsFile))
             {
-                string jsonString = File.ReadAllText(PathToAlphaContainmentsFile);
+                string jsonString = File.ReadAllText(pathToAlphaContainmentsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    AlphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    alphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
                 }
-                foreach (var alphaContaiment in AlphaContaiments)
+                foreach (var alphaContaiment in alphaContaiments)
                 {
-                    Alpha supAlpha = Alphas.First(a => a.Id == alphaContaiment.GetSupAlphaId());
-                    Alpha subAlpha = Alphas.First(a => a.Id == alphaContaiment.GetSubAlphaId());
+                    Alpha supAlpha = alphas.First(a => a.Id == alphaContaiment.GetSupAlphaId());
+                    Alpha subAlpha = alphas.First(a => a.Id == alphaContaiment.GetSubAlphaId());
                     if(supAlpha != null)
                     {
                         supAlpha.SetAlphaContainment(alphaContaiment);
@@ -210,7 +210,7 @@ namespace Alpha
             }
             else
             {
-                using (File.Create(PathToAlphaContainmentsFile)) { }
+                using (File.Create(pathToAlphaContainmentsFile)) { }
             }
         }
         // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
@@ -223,7 +223,7 @@ namespace Alpha
         }
         private void SortAlphasStatesByOrder()
         {
-            foreach (var alpha in Alphas)
+            foreach (var alpha in alphas)
             {
                 alpha.SortListOfStatesByOrder();
             }
@@ -237,7 +237,7 @@ namespace Alpha
         }
         public void AddNewAlpha(Alpha alpha)
         {
-            Alphas.Add(alpha);
+            alphas.Add(alpha);
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
@@ -246,7 +246,7 @@ namespace Alpha
         {
             Button b = (Button)sender;
             int alphaId = Int32.Parse(b.AccessibleName);
-            Alpha alpha = Alphas[alphaId];
+            Alpha alpha = alphas[alphaId];
             PopupWindowForEditAlpha popupWindowForEditAlpha = new PopupWindowForEditAlpha(this, alpha);
             popupWindowForEditAlpha.ShowDialog();
         }
@@ -259,25 +259,25 @@ namespace Alpha
             }
             Button b = (Button)sender;
             Guid alphaId = Guid.Parse(b.AccessibleName);
-            Alpha alpha = Alphas.First(a=>a.GetAlphaId()==alphaId);
+            Alpha alpha = alphas.FirstOrDefault(a=>a.GetAlphaId()==alphaId);
             if(alpha == null)
             {
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Alphas.Remove(alpha);
+            alphas.Remove(alpha);
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
         // TODO: split this method
         public void ExportAllToJsonFiles()
         {
-            var jsonAlphas = JsonSerializer.Serialize(Alphas, new JsonSerializerOptions
+            var jsonAlphas = JsonSerializer.Serialize(alphas, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
-            File.WriteAllText(PathToAlphasFile, jsonAlphas);
+            File.WriteAllText(pathToAlphasFile, jsonAlphas);
 
             SortAlphasStatesByOrder();
             List<State> states = GetAllStates();
@@ -286,7 +286,7 @@ namespace Alpha
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
-            File.WriteAllText(PathToStatesFile, jsonStates);
+            File.WriteAllText(pathToStatesFile, jsonStates);
 
             SortStatesCheckpointsByOrder(states);
             List<Checkpoint> checkpoints = GetAllCheckpoints(states);
@@ -295,20 +295,20 @@ namespace Alpha
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
-            File.WriteAllText(PathToCheckpointsFile, jsonCheckpoints);
+            File.WriteAllText(pathToCheckpointsFile, jsonCheckpoints);
 
-            var jsonAlphaContainments = JsonSerializer.Serialize(AlphaContaiments, new JsonSerializerOptions
+            var jsonAlphaContainments = JsonSerializer.Serialize(alphaContaiments, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
-            File.WriteAllText(PathToAlphaContainmentsFile, jsonAlphaContainments);
+            File.WriteAllText(pathToAlphaContainmentsFile, jsonAlphaContainments);
         }
         // TODO интерфейс для GetAll
         private List<State> GetAllStates()
         {
             List<State> states = new List<State>();
-            foreach (var alpha in Alphas)
+            foreach (var alpha in alphas)
             {
                 states.AddRange(alpha.GetStates());
             }
@@ -323,6 +323,11 @@ namespace Alpha
                 checkpoints.AddRange(state.GetCheckpoints());
             }
             return checkpoints;
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -104,7 +104,7 @@
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonAdd);
             this.Name = "PopupWindowForAddCheckpoint";
-            this.Text = "PopupWindowForAddCheckpoint";
+            this.Text = "Create Checkpoint";
             this.ResumeLayout(false);
             this.PerformLayout();
 

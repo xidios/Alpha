@@ -104,7 +104,7 @@
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonAdd);
             this.Name = "PopupWindowForAddState";
-            this.Text = "Add state";
+            this.Text = "Create State";
             this.ResumeLayout(false);
             this.PerformLayout();
 
