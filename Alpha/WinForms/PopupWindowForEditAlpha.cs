@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,7 @@ namespace Alpha
         private Alpha alpha;
         private Alpha alphaParent;
         private AlphaContaiment alphaContaiment;
+        private WorkProductManifest workProductManifest;
         public PopupWindowForEditAlpha(Form1 form, Alpha alpha)
         {
             InitializeComponent();
@@ -23,21 +25,15 @@ namespace Alpha
             form1 = form;
             this.alpha = alpha;
             alphaNameInput.Text = alpha.Name;
-            alphaDescriptionInput.Text = alpha.Description;           
-            
+            alphaDescriptionInput.Text = alpha.Description;
+
             UpdateListBoxes();
             UpdateAplhaContainmentAndLabel();
-
-            if (alpha.Parent != null)
-            {
-                checkBoxChildAlpha.Checked = true;
-                listBoxAlphas.Enabled = true;
-            }
-
-            UpdateAlphaParentLabel();
+            UpdateWorkProductManifestAndLabel();
+            UpdateAlphaParentUI();
             UpdateStatesTable();
         }
-        private void UpdateAlphaParentLabel()
+        private void UpdateAlphaParentUI()
         {
             if (alpha.Parent == null)
             {
@@ -46,17 +42,44 @@ namespace Alpha
             else
             {
                 labelAlphaParent.Text = $"Alpha parent: {alpha.Parent.GetName()}";
+                checkBoxChildAlpha.Checked = true;
+                listBoxAlphas.Enabled = true;
             }
         }
         private void UpdateListBoxes()
         {
             var alphasName = form1.GetListOfAlphas().Select(o => o.Name).ToList();
             foreach (var name in alphasName)
-                if (alpha.Name != name)
+            {
+                if (alpha.GetName() != name)
                 {
                     listBoxAlphas.Items.Add(name);
                     listBoxOfSubAlphas.Items.Add(name);
                 }
+            }
+
+            var workProductsName = form1.GetListOfWorkProducts().Select(o => o.Name).ToList();
+            foreach (var name in workProductsName)
+            {
+                listBoxOfWorkProducts.Items.Add(name);
+            }
+        }
+        private void UpdateWorkProductManifestAndLabel()
+        {
+
+            workProductManifest = alpha.GetWorkProductManifest();
+            if (workProductManifest == null)
+            {
+                labelWorkProductManifest.Text = "Work Product: null";
+                upperBoundOfWorkProductManifestUpDown.Value = 0;
+                lowerBoundOfWorkProductManifestUpDown.Value = 0;
+
+                return;
+            }
+            string workProductManifestName = workProductManifest.GetWorkProduct().GetWorkProductName();
+            labelWorkProductManifest.Text = $"Work Product: {workProductManifestName}";
+            upperBoundOfWorkProductManifestUpDown.Value = workProductManifest.GetUpperBound();
+            lowerBoundOfWorkProductManifestUpDown.Value = workProductManifest.GetLowerBound();
         }
         private void UpdateAplhaContainmentAndLabel()
         {
@@ -65,12 +88,14 @@ namespace Alpha
             if (alphaContaiment == null)
             {
                 labelSubAlpha.Text = "Subordinate Alpha: null";
+                upperBoundOfAlphaCotainmentNumericUpDown.Value = 0;
+                lowerBoundOfAlphaCotainmentNumericUpDown.Value = 0;
                 return;
             }
             string subAlphaName = alphaContaiment.GetSubAlpha().GetName();
             labelSubAlpha.Text = $"Subordinate Alpha: {subAlphaName}";
-            lowerBoundNumericUpDown.Value = alphaContaiment.LowerBound;
-            upperBoundNumericUpDown.Value = alphaContaiment.UpperBound;
+            upperBoundOfAlphaCotainmentNumericUpDown.Value = alphaContaiment.GetUpperBound();
+            lowerBoundOfAlphaCotainmentNumericUpDown.Value = alphaContaiment.GetLowerBound();
         }
         public void UpdateStatesTable()
         {
@@ -296,18 +321,18 @@ namespace Alpha
                 MessageBox.Show("Some problems with Subordinate Alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            decimal lowerBound = lowerBoundNumericUpDown.Value;
-            decimal upperBound = upperBoundNumericUpDown.Value;
+            decimal upperBound = upperBoundOfAlphaCotainmentNumericUpDown.Value;
+            decimal lowerBound = lowerBoundOfAlphaCotainmentNumericUpDown.Value;            
             if (alphaContaiment == null)
             {
-                AlphaContaiment tempAlphaContaiment = new AlphaContaiment(lowerBound, upperBound, alpha, subAlpha);
+                AlphaContaiment tempAlphaContaiment = new AlphaContaiment(upperBound, lowerBound, alpha, subAlpha);
                 alphaContaiment = tempAlphaContaiment;
                 alpha.SetAlphaContainment(alphaContaiment);
                 form1.AddAlphaConteinment(tempAlphaContaiment);
             }
             else
             {
-                if(subAlpha == null)
+                if (subAlpha == null)
                 {
                     subAlpha = alphaContaiment.GetSubAlpha();
                 }
@@ -335,6 +360,50 @@ namespace Alpha
             form1.DeleteAlphaConteinmentFromList(alphaContaiment);
             alphaContaiment = null;
             UpdateAplhaContainmentAndLabel();
+        }
+
+        private void buttonSaveWorkProductManifest_Click(object sender, EventArgs e)
+        {
+            var workProductName = listBoxOfWorkProducts.Text;
+            if (workProductName == null || workProductName == "" && workProductManifest == null)
+            {
+                MessageBox.Show("Work product was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var allWorkProducts = form1.GetListOfWorkProducts();
+            var workProduct = allWorkProducts.FirstOrDefault(wp => wp.GetWorkProductName() == workProductName);
+            if (workProduct == null && workProductManifest == null)
+            {
+                MessageBox.Show("Some problems with Work Product Manifest", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            decimal upperBound = upperBoundOfWorkProductManifestUpDown.Value;
+            decimal lowerBound = lowerBoundOfWorkProductManifestUpDown.Value;            
+            if (workProductManifest == null)
+            {
+                WorkProductManifest templateWorkProductManifest = new WorkProductManifest(upperBound, lowerBound, alpha, workProduct);
+                workProductManifest = templateWorkProductManifest;
+                alpha.SetWorkProductManifest(workProductManifest);
+                form1.AddWorkProductManifest(templateWorkProductManifest);
+            }
+            else
+            {
+                if (workProduct == null)
+                {
+                    workProduct = workProductManifest.GetWorkProduct();
+                }
+                workProductManifest.SetWorkProduct(workProduct);
+                workProductManifest.UpperBound = upperBound;
+                workProductManifest.LowerBound = lowerBound;
+                form1.ExportWorkProductsToJsonFile();
+
+            }
+            UpdateWorkProductManifestAndLabel();
+        }
+
+        private void buttonDeleteWorkProductManifest_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

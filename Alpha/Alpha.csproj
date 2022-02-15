@@ -83,6 +83,7 @@
     <Compile Include="Models\AlphaContaiment.cs" />
     <Compile Include="Models\Checkpoint.cs" />
     <Compile Include="Models\WorkProduct.cs" />
+    <Compile Include="Models\WorkProductManifest.cs" />
     <Compile Include="WinForms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,7 +108,7 @@
     <Compile Include="WinForms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ICheckable.cs" />
+    <Compile Include="Interfaces\ICheckable.cs" />
     <Compile Include="WinForms\PopupWindowForAddAlpha.cs">
       <SubType>Form</SubType>
     </Compile>

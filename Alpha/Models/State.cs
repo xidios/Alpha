@@ -26,10 +26,8 @@ namespace Alpha
             Order = order;
             AlphaId = alpha.Id;
         }
-        public Guid GetStateId()
-        {
-            return Id;
-        }
+        public Guid GetStateId() => Id;
+        public List<Checkpoint> GetCheckpoints() => Checkpoints;
         public void AddCheckpoint(Checkpoint checkpoint)
         {
             Checkpoints.Add(checkpoint);
@@ -38,9 +36,7 @@ namespace Alpha
         {
             Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
         }
-        public List<Checkpoint> GetCheckpoints() 
-        {
-            return Checkpoints;
-        }
+        
+
     }
 }

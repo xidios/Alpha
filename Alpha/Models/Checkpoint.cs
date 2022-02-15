@@ -26,9 +26,7 @@ namespace Alpha
             Order = order;
             StateId = state.GetStateId();
         }
-        public Guid GetCheckpointId()
-        {
-            return Id;
-        }
+        public Guid GetCheckpointId() => Id;
+
     }
 }

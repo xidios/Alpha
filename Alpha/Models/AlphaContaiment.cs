@@ -29,19 +29,11 @@ namespace Alpha
             SubAlpha = subAlpha;
             SubAlphaId = subAlpha.GetAlphaId();
         }
-        public Guid GetSupAlphaId()
-        {
-            return AlphaId;
-        }
-
-        public Guid GetSubAlphaId()
-        {
-            return SubAlphaId;
-        }
-        public Alpha GetSubAlpha()
-        {
-            return SubAlpha;
-        }
+        public Guid GetSupAlphaId() => AlphaId;
+        public Guid GetSubAlphaId() => SubAlphaId;
+        public Alpha GetSubAlpha() => SubAlpha;
+        public decimal GetUpperBound() => UpperBound;
+        public decimal GetLowerBound() => LowerBound;
         public void SetSupAlpha(Alpha alpha)
         {
             SupAlpha = alpha;

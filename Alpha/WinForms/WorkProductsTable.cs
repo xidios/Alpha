@@ -18,7 +18,7 @@ namespace Alpha.WinForms
     public partial class WorkProductsTable : Form
     {
         private List<WorkProduct> workProducts = new List<WorkProduct>();
-        private string pathToWorkProductsFile = "workProducts.json";
+        private static string pathToWorkProductsFile = "workProducts.json";
         public WorkProductsTable()
         {
             InitializeComponent();
@@ -117,21 +117,28 @@ namespace Alpha.WinForms
         }
         private void DeserializeJsonFiles()
         {
-            DeserializeJsonWorkProducts();
+            workProducts = DeserializeJsonWorkProducts();
         }
-        private void DeserializeJsonWorkProducts()
+
+        public static List<WorkProduct> DeserializeJsonWorkProducts()
         {
             if (File.Exists(pathToWorkProductsFile))
             {
                 string jsonString = File.ReadAllText(pathToWorkProductsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    workProducts = JsonSerializer.Deserialize<List<WorkProduct>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    return JsonSerializer.Deserialize<List<WorkProduct>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
                 }
+                else
+                {
+                    return new List<WorkProduct>();
+                }
+
             }
             else
             {
                 using (File.Create(pathToWorkProductsFile)) { }
+                return new List<WorkProduct>();
             }
         }
         public void ExportAllToJsonFiles()

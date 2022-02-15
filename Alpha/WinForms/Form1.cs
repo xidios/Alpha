@@ -12,6 +12,8 @@ using System.Text.Json;
 using System.IO;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using Alpha.Models;
+using Alpha.WinForms;
 
 namespace Alpha
 {
@@ -23,24 +25,31 @@ namespace Alpha
     {
         private List<Alpha> alphas = new List<Alpha>();
         private List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();
+        private List<WorkProduct> workProducts = new List<WorkProduct>();
+        private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
         private string pathToAlphasFile = "alphas.json";
         private string pathToStatesFile = "states.json";
         private string pathToCheckpointsFile = "checkpoints.json";
         private string pathToAlphaContainmentsFile = "alphaContainments.json";
+        private string pathToWorkProductManifest = "workProductManifests.json";
         public Form1()
         {
             InitializeComponent();
             UpdateAlphasTable();
         }
 
-        public List<Alpha> GetListOfAlphas()
-        {
-            return alphas;
-        }
+        public List<Alpha> GetListOfAlphas() => alphas;
+        
+        public List<WorkProduct> GetListOfWorkProducts() => workProducts;
         public void AddAlphaConteinment(AlphaContaiment alphaContaiment)
         {
             alphaContaiments.Add(alphaContaiment);
             ExportAllToJsonFiles();
+        }
+        public void AddWorkProductManifest(WorkProductManifest workProductManifest)
+        {
+            workProductManifests.Add(workProductManifest);
+            ExportWorkProductsToJsonFile();
         }
         public void DeleteAlphaConteinmentFromList(AlphaContaiment alphaContaiment)
         {
@@ -48,7 +57,7 @@ namespace Alpha
             ExportAllToJsonFiles();
         }
 
-        
+
         public void UpdateAlphasTable()
         {
             DeserializeJsonFiles();
@@ -116,6 +125,8 @@ namespace Alpha
             DeserializeJsonAlphas();
             DeserializeJsonStates();
             DeserializeJsonAlphaContainments();
+            DeserializeJsonWorkProducts();
+            DeserializeJsonWorkProductManifest();
         }
         private void DeserializeJsonAlphas()
         {
@@ -149,7 +160,7 @@ namespace Alpha
                     {
                         alpha.AddState(state);
                     }
-                }                
+                }
                 SortAlphasStatesByOrder();
                 DeserializeJsonCheckpoints(states);
             }
@@ -183,7 +194,7 @@ namespace Alpha
                 using (File.Create(pathToStatesFile)) { }
             }
         }
-
+        
         private void DeserializeJsonAlphaContainments()
         {
             if (File.Exists(pathToAlphaContainmentsFile))
@@ -195,8 +206,8 @@ namespace Alpha
                 }
                 foreach (var alphaContaiment in alphaContaiments)
                 {
-                    Alpha supAlpha = alphas.First(a => a.Id == alphaContaiment.GetSupAlphaId());
-                    Alpha subAlpha = alphas.First(a => a.Id == alphaContaiment.GetSubAlphaId());
+                    Alpha supAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSupAlphaId());
+                    Alpha subAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSubAlphaId());
                     if(supAlpha != null)
                     {
                         supAlpha.SetAlphaContainment(alphaContaiment);
@@ -212,6 +223,39 @@ namespace Alpha
             {
                 using (File.Create(pathToAlphaContainmentsFile)) { }
             }
+        }
+
+        private void DeserializeJsonWorkProductManifest()
+        {
+            if (File.Exists(pathToWorkProductManifest))
+            {
+                string jsonString = File.ReadAllText(pathToWorkProductManifest);
+                if (jsonString != null && jsonString != "")
+                {
+                    workProductManifests = JsonSerializer.Deserialize<List<WorkProductManifest>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var workProductManifest in workProductManifests)
+                {
+                    Alpha alpha = alphas.FirstOrDefault(a => a.Id == workProductManifest.GetAlphaId());
+                    WorkProduct workProduct = workProducts.FirstOrDefault(a => a.Id == workProductManifest.GetWorkProductId());
+                    if (alpha != null)
+                    {
+                        alpha.SetWorkProductManifest(workProductManifest);
+                    }
+                    if(workProductManifest != null)
+                    {
+                        workProduct.SetWorkProductManifest(workProductManifest);
+                    }
+                }
+            }
+            else
+            {
+                using (File.Create(pathToWorkProductManifest)) { }
+            }
+        }
+        private void DeserializeJsonWorkProducts()
+        {
+            workProducts = WorkProductsTable.DeserializeJsonWorkProducts();
         }
         // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
         private void SortStatesCheckpointsByOrder(List<State> states)
@@ -265,9 +309,15 @@ namespace Alpha
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            RemoveFromAlphaContainsAndWorkProductManifests(alpha);
             alphas.Remove(alpha);
             ExportAllToJsonFiles();
             UpdateAlphasTable();
+        }
+        //TODO: Прикол в том что при удаление ALpha или WorkProduct у нас не очищаются зависисмотси в Containtment и Manifest
+        private void RemoveFromAlphaContainsAndWorkProductManifests(Alpha alpha)
+        {
+            //alpha.
         }
         // TODO: split this method
         public void ExportAllToJsonFiles()
@@ -303,6 +353,17 @@ namespace Alpha
                 WriteIndented = true
             });
             File.WriteAllText(pathToAlphaContainmentsFile, jsonAlphaContainments);
+
+            ExportWorkProductsToJsonFile();
+        }
+        public void ExportWorkProductsToJsonFile()
+        {
+            var jsonWorkProducts = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+            File.WriteAllText(pathToWorkProductManifest, jsonWorkProducts);
         }
         // TODO интерфейс для GetAll
         private List<State> GetAllStates()

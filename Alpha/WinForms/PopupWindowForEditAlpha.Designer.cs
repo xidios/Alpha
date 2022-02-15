@@ -43,14 +43,29 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.upperBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.lowerBoundNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.upperBoundOfAlphaCotainmentNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lowerBoundOfAlphaCotainmentNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.labelSubAlpha = new System.Windows.Forms.Label();
             this.listBoxOfSubAlphas = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonDeleteSupAlpha = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.upperBoundNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundNumericUpDown)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.listBoxOfWorkProducts = new System.Windows.Forms.ListBox();
+            this.buttonDeleteWorkProductManifest = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonSaveWorkProductManifest = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.labelWorkProductManifest = new System.Windows.Forms.Label();
+            this.upperBoundOfWorkProductManifestUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lowerBoundOfWorkProductManifestUpDown = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundOfAlphaCotainmentNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundOfAlphaCotainmentNumericUpDown)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundOfWorkProductManifestUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundOfWorkProductManifestUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -91,7 +106,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(17, 316);
+            this.buttonAdd.Location = new System.Drawing.Point(12, 316);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 7;
@@ -101,7 +116,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(108, 316);
+            this.buttonClose.Location = new System.Drawing.Point(103, 316);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 6;
@@ -179,16 +194,17 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 359);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(3, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 13);
+            this.label4.Size = new System.Drawing.Size(112, 13);
             this.label4.TabIndex = 18;
             this.label4.Text = "Alpha containment";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 424);
+            this.label5.Location = new System.Drawing.Point(2, 85);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 13);
             this.label5.TabIndex = 19;
@@ -197,52 +213,52 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 385);
+            this.label6.Location = new System.Drawing.Point(2, 46);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(69, 13);
             this.label6.TabIndex = 20;
             this.label6.Text = "Upper bound";
             // 
-            // upperBoundNumericUpDown
+            // upperBoundOfAlphaCotainmentNumericUpDown
             // 
-            this.upperBoundNumericUpDown.DecimalPlaces = 2;
-            this.upperBoundNumericUpDown.Increment = new decimal(new int[] {
+            this.upperBoundOfAlphaCotainmentNumericUpDown.DecimalPlaces = 2;
+            this.upperBoundOfAlphaCotainmentNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.upperBoundNumericUpDown.Location = new System.Drawing.Point(17, 401);
-            this.upperBoundNumericUpDown.Minimum = new decimal(new int[] {
+            this.upperBoundOfAlphaCotainmentNumericUpDown.Location = new System.Drawing.Point(4, 62);
+            this.upperBoundOfAlphaCotainmentNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
-            this.upperBoundNumericUpDown.Name = "upperBoundNumericUpDown";
-            this.upperBoundNumericUpDown.Size = new System.Drawing.Size(120, 20);
-            this.upperBoundNumericUpDown.TabIndex = 21;
+            this.upperBoundOfAlphaCotainmentNumericUpDown.Name = "upperBoundOfAlphaCotainmentNumericUpDown";
+            this.upperBoundOfAlphaCotainmentNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.upperBoundOfAlphaCotainmentNumericUpDown.TabIndex = 21;
             // 
-            // lowerBoundNumericUpDown
+            // lowerBoundOfAlphaCotainmentNumericUpDown
             // 
-            this.lowerBoundNumericUpDown.DecimalPlaces = 2;
-            this.lowerBoundNumericUpDown.Increment = new decimal(new int[] {
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.DecimalPlaces = 2;
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.lowerBoundNumericUpDown.Location = new System.Drawing.Point(17, 440);
-            this.lowerBoundNumericUpDown.Minimum = new decimal(new int[] {
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.Location = new System.Drawing.Point(4, 101);
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
-            this.lowerBoundNumericUpDown.Name = "lowerBoundNumericUpDown";
-            this.lowerBoundNumericUpDown.Size = new System.Drawing.Size(120, 20);
-            this.lowerBoundNumericUpDown.TabIndex = 22;
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.Name = "lowerBoundOfAlphaCotainmentNumericUpDown";
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.lowerBoundOfAlphaCotainmentNumericUpDown.TabIndex = 22;
             // 
             // labelSubAlpha
             // 
             this.labelSubAlpha.AutoSize = true;
-            this.labelSubAlpha.Location = new System.Drawing.Point(15, 463);
+            this.labelSubAlpha.Location = new System.Drawing.Point(2, 124);
             this.labelSubAlpha.Name = "labelSubAlpha";
             this.labelSubAlpha.Size = new System.Drawing.Size(94, 13);
             this.labelSubAlpha.TabIndex = 23;
@@ -251,7 +267,7 @@
             // listBoxOfSubAlphas
             // 
             this.listBoxOfSubAlphas.FormattingEnabled = true;
-            this.listBoxOfSubAlphas.Location = new System.Drawing.Point(18, 480);
+            this.listBoxOfSubAlphas.Location = new System.Drawing.Point(5, 141);
             this.listBoxOfSubAlphas.Name = "listBoxOfSubAlphas";
             this.listBoxOfSubAlphas.ScrollAlwaysVisible = true;
             this.listBoxOfSubAlphas.Size = new System.Drawing.Size(276, 69);
@@ -259,7 +275,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(18, 555);
+            this.button1.Location = new System.Drawing.Point(5, 216);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(134, 23);
             this.button1.TabIndex = 25;
@@ -269,7 +285,7 @@
             // 
             // buttonDeleteSupAlpha
             // 
-            this.buttonDeleteSupAlpha.Location = new System.Drawing.Point(219, 555);
+            this.buttonDeleteSupAlpha.Location = new System.Drawing.Point(206, 216);
             this.buttonDeleteSupAlpha.Name = "buttonDeleteSupAlpha";
             this.buttonDeleteSupAlpha.Size = new System.Drawing.Size(75, 23);
             this.buttonDeleteSupAlpha.TabIndex = 26;
@@ -277,20 +293,150 @@
             this.buttonDeleteSupAlpha.UseVisualStyleBackColor = true;
             this.buttonDeleteSupAlpha.Click += new System.EventHandler(this.buttonDeleteSupAlpha_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.Controls.Add(this.listBoxOfSubAlphas);
+            this.panel1.Controls.Add(this.buttonDeleteSupAlpha);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.labelSubAlpha);
+            this.panel1.Controls.Add(this.upperBoundOfAlphaCotainmentNumericUpDown);
+            this.panel1.Controls.Add(this.lowerBoundOfAlphaCotainmentNumericUpDown);
+            this.panel1.Location = new System.Drawing.Point(12, 345);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(288, 247);
+            this.panel1.TabIndex = 27;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.listBoxOfWorkProducts);
+            this.panel2.Controls.Add(this.buttonDeleteWorkProductManifest);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.buttonSaveWorkProductManifest);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.labelWorkProductManifest);
+            this.panel2.Controls.Add(this.upperBoundOfWorkProductManifestUpDown);
+            this.panel2.Controls.Add(this.lowerBoundOfWorkProductManifestUpDown);
+            this.panel2.Location = new System.Drawing.Point(376, 345);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(288, 247);
+            this.panel2.TabIndex = 28;
+            // 
+            // listBoxOfWorkProducts
+            // 
+            this.listBoxOfWorkProducts.FormattingEnabled = true;
+            this.listBoxOfWorkProducts.Location = new System.Drawing.Point(5, 141);
+            this.listBoxOfWorkProducts.Name = "listBoxOfWorkProducts";
+            this.listBoxOfWorkProducts.ScrollAlwaysVisible = true;
+            this.listBoxOfWorkProducts.Size = new System.Drawing.Size(276, 69);
+            this.listBoxOfWorkProducts.TabIndex = 24;
+            // 
+            // buttonDeleteWorkProductManifest
+            // 
+            this.buttonDeleteWorkProductManifest.Location = new System.Drawing.Point(206, 216);
+            this.buttonDeleteWorkProductManifest.Name = "buttonDeleteWorkProductManifest";
+            this.buttonDeleteWorkProductManifest.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteWorkProductManifest.TabIndex = 26;
+            this.buttonDeleteWorkProductManifest.Text = "Delete";
+            this.buttonDeleteWorkProductManifest.UseVisualStyleBackColor = true;
+            this.buttonDeleteWorkProductManifest.Click += new System.EventHandler(this.buttonDeleteWorkProductManifest_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(3, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(137, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Work Product Manifest";
+            // 
+            // buttonSaveWorkProductManifest
+            // 
+            this.buttonSaveWorkProductManifest.Location = new System.Drawing.Point(5, 216);
+            this.buttonSaveWorkProductManifest.Name = "buttonSaveWorkProductManifest";
+            this.buttonSaveWorkProductManifest.Size = new System.Drawing.Size(158, 23);
+            this.buttonSaveWorkProductManifest.TabIndex = 25;
+            this.buttonSaveWorkProductManifest.Text = "Save Work Product Manifest";
+            this.buttonSaveWorkProductManifest.UseVisualStyleBackColor = true;
+            this.buttonSaveWorkProductManifest.Click += new System.EventHandler(this.buttonSaveWorkProductManifest_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(2, 85);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(69, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Lower bound";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(2, 46);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(69, 13);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Upper bound";
+            // 
+            // labelWorkProductManifest
+            // 
+            this.labelWorkProductManifest.AutoSize = true;
+            this.labelWorkProductManifest.Location = new System.Drawing.Point(2, 124);
+            this.labelWorkProductManifest.Name = "labelWorkProductManifest";
+            this.labelWorkProductManifest.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelWorkProductManifest.Size = new System.Drawing.Size(73, 13);
+            this.labelWorkProductManifest.TabIndex = 23;
+            this.labelWorkProductManifest.Text = "Work Product";
+            // 
+            // upperBoundOfWorkProductManifestUpDown
+            // 
+            this.upperBoundOfWorkProductManifestUpDown.DecimalPlaces = 2;
+            this.upperBoundOfWorkProductManifestUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.upperBoundOfWorkProductManifestUpDown.Location = new System.Drawing.Point(4, 62);
+            this.upperBoundOfWorkProductManifestUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.upperBoundOfWorkProductManifestUpDown.Name = "upperBoundOfWorkProductManifestUpDown";
+            this.upperBoundOfWorkProductManifestUpDown.Size = new System.Drawing.Size(120, 20);
+            this.upperBoundOfWorkProductManifestUpDown.TabIndex = 21;
+            // 
+            // lowerBoundOfWorkProductManifestUpDown
+            // 
+            this.lowerBoundOfWorkProductManifestUpDown.DecimalPlaces = 2;
+            this.lowerBoundOfWorkProductManifestUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.lowerBoundOfWorkProductManifestUpDown.Location = new System.Drawing.Point(4, 101);
+            this.lowerBoundOfWorkProductManifestUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.lowerBoundOfWorkProductManifestUpDown.Name = "lowerBoundOfWorkProductManifestUpDown";
+            this.lowerBoundOfWorkProductManifestUpDown.Size = new System.Drawing.Size(120, 20);
+            this.lowerBoundOfWorkProductManifestUpDown.TabIndex = 22;
+            // 
             // PopupWindowForEditAlpha
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 594);
-            this.Controls.Add(this.buttonDeleteSupAlpha);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBoxOfSubAlphas);
-            this.Controls.Add(this.labelSubAlpha);
-            this.Controls.Add(this.lowerBoundNumericUpDown);
-            this.Controls.Add(this.upperBoundNumericUpDown);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.ClientSize = new System.Drawing.Size(1008, 599);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonAddState);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tableLayoutPanelOfStates);
@@ -305,8 +451,14 @@
             this.Controls.Add(this.buttonClose);
             this.Name = "PopupWindowForEditAlpha";
             this.Text = "PopupWindowForEditAlpha";
-            ((System.ComponentModel.ISupportInitialize)(this.upperBoundNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundOfAlphaCotainmentNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundOfAlphaCotainmentNumericUpDown)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upperBoundOfWorkProductManifestUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lowerBoundOfWorkProductManifestUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,11 +481,22 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown upperBoundNumericUpDown;
-        private System.Windows.Forms.NumericUpDown lowerBoundNumericUpDown;
+        private System.Windows.Forms.NumericUpDown upperBoundOfAlphaCotainmentNumericUpDown;
+        private System.Windows.Forms.NumericUpDown lowerBoundOfAlphaCotainmentNumericUpDown;
         private System.Windows.Forms.Label labelSubAlpha;
         private System.Windows.Forms.ListBox listBoxOfSubAlphas;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonDeleteSupAlpha;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ListBox listBoxOfWorkProducts;
+        private System.Windows.Forms.Button buttonDeleteWorkProductManifest;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonSaveWorkProductManifest;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labelWorkProductManifest;
+        private System.Windows.Forms.NumericUpDown upperBoundOfWorkProductManifestUpDown;
+        private System.Windows.Forms.NumericUpDown lowerBoundOfWorkProductManifestUpDown;
     }
 }

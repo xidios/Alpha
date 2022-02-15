@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,9 @@ namespace Alpha
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<State> States { get; set; } = new List<State>();
         private AlphaContaiment AlphaContaiment { get; set; } = null;
+        private WorkProductManifest WorkProductManifest { get; set; } = null;
         public Alpha()
         {
-
         }
         public Alpha(string name, string description)
         {
@@ -30,21 +31,14 @@ namespace Alpha
             Description = description;
             Parent = parent;
         }
-        public string GetName()
-        {
-            return Name;
-        }
-        public List<State> GetStates()
-        {
-            return States;
-        }
+        public string GetName() => Name;
+        public List<State> GetStates() => States;
+        public Guid GetAlphaId() => Id;
+        public WorkProductManifest GetWorkProductManifest() => WorkProductManifest;
+        public AlphaContaiment GetAlphaContainment() => AlphaContaiment;
         public void AddState(State state)
         {
             States.Add(state);
-        }
-        public Guid GetAlphaId()
-        {
-            return Id;
         }
         public void SortListOfStatesByOrder()
         {
@@ -54,13 +48,13 @@ namespace Alpha
         {
             AlphaContaiment = alphaContaiment;
         }
-        public AlphaContaiment GetAlphaContainment()
-        {
-            return AlphaContaiment;
-        }
         public void DeleteAlphaConteinment()
         {
             AlphaContaiment = null;
+        }
+        public void SetWorkProductManifest(WorkProductManifest workProductManifest)
+        {
+            this.WorkProductManifest = workProductManifest;
         }
     }
 }
