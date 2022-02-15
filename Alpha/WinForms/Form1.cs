@@ -56,6 +56,11 @@ namespace Alpha
             alphaContaiments.Remove(alphaContaiment);
             ExportAllToJsonFiles();
         }
+        public void DeleteWorkProductManifestFromList(WorkProductManifest workProductManifest)
+        {
+            workProductManifests.Remove(workProductManifest);
+            ExportAllToJsonFiles();
+        }
 
 
         public void UpdateAlphasTable()

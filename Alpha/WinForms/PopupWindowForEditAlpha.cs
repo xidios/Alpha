@@ -393,16 +393,16 @@ namespace Alpha
             {
                 return;
             }
-            if (alphaContaiment == null)
+            if (workProductManifest == null)
             {
                 return;
             }
-            alpha.DeleteSupperAlphaContainment();
-            Alpha subordinateAlpha = alphaContaiment.GetSubAlpha();
-            subordinateAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
-            form1.DeleteAlphaConteinmentFromList(alphaContaiment);
-            alphaContaiment = null;
-            UpdateAplhaContainmentAndLabel();
+            workProductManifest.GetAlpha().DeleteWorkProductManifest();
+            WorkProduct workProduct = workProductManifest.GetWorkProduct();
+            workProduct.DeleteWorkProductManifest(workProductManifest);
+            form1.DeleteWorkProductManifestFromList(workProductManifest);
+            workProductManifest = null;
+            UpdateWorkProductManifestAndLabel();
         }
 
         private void buttonDeleteAlphaContainment_Click(object sender, EventArgs e)

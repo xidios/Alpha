@@ -82,6 +82,7 @@
     <Compile Include="Models\Alpha.cs" />
     <Compile Include="Models\AlphaContaiment.cs" />
     <Compile Include="Models\Checkpoint.cs" />
+    <Compile Include="Models\LevelOfDetail.cs" />
     <Compile Include="Models\WorkProduct.cs" />
     <Compile Include="Models\WorkProductManifest.cs" />
     <Compile Include="WinForms\MainForm.cs">

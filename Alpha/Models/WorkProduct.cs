@@ -12,6 +12,7 @@ namespace Alpha.Models
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<WorkProductManifest> WorkProductManifests { get; set; } = new List<WorkProductManifest>();
+        private List<LevelOfDetail> LevelOfDetail { get; set; } = new List<LevelOfDetail>();
         public WorkProduct()
         {
 

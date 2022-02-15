@@ -20,6 +20,7 @@ namespace Alpha.Models
         public WorkProduct GetWorkProduct() => WorkProduct;
         public decimal GetUpperBound() => UpperBound;
         public decimal GetLowerBound() => LowerBound;
+        public Alpha GetAlpha() => Alpha;
         public WorkProductManifest()
         {
         }
