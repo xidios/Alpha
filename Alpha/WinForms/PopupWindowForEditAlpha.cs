@@ -84,7 +84,7 @@ namespace Alpha
         private void UpdateAplhaContainmentAndLabel()
         {
 
-            alphaContaiment = alpha.GetAlphaContainment();
+            alphaContaiment = alpha.GetSupperAlphaContainment();
             if (alphaContaiment == null)
             {
                 labelSubAlpha.Text = "Subordinate Alpha: null";
@@ -327,7 +327,8 @@ namespace Alpha
             {
                 AlphaContaiment tempAlphaContaiment = new AlphaContaiment(upperBound, lowerBound, alpha, subAlpha);
                 alphaContaiment = tempAlphaContaiment;
-                alpha.SetAlphaContainment(alphaContaiment);
+                alpha.SetSupperAlphaContainment(alphaContaiment);
+                subAlpha.AddSubordinateAlphaContainment(alphaContaiment);
                 form1.AddAlphaConteinment(tempAlphaContaiment);
             }
             else
@@ -336,6 +337,7 @@ namespace Alpha
                 {
                     subAlpha = alphaContaiment.GetSubAlpha();
                 }
+                subAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
                 alphaContaiment.SetSubAlpha(subAlpha);
                 alphaContaiment.UpperBound = upperBound;
                 alphaContaiment.LowerBound = lowerBound;
@@ -356,7 +358,9 @@ namespace Alpha
             {
                 return;
             }
-            alpha.DeleteAlphaConteinment();
+            alpha.DeleteSupperAlphaContainment();
+            Alpha subordinateAlpha = alphaContaiment.GetSubAlpha();
+            subordinateAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
             form1.DeleteAlphaConteinmentFromList(alphaContaiment);
             alphaContaiment = null;
             UpdateAplhaContainmentAndLabel();

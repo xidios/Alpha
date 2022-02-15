@@ -208,10 +208,10 @@ namespace Alpha
                 {
                     Alpha supAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSupAlphaId());
                     Alpha subAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSubAlphaId());
-                    if(supAlpha != null)
-                    {
-                        supAlpha.SetAlphaContainment(alphaContaiment);
-                    }
+                    //if(supAlpha != null)
+                    //{
+                    //    supAlpha.SetSupperAlphaContainment(alphaContaiment);
+                    //}
                     if (supAlpha != null && subAlpha != null)
                     {
                         alphaContaiment.SetSupAlpha(supAlpha);
@@ -309,15 +309,24 @@ namespace Alpha
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            RemoveFromAlphaContainsAndWorkProductManifests(alpha);
+            RemoveFromAlphaContains(alpha);
+            RemoveFromWokrProductManifests(alpha);
             alphas.Remove(alpha);
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
-        //TODO: Прикол в том что при удаление ALpha или WorkProduct у нас не очищаются зависисмотси в Containtment и Manifest
-        private void RemoveFromAlphaContainsAndWorkProductManifests(Alpha alpha)
+        
+        private void RemoveFromAlphaContains(Alpha alpha)
+        {            
+            foreach (var subordinateAlphaContaimnent in alpha.GetSubordinateAlphaConteinments())
+            {
+                alphaContaiments.Remove(subordinateAlphaContaimnent);
+            }
+            alphaContaiments.Remove(alpha.GetSupperAlphaContainment());
+        }
+        private void RemoveFromWokrProductManifests(Alpha alpha)
         {
-            //alpha.
+            workProductManifests.Remove(alpha.GetWorkProductManifest());
         }
         // TODO: split this method
         public void ExportAllToJsonFiles()

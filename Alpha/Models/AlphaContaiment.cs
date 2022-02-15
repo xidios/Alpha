@@ -38,11 +38,13 @@ namespace Alpha
         {
             SupAlpha = alpha;
             AlphaId = alpha.GetAlphaId();
+            alpha.SetSupperAlphaContainment(this);
         }
         public void SetSubAlpha(Alpha alpha)
         {
             SubAlpha = alpha;
             SubAlphaId = alpha.GetAlphaId();
+            alpha.AddSubordinateAlphaContainment(this);
         }
     }
 }

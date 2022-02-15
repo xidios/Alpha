@@ -15,7 +15,8 @@ namespace Alpha
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<State> States { get; set; } = new List<State>();
-        private AlphaContaiment AlphaContaiment { get; set; } = null;
+        private AlphaContaiment SupperAlphaContaiment { get; set; } = null;
+        private List<AlphaContaiment> SubordinateAlphaConteinments { get; set; } = new List<AlphaContaiment>();
         private WorkProductManifest WorkProductManifest { get; set; } = null;
         public Alpha()
         {
@@ -35,7 +36,8 @@ namespace Alpha
         public List<State> GetStates() => States;
         public Guid GetAlphaId() => Id;
         public WorkProductManifest GetWorkProductManifest() => WorkProductManifest;
-        public AlphaContaiment GetAlphaContainment() => AlphaContaiment;
+        public AlphaContaiment GetSupperAlphaContainment() => SupperAlphaContaiment;
+        public List<AlphaContaiment> GetSubordinateAlphaConteinments() => SubordinateAlphaConteinments;
         public void AddState(State state)
         {
             States.Add(state);
@@ -44,13 +46,21 @@ namespace Alpha
         {
             States.Sort((x,y)=>x.Order.CompareTo(y.Order));
         }
-        public void SetAlphaContainment(AlphaContaiment alphaContaiment)
+        public void SetSupperAlphaContainment(AlphaContaiment alphaContaiment)
         {
-            AlphaContaiment = alphaContaiment;
+            SupperAlphaContaiment = alphaContaiment;
         }
-        public void DeleteAlphaConteinment()
+        public void AddSubordinateAlphaContainment(AlphaContaiment alphaContaiment)
         {
-            AlphaContaiment = null;
+            SubordinateAlphaConteinments.Add(alphaContaiment);
+        }
+        public void DeleteSupperAlphaContainment()
+        {
+            SupperAlphaContaiment = null;
+        }
+        public void DeleteSubordinateAlphaContainment(AlphaContaiment alphaContaiment)
+        {
+            SubordinateAlphaConteinments.Remove(alphaContaiment);
         }
         public void SetWorkProductManifest(WorkProductManifest workProductManifest)
         {
