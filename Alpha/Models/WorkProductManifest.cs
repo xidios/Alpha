@@ -36,6 +36,13 @@ namespace Alpha.Models
         {
             WorkProduct = workProduct;
             WorkProductId = workProduct.GetWorkProductId();
+            workProduct.AddWorkProductManifest(this);
+        }
+        public void SetAlpha(Alpha alpha)
+        {
+            Alpha = alpha;
+            AlphaId = alpha.GetAlphaId();
+            alpha.SetWorkProductManifest(this);
         }
 
     }

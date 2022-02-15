@@ -18,7 +18,9 @@ namespace Alpha.WinForms
     public partial class WorkProductsTable : Form
     {
         private List<WorkProduct> workProducts = new List<WorkProduct>();
+        private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
         private static string pathToWorkProductsFile = "workProducts.json";
+        private string pathToWorkProductManifest = Form1.pathToWorkProductManifest;
         public WorkProductsTable()
         {
             InitializeComponent();
@@ -102,9 +104,15 @@ namespace Alpha.WinForms
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            RemoveFromWorkProductManifests(workProduct);
             workProducts.Remove(workProduct);
             ExportAllToJsonFiles();
             UpdateWorkProductsTable();
+        }
+        private void RemoveFromWorkProductManifests(WorkProduct workProduct)
+        {
+            foreach (var workProductManifest in workProduct.GetWorkProductManifests())
+                workProductManifests.Remove(workProductManifest);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -118,6 +126,7 @@ namespace Alpha.WinForms
         private void DeserializeJsonFiles()
         {
             workProducts = DeserializeJsonWorkProducts();
+            DeserializeJsonWorkProductManifests();
         }
 
         public static List<WorkProduct> DeserializeJsonWorkProducts()
@@ -141,9 +150,33 @@ namespace Alpha.WinForms
                 return new List<WorkProduct>();
             }
         }
+        private void DeserializeJsonWorkProductManifests()
+        {
+            if (File.Exists(pathToWorkProductManifest))
+            {
+                string jsonString = File.ReadAllText(pathToWorkProductManifest);
+                if (jsonString != null && jsonString != "")
+                {
+                    workProductManifests = JsonSerializer.Deserialize<List<WorkProductManifest>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var workProductManifest in workProductManifests)
+                {
+                    WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.Id == workProductManifest.GetWorkProductId());
+                    if (workProduct != null)
+                    {
+                        workProductManifest.SetWorkProduct(workProduct);
+                    }
+                }
+            }
+            else
+            {
+                using (File.Create(pathToWorkProductManifest)) { }
+            }
+        }
         public void ExportAllToJsonFiles()
         {
             ExportWorkProductsToJsonFile();
+            ExportWorkProductManifestsToJsonFile();
         }
 
         public void ExportWorkProductsToJsonFile()
@@ -154,6 +187,16 @@ namespace Alpha.WinForms
                 WriteIndented = true
             });
             File.WriteAllText(pathToWorkProductsFile, jsonWorkProducts);
+        }
+
+        public void ExportWorkProductManifestsToJsonFile()
+        {
+            var jsonWorkProducts = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+            File.WriteAllText(pathToWorkProductManifest, jsonWorkProducts);
         }
         private void buttonAddWorkProduct_Click(object sender, EventArgs e)
         {

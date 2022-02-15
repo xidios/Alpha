@@ -66,5 +66,9 @@ namespace Alpha
         {
             this.WorkProductManifest = workProductManifest;
         }
+        public void DeleteWorkProductManifest()
+        {
+            WorkProductManifest = null;
+        }
     }
 }

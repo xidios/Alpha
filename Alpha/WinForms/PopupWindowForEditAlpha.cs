@@ -325,11 +325,10 @@ namespace Alpha
             decimal lowerBound = lowerBoundOfAlphaCotainmentNumericUpDown.Value;            
             if (alphaContaiment == null)
             {
-                AlphaContaiment tempAlphaContaiment = new AlphaContaiment(upperBound, lowerBound, alpha, subAlpha);
-                alphaContaiment = tempAlphaContaiment;
+                alphaContaiment = new AlphaContaiment(upperBound, lowerBound, alpha, subAlpha);
                 alpha.SetSupperAlphaContainment(alphaContaiment);
                 subAlpha.AddSubordinateAlphaContainment(alphaContaiment);
-                form1.AddAlphaConteinment(tempAlphaContaiment);
+                form1.AddAlphaConteinment(alphaContaiment);
             }
             else
             {
@@ -344,25 +343,6 @@ namespace Alpha
                 form1.ExportAllToJsonFiles();
 
             }
-            UpdateAplhaContainmentAndLabel();
-        }
-
-        private void buttonDeleteSupAlpha_Click(object sender, EventArgs e)
-        {
-            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-            if (alphaContaiment == null)
-            {
-                return;
-            }
-            alpha.DeleteSupperAlphaContainment();
-            Alpha subordinateAlpha = alphaContaiment.GetSubAlpha();
-            subordinateAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
-            form1.DeleteAlphaConteinmentFromList(alphaContaiment);
-            alphaContaiment = null;
             UpdateAplhaContainmentAndLabel();
         }
 
@@ -385,10 +365,10 @@ namespace Alpha
             decimal lowerBound = lowerBoundOfWorkProductManifestUpDown.Value;            
             if (workProductManifest == null)
             {
-                WorkProductManifest templateWorkProductManifest = new WorkProductManifest(upperBound, lowerBound, alpha, workProduct);
-                workProductManifest = templateWorkProductManifest;
+                workProductManifest = new WorkProductManifest(upperBound, lowerBound, alpha, workProduct);
                 alpha.SetWorkProductManifest(workProductManifest);
-                form1.AddWorkProductManifest(templateWorkProductManifest);
+                workProduct.AddWorkProductManifest(workProductManifest);
+                form1.AddWorkProductManifest(workProductManifest);
             }
             else
             {
@@ -396,10 +376,11 @@ namespace Alpha
                 {
                     workProduct = workProductManifest.GetWorkProduct();
                 }
+                workProduct.DeleteWorkProductManifest(workProductManifest);
                 workProductManifest.SetWorkProduct(workProduct);
                 workProductManifest.UpperBound = upperBound;
                 workProductManifest.LowerBound = lowerBound;
-                form1.ExportWorkProductsToJsonFile();
+                form1.ExportWorkProductManifestsToJsonFile();
 
             }
             UpdateWorkProductManifestAndLabel();
@@ -407,7 +388,40 @@ namespace Alpha
 
         private void buttonDeleteWorkProductManifest_Click(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            if (alphaContaiment == null)
+            {
+                return;
+            }
+            alpha.DeleteSupperAlphaContainment();
+            Alpha subordinateAlpha = alphaContaiment.GetSubAlpha();
+            subordinateAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
+            form1.DeleteAlphaConteinmentFromList(alphaContaiment);
+            alphaContaiment = null;
+            UpdateAplhaContainmentAndLabel();
+        }
 
+        private void buttonDeleteAlphaContainment_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            if (alphaContaiment == null)
+            {
+                return;
+            }
+            alpha.DeleteSupperAlphaContainment();
+            Alpha subordinateAlpha = alphaContaiment.GetSubAlpha();
+            subordinateAlpha.DeleteSubordinateAlphaContainment(alphaContaiment);
+            form1.DeleteAlphaConteinmentFromList(alphaContaiment);
+            alphaContaiment = null;
+            UpdateAplhaContainmentAndLabel();
         }
     }
 }

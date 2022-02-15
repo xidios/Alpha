@@ -31,7 +31,7 @@ namespace Alpha
         private string pathToStatesFile = "states.json";
         private string pathToCheckpointsFile = "checkpoints.json";
         private string pathToAlphaContainmentsFile = "alphaContainments.json";
-        private string pathToWorkProductManifest = "workProductManifests.json";
+        public static string pathToWorkProductManifest = "workProductManifests.json";
         public Form1()
         {
             InitializeComponent();
@@ -49,7 +49,7 @@ namespace Alpha
         public void AddWorkProductManifest(WorkProductManifest workProductManifest)
         {
             workProductManifests.Add(workProductManifest);
-            ExportWorkProductsToJsonFile();
+            ExportWorkProductManifestsToJsonFile();
         }
         public void DeleteAlphaConteinmentFromList(AlphaContaiment alphaContaiment)
         {
@@ -238,13 +238,10 @@ namespace Alpha
                 {
                     Alpha alpha = alphas.FirstOrDefault(a => a.Id == workProductManifest.GetAlphaId());
                     WorkProduct workProduct = workProducts.FirstOrDefault(a => a.Id == workProductManifest.GetWorkProductId());
-                    if (alpha != null)
+                    if(workProduct != null && alpha != null)
                     {
-                        alpha.SetWorkProductManifest(workProductManifest);
-                    }
-                    if(workProductManifest != null)
-                    {
-                        workProduct.SetWorkProductManifest(workProductManifest);
+                        workProductManifest.SetWorkProduct(workProduct);
+                        workProductManifest.SetAlpha(alpha);
                     }
                 }
             }
@@ -363,9 +360,9 @@ namespace Alpha
             });
             File.WriteAllText(pathToAlphaContainmentsFile, jsonAlphaContainments);
 
-            ExportWorkProductsToJsonFile();
+            ExportWorkProductManifestsToJsonFile();
         }
-        public void ExportWorkProductsToJsonFile()
+        public void ExportWorkProductManifestsToJsonFile()
         {
             var jsonWorkProducts = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
             {

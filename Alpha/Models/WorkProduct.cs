@@ -11,7 +11,7 @@ namespace Alpha.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
-        private WorkProductManifest WorkProductManifest { get; set; } = null;
+        private List<WorkProductManifest> WorkProductManifests { get; set; } = new List<WorkProductManifest>();
         public WorkProduct()
         {
 
@@ -26,6 +26,7 @@ namespace Alpha.Models
         public string GetWorkProductDescription() => Description;
 
         public Guid GetWorkProductId() => Id;
+        public List<WorkProductManifest> GetWorkProductManifests() => WorkProductManifests;
 
         public void SetName(string name)
         {
@@ -35,9 +36,13 @@ namespace Alpha.Models
         {
             this.Description = description;
         }
-        public void SetWorkProductManifest(WorkProductManifest workProductManifest)
+        public void AddWorkProductManifest(WorkProductManifest workProductManifest)
         {
-            this.WorkProductManifest = workProductManifest;
+            WorkProductManifests.Add(workProductManifest);
+        }
+        public void DeleteWorkProductManifest(WorkProductManifest workProductManifest)
+        {
+            WorkProductManifests.Remove(workProductManifest);
         }
     }
 }

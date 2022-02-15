@@ -10,7 +10,7 @@ namespace Alpha
     {
         public decimal UpperBound { get; set; }
         public decimal LowerBound { get; set; }      
-        public Guid AlphaId { get; set; }
+        public Guid SupAlphaId { get; set; }
         private Alpha SupAlpha { get; set; } = null;
         public Guid SubAlphaId { get; set; }
         private Alpha SubAlpha { get; set; } = null;
@@ -25,11 +25,11 @@ namespace Alpha
             UpperBound = upper;
             LowerBound = lower;
             SupAlpha = supAlpha;
-            AlphaId = supAlpha.GetAlphaId();
+            SupAlphaId = supAlpha.GetAlphaId();
             SubAlpha = subAlpha;
             SubAlphaId = subAlpha.GetAlphaId();
         }
-        public Guid GetSupAlphaId() => AlphaId;
+        public Guid GetSupAlphaId() => SupAlphaId;
         public Guid GetSubAlphaId() => SubAlphaId;
         public Alpha GetSubAlpha() => SubAlpha;
         public decimal GetUpperBound() => UpperBound;
@@ -37,7 +37,7 @@ namespace Alpha
         public void SetSupAlpha(Alpha alpha)
         {
             SupAlpha = alpha;
-            AlphaId = alpha.GetAlphaId();
+            SupAlphaId = alpha.GetAlphaId();
             alpha.SetSupperAlphaContainment(this);
         }
         public void SetSubAlpha(Alpha alpha)

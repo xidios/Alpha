@@ -48,7 +48,7 @@
             this.labelSubAlpha = new System.Windows.Forms.Label();
             this.listBoxOfSubAlphas = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.buttonDeleteSupAlpha = new System.Windows.Forms.Button();
+            this.buttonDeleteAlphaContainment = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBoxOfWorkProducts = new System.Windows.Forms.ListBox();
@@ -283,21 +283,21 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonSaveConteinment_Click);
             // 
-            // buttonDeleteSupAlpha
+            // buttonDeleteAlphaContainment
             // 
-            this.buttonDeleteSupAlpha.Location = new System.Drawing.Point(206, 216);
-            this.buttonDeleteSupAlpha.Name = "buttonDeleteSupAlpha";
-            this.buttonDeleteSupAlpha.Size = new System.Drawing.Size(75, 23);
-            this.buttonDeleteSupAlpha.TabIndex = 26;
-            this.buttonDeleteSupAlpha.Text = "Delete";
-            this.buttonDeleteSupAlpha.UseVisualStyleBackColor = true;
-            this.buttonDeleteSupAlpha.Click += new System.EventHandler(this.buttonDeleteSupAlpha_Click);
+            this.buttonDeleteAlphaContainment.Location = new System.Drawing.Point(206, 216);
+            this.buttonDeleteAlphaContainment.Name = "buttonDeleteAlphaContainment";
+            this.buttonDeleteAlphaContainment.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteAlphaContainment.TabIndex = 26;
+            this.buttonDeleteAlphaContainment.Text = "Delete";
+            this.buttonDeleteAlphaContainment.UseVisualStyleBackColor = true;
+            this.buttonDeleteAlphaContainment.Click += new System.EventHandler(this.buttonDeleteAlphaContainment_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel1.Controls.Add(this.listBoxOfSubAlphas);
-            this.panel1.Controls.Add(this.buttonDeleteSupAlpha);
+            this.panel1.Controls.Add(this.buttonDeleteAlphaContainment);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label5);
@@ -486,7 +486,7 @@
         private System.Windows.Forms.Label labelSubAlpha;
         private System.Windows.Forms.ListBox listBoxOfSubAlphas;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button buttonDeleteSupAlpha;
+        private System.Windows.Forms.Button buttonDeleteAlphaContainment;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ListBox listBoxOfWorkProducts;
