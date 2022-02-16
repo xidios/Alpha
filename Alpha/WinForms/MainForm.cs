@@ -26,5 +26,10 @@ namespace Alpha.WinForms
         {
             new WorkProductsTable().ShowDialog();
         }
+
+        private void buttonOpenActivitiesTable_Click(object sender, EventArgs e)
+        {
+            new ActivitiesTable().ShowDialog();
+        }
     }
 }

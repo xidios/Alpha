@@ -79,17 +79,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Alpha.cs" />
     <Compile Include="Models\AlphaContaiment.cs" />
     <Compile Include="Models\Checkpoint.cs" />
     <Compile Include="Models\LevelOfDetail.cs" />
     <Compile Include="Models\WorkProduct.cs" />
     <Compile Include="Models\WorkProductManifest.cs" />
+    <Compile Include="WinForms\ActivitiesTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\ActivitiesTable.Designer.cs">
+      <DependentUpon>ActivitiesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinForms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddActivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddActivity.Designer.cs">
+      <DependentUpon>PopupWindowForAddActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddLevelOfDetails.cs">
       <SubType>Form</SubType>
@@ -102,6 +115,12 @@
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddWorkProduct.Designer.cs">
       <DependentUpon>PopupWindowForAddWorkProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForEditActivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForEditActivity.Designer.cs">
+      <DependentUpon>PopupWindowForEditActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\PopupWindowForEditCheckpoint.cs">
       <SubType>Form</SubType>
@@ -173,11 +192,17 @@
     <Compile Include="WinForms\WorkProductsTable.Designer.cs">
       <DependentUpon>WorkProductsTable.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WinForms\ActivitiesTable.resx">
+      <DependentUpon>ActivitiesTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForAddActivity.resx">
+      <DependentUpon>PopupWindowForAddActivity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForAddAlpha.resx">
       <DependentUpon>PopupWindowForAddAlpha.cs</DependentUpon>
@@ -196,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForCheckpointsTable.resx">
       <DependentUpon>PopupWindowForCheckpointsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForEditActivity.resx">
+      <DependentUpon>PopupWindowForEditActivity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditAlpha.resx">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>

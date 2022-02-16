@@ -83,7 +83,7 @@ namespace Alpha.WinForms
             WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
             if (workProduct == null)
             {
-                MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             PopupWindowForEditWorkProduct popupWindowForEditWorkProduct = new PopupWindowForEditWorkProduct(this, workProduct);
@@ -102,7 +102,7 @@ namespace Alpha.WinForms
             WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
             if (workProduct == null)
             {
-                MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             RemoveFromWorkProductManifests(workProduct);

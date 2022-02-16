@@ -30,6 +30,7 @@
         {
             this.buttonOpenAlphasTable = new System.Windows.Forms.Button();
             this.buttonOpenWPTable = new System.Windows.Forms.Button();
+            this.buttonOpenActivitiesTable = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonOpenAlphasTable
@@ -52,11 +53,22 @@
             this.buttonOpenWPTable.UseVisualStyleBackColor = true;
             this.buttonOpenWPTable.Click += new System.EventHandler(this.buttonOpenWPTable_Click);
             // 
+            // buttonOpenActivitiesTable
+            // 
+            this.buttonOpenActivitiesTable.Location = new System.Drawing.Point(51, 119);
+            this.buttonOpenActivitiesTable.Name = "buttonOpenActivitiesTable";
+            this.buttonOpenActivitiesTable.Size = new System.Drawing.Size(146, 44);
+            this.buttonOpenActivitiesTable.TabIndex = 3;
+            this.buttonOpenActivitiesTable.Text = "Open Activities Table";
+            this.buttonOpenActivitiesTable.UseVisualStyleBackColor = true;
+            this.buttonOpenActivitiesTable.Click += new System.EventHandler(this.buttonOpenActivitiesTable_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 130);
+            this.ClientSize = new System.Drawing.Size(254, 181);
+            this.Controls.Add(this.buttonOpenActivitiesTable);
             this.Controls.Add(this.buttonOpenWPTable);
             this.Controls.Add(this.buttonOpenAlphasTable);
             this.Name = "MainForm";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button buttonOpenAlphasTable;
         private System.Windows.Forms.Button buttonOpenWPTable;
+        private System.Windows.Forms.Button buttonOpenActivitiesTable;
     }
 }
