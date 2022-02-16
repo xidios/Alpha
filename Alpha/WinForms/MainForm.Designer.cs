@@ -60,7 +60,7 @@
             this.Controls.Add(this.buttonOpenWPTable);
             this.Controls.Add(this.buttonOpenAlphasTable);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Main menu";
             this.ResumeLayout(false);
 
         }

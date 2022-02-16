@@ -34,11 +34,13 @@
             this.labelAlphaName = new System.Windows.Forms.Label();
             this.workProductDescriptionInput = new System.Windows.Forms.RichTextBox();
             this.workProductNameInput = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanelOfLevelOfDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonAddlevelOfDetail = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(123, 158);
+            this.buttonEdit.Location = new System.Drawing.Point(128, 185);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
             this.buttonEdit.TabIndex = 17;
@@ -48,7 +50,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(204, 158);
+            this.buttonClose.Location = new System.Drawing.Point(976, 8);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 16;
@@ -59,7 +61,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 75);
+            this.label1.Location = new System.Drawing.Point(46, 83);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 26);
             this.label1.TabIndex = 15;
@@ -69,7 +71,7 @@
             // labelAlphaName
             // 
             this.labelAlphaName.AutoSize = true;
-            this.labelAlphaName.Location = new System.Drawing.Point(15, 18);
+            this.labelAlphaName.Location = new System.Drawing.Point(20, 41);
             this.labelAlphaName.Name = "labelAlphaName";
             this.labelAlphaName.Size = new System.Drawing.Size(102, 13);
             this.labelAlphaName.TabIndex = 14;
@@ -77,7 +79,7 @@
             // 
             // workProductDescriptionInput
             // 
-            this.workProductDescriptionInput.Location = new System.Drawing.Point(123, 41);
+            this.workProductDescriptionInput.Location = new System.Drawing.Point(128, 83);
             this.workProductDescriptionInput.MaxLength = 255;
             this.workProductDescriptionInput.Name = "workProductDescriptionInput";
             this.workProductDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
@@ -87,17 +89,47 @@
             // 
             // workProductNameInput
             // 
-            this.workProductNameInput.Location = new System.Drawing.Point(123, 15);
+            this.workProductNameInput.Location = new System.Drawing.Point(128, 41);
             this.workProductNameInput.MaxLength = 100;
             this.workProductNameInput.Name = "workProductNameInput";
             this.workProductNameInput.Size = new System.Drawing.Size(282, 20);
             this.workProductNameInput.TabIndex = 12;
             // 
+            // tableLayoutPanelOfLevelOfDetails
+            // 
+            this.tableLayoutPanelOfLevelOfDetails.AutoScroll = true;
+            this.tableLayoutPanelOfLevelOfDetails.ColumnCount = 5;
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelOfLevelOfDetails.Location = new System.Drawing.Point(439, 41);
+            this.tableLayoutPanelOfLevelOfDetails.Name = "tableLayoutPanelOfLevelOfDetails";
+            this.tableLayoutPanelOfLevelOfDetails.RowCount = 2;
+            this.tableLayoutPanelOfLevelOfDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelOfLevelOfDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelOfLevelOfDetails.Size = new System.Drawing.Size(612, 266);
+            this.tableLayoutPanelOfLevelOfDetails.TabIndex = 18;
+            // 
+            // buttonAddlevelOfDetail
+            // 
+            this.buttonAddlevelOfDetail.Location = new System.Drawing.Point(439, 8);
+            this.buttonAddlevelOfDetail.Name = "buttonAddlevelOfDetail";
+            this.buttonAddlevelOfDetail.Size = new System.Drawing.Size(115, 23);
+            this.buttonAddlevelOfDetail.TabIndex = 19;
+            this.buttonAddlevelOfDetail.Text = "Add Level Of Detail";
+            this.buttonAddlevelOfDetail.UseVisualStyleBackColor = true;
+            this.buttonAddlevelOfDetail.Click += new System.EventHandler(this.buttonAddlevelOfDetail_Click);
+            // 
             // PopupWindowForEditWorkProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(417, 194);
+            this.ClientSize = new System.Drawing.Size(1063, 348);
+            this.Controls.Add(this.buttonAddlevelOfDetail);
+            this.Controls.Add(this.tableLayoutPanelOfLevelOfDetails);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.label1);
@@ -119,5 +151,7 @@
         private System.Windows.Forms.Label labelAlphaName;
         private System.Windows.Forms.RichTextBox workProductDescriptionInput;
         private System.Windows.Forms.TextBox workProductNameInput;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOfLevelOfDetails;
+        private System.Windows.Forms.Button buttonAddlevelOfDetail;
     }
 }

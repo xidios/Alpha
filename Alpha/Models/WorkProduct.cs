@@ -12,7 +12,7 @@ namespace Alpha.Models
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<WorkProductManifest> WorkProductManifests { get; set; } = new List<WorkProductManifest>();
-        private List<LevelOfDetail> LevelOfDetail { get; set; } = new List<LevelOfDetail>();
+        private List<LevelOfDetail> LevelOfDetails { get; set; } = new List<LevelOfDetail>();
         public WorkProduct()
         {
 
@@ -28,6 +28,11 @@ namespace Alpha.Models
 
         public Guid GetWorkProductId() => Id;
         public List<WorkProductManifest> GetWorkProductManifests() => WorkProductManifests;
+        public List<LevelOfDetail> GetLevelOfDetails() => LevelOfDetails;
+        public void SetLevelOfDetails(List<LevelOfDetail> levelOfDetails)
+        {
+            LevelOfDetails.AddRange(levelOfDetails);
+        }
 
         public void SetName(string name)
         {
@@ -44,6 +49,14 @@ namespace Alpha.Models
         public void DeleteWorkProductManifest(WorkProductManifest workProductManifest)
         {
             WorkProductManifests.Remove(workProductManifest);
+        }
+        public void AddLevelOfDetailToList(LevelOfDetail levelOfDetail)
+        {
+            LevelOfDetails.Add(levelOfDetail);
+        }
+        public void SortListOfLevelOfDetailsByOrder()
+        {
+            LevelOfDetails.Sort((x, y) => x.Order.CompareTo(y.Order));
         }
     }
 }

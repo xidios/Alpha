@@ -89,7 +89,7 @@
             this.Controls.Add(this.buttonAddWP);
             this.Controls.Add(this.panel1);
             this.Name = "WorkProductsTable";
-            this.Text = "WorkProductsTable";
+            this.Text = "Work Products Table";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

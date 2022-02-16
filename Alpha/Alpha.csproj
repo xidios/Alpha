@@ -91,6 +91,12 @@
     <Compile Include="WinForms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\PopupWindowForAddLevelOfDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddLevelOfDetails.Designer.cs">
+      <DependentUpon>PopupWindowForAddLevelOfDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\PopupWindowForAddWorkProduct.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,12 @@
     <Compile Include="WinForms\PopupWindowForEditAlpha.Designer.cs">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\PopupWindowForEditLevelOfDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForEditLevelOfDetail.Designer.cs">
+      <DependentUpon>PopupWindowForEditLevelOfDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\PopupWindowForEditState.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +185,9 @@
     <EmbeddedResource Include="WinForms\PopupWindowForAddCheckpoint.resx">
       <DependentUpon>PopupWindowForAddCheckpoint.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForAddLevelOfDetails.resx">
+      <DependentUpon>PopupWindowForAddLevelOfDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForAddState.resx">
       <DependentUpon>PopupWindowForAddState.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditCheckpoint.resx">
       <DependentUpon>PopupWindowForEditCheckpoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForEditLevelOfDetail.resx">
+      <DependentUpon>PopupWindowForEditLevelOfDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditState.resx">
       <DependentUpon>PopupWindowForEditState.cs</DependentUpon>
