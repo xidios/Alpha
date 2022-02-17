@@ -12,13 +12,15 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Models;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
     public partial class ActivitiesTable : Form
     {
         List<Activity> activities = new List<Activity>();
-        private static string pathToActivitiesFile = "activities.json";
+        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
+        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
         public ActivitiesTable()
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace Alpha.WinForms
         public void AddActivityToList(Activity activity)
         {
             activities.Add(activity);
-            ExportActivitiesToJsonFile();
+            jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
             UpdateActivitiesTable();
 
         }
@@ -53,8 +55,6 @@ namespace Alpha.WinForms
                 Text = "Delete",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 2, 0);
-
-
 
             for (int i = 1; i <= activities.Count; i++)
             {
@@ -86,43 +86,12 @@ namespace Alpha.WinForms
         }
         private void DeserializeJsonFiles()
         {
-            activities = DeserializeJsonActivities();
-
+            activities = jsonDeserializationService.DeserializeJsonActivities();
         }
 
-        public static List<Activity> DeserializeJsonActivities()
-        {
-            if (File.Exists(pathToActivitiesFile))
-            {
-                string jsonString = File.ReadAllText(pathToActivitiesFile);
-                if (jsonString != null && jsonString != "")
-                {
-                    return JsonSerializer.Deserialize<List<Activity>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                else
-                {
-                    return new List<Activity>();
-                }
-
-            }
-            else
-            {
-                using (File.Create(pathToActivitiesFile)) { }
-                return new List<Activity>();
-            }
-        }
         public void ExportAllToJsonFiles()
         {
-            ExportActivitiesToJsonFile();
-        }
-        public void ExportActivitiesToJsonFile()
-        {
-            var jsonActivities = JsonSerializer.Serialize(activities, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToActivitiesFile, jsonActivities);
+            jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
         }
 
         private void buttonAddActivity_Click(object sender, EventArgs e)

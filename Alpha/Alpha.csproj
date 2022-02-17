@@ -79,13 +79,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\JsonPaths.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Alpha.cs" />
     <Compile Include="Models\AlphaContaiment.cs" />
     <Compile Include="Models\Checkpoint.cs" />
     <Compile Include="Models\LevelOfDetail.cs" />
     <Compile Include="Models\WorkProduct.cs" />
+    <Compile Include="Models\WorkProductCriterion.cs" />
     <Compile Include="Models\WorkProductManifest.cs" />
+    <Compile Include="Services\JsonDeserializationService.cs" />
+    <Compile Include="Services\JsonSerializationToFileService.cs" />
     <Compile Include="WinForms\ActivitiesTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,6 +270,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

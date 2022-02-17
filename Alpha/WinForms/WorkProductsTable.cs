@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
@@ -19,9 +20,14 @@ namespace Alpha.WinForms
     {
         private List<WorkProduct> workProducts = new List<WorkProduct>();
         private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
-        private static string pathToWorkProductsFile = "workProducts.json";
+        private List<Activity> activities = new List<Activity>();
+        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
+        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
+        
         private string pathToWorkProductManifest = Form1.pathToWorkProductManifest;
         private string pathToLevelOfDetails = "levelOfDetails.json";
+        public List<Activity> GetActivities() => activities;
+        private List<WorkProductCriterion> workProductCriteria = new List<WorkProductCriterion>();
         public WorkProductsTable()
         {
             InitializeComponent();
@@ -126,32 +132,13 @@ namespace Alpha.WinForms
         }
         private void DeserializeJsonFiles()
         {
-            workProducts = DeserializeJsonWorkProducts();
+            workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
+            activities = jsonDeserializationService.DeserializeJsonActivities();
             DeserializeJsonWorkProductManifests();
             DeserializeJsonLevelOfDetails();
         }
 
-        public static List<WorkProduct> DeserializeJsonWorkProducts()
-        {
-            if (File.Exists(pathToWorkProductsFile))
-            {
-                string jsonString = File.ReadAllText(pathToWorkProductsFile);
-                if (jsonString != null && jsonString != "")
-                {
-                    return JsonSerializer.Deserialize<List<WorkProduct>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                else
-                {
-                    return new List<WorkProduct>();
-                }
-
-            }
-            else
-            {
-                using (File.Create(pathToWorkProductsFile)) { }
-                return new List<WorkProduct>();
-            }
-        }
+        
         private void DeserializeJsonWorkProductManifests()
         {
             if (File.Exists(pathToWorkProductManifest))
@@ -210,20 +197,12 @@ namespace Alpha.WinForms
         }
         public void ExportAllToJsonFiles()
         {
-            ExportWorkProductsToJsonFile();
+            jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
             ExportWorkProductManifestsToJsonFile();
             ExportLevelOfDetailsToJsonFile();
         }
 
-        public void ExportWorkProductsToJsonFile()
-        {
-            var jsonWorkProducts = JsonSerializer.Serialize(workProducts, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToWorkProductsFile, jsonWorkProducts);
-        }
+        
 
         private void ExportWorkProductManifestsToJsonFile()
         {
@@ -260,7 +239,7 @@ namespace Alpha.WinForms
         public void AddWorkProduct(WorkProduct workProduct)
         {
             workProducts.Add(workProduct);
-            ExportWorkProductsToJsonFile();
+            jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
             UpdateWorkProductsTable();
         }
         public void ExportAllToJsonAndUpdateTable()

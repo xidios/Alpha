@@ -38,7 +38,7 @@
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(120, 166);
+            this.buttonEdit.Location = new System.Drawing.Point(119, 267);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
             this.buttonEdit.TabIndex = 22;
@@ -49,7 +49,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 64);
+            this.label1.Location = new System.Drawing.Point(18, 89);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(95, 13);
             this.label1.TabIndex = 21;
@@ -59,7 +59,7 @@
             // labelAlphaName
             // 
             this.labelAlphaName.AutoSize = true;
-            this.labelAlphaName.Location = new System.Drawing.Point(44, 25);
+            this.labelAlphaName.Location = new System.Drawing.Point(43, 45);
             this.labelAlphaName.Name = "labelAlphaName";
             this.labelAlphaName.Size = new System.Drawing.Size(70, 13);
             this.labelAlphaName.TabIndex = 20;
@@ -67,17 +67,17 @@
             // 
             // activityDescriptionInput
             // 
-            this.activityDescriptionInput.Location = new System.Drawing.Point(120, 64);
+            this.activityDescriptionInput.Location = new System.Drawing.Point(119, 86);
             this.activityDescriptionInput.MaxLength = 255;
             this.activityDescriptionInput.Name = "activityDescriptionInput";
             this.activityDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.activityDescriptionInput.Size = new System.Drawing.Size(282, 96);
+            this.activityDescriptionInput.Size = new System.Drawing.Size(282, 175);
             this.activityDescriptionInput.TabIndex = 19;
             this.activityDescriptionInput.Text = "";
             // 
             // activityNameInput
             // 
-            this.activityNameInput.Location = new System.Drawing.Point(120, 22);
+            this.activityNameInput.Location = new System.Drawing.Point(119, 42);
             this.activityNameInput.MaxLength = 100;
             this.activityNameInput.Name = "activityNameInput";
             this.activityNameInput.Size = new System.Drawing.Size(282, 20);
@@ -85,7 +85,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(713, 12);
+            this.buttonClose.Location = new System.Drawing.Point(325, 12);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 23;
@@ -97,7 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(412, 298);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.label1);

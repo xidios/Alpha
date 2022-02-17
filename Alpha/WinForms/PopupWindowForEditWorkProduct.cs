@@ -13,12 +13,15 @@ namespace Alpha.WinForms
 {
     public partial class PopupWindowForEditWorkProduct : Form
     {
-        WorkProductsTable workProductsTable;
-        WorkProduct workProduct;
-        string oldWorkProductName;
+        private WorkProductsTable workProductsTable;
+        private WorkProduct workProduct;
+        private List<Activity> activities;
+        private string oldWorkProductName;
+        public List<Activity> GetActivities() => activities;
         public PopupWindowForEditWorkProduct(WorkProductsTable workProductsTable, WorkProduct workProduct)
         {
             InitializeComponent();
+            activities = workProductsTable.GetActivities();
             this.Text = $"Edit {workProduct.GetWorkProductName()}";
             this.workProductsTable = workProductsTable;
             this.workProduct = workProduct;

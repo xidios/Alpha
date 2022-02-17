@@ -14,20 +14,21 @@ using System.Text.Unicode;
 using System.Text.Encodings.Web;
 using Alpha.Models;
 using Alpha.WinForms;
+using Alpha.Services;
 
 namespace Alpha
 {
     // TODO: Там нужно будет добавить поле, которого не было в исходном, типа степени влияния...
     // TODO: REFACTORING
-    // TODO: checkpoint tests
-    // TODO: AlphaContainment tests
     public partial class Form1 : Form
     {
         private List<Alpha> alphas = new List<Alpha>();
         private List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();
         private List<WorkProduct> workProducts = new List<WorkProduct>();
         private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
-        private string pathToAlphasFile = "alphas.json";
+        private List<Activity> activities = new List<Activity>();
+        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
+        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService(); 
         private string pathToStatesFile = "states.json";
         private string pathToCheckpointsFile = "checkpoints.json";
         private string pathToAlphaContainmentsFile = "alphaContainments.json";
@@ -39,7 +40,7 @@ namespace Alpha
         }
 
         public List<Alpha> GetListOfAlphas() => alphas;
-        
+
         public List<WorkProduct> GetListOfWorkProducts() => workProducts;
         public void AddAlphaConteinment(AlphaContaiment alphaContaiment)
         {
@@ -127,27 +128,14 @@ namespace Alpha
 
         private void DeserializeJsonFiles()
         {
-            DeserializeJsonAlphas();
+            alphas = jsonDeserializationService.DeserializeJsonAlphas();
+            activities = jsonDeserializationService.DeserializeJsonActivities();
             DeserializeJsonStates();
             DeserializeJsonAlphaContainments();
             DeserializeJsonWorkProducts();
             DeserializeJsonWorkProductManifest();
         }
-        private void DeserializeJsonAlphas()
-        {
-            if (File.Exists(pathToAlphasFile))
-            {
-                string jsonString = File.ReadAllText(pathToAlphasFile);
-                if (jsonString != null && jsonString != "")
-                {
-                    alphas = JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-            }
-            else
-            {
-                using (File.Create(pathToAlphasFile)) { }
-            }
-        }
+
         private void DeserializeJsonStates()
         {
             if (File.Exists(pathToStatesFile))
@@ -199,7 +187,7 @@ namespace Alpha
                 using (File.Create(pathToStatesFile)) { }
             }
         }
-        
+
         private void DeserializeJsonAlphaContainments()
         {
             if (File.Exists(pathToAlphaContainmentsFile))
@@ -213,10 +201,6 @@ namespace Alpha
                 {
                     Alpha supAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSupAlphaId());
                     Alpha subAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSubAlphaId());
-                    //if(supAlpha != null)
-                    //{
-                    //    supAlpha.SetSupperAlphaContainment(alphaContaiment);
-                    //}
                     if (supAlpha != null && subAlpha != null)
                     {
                         alphaContaiment.SetSupAlpha(supAlpha);
@@ -243,7 +227,7 @@ namespace Alpha
                 {
                     Alpha alpha = alphas.FirstOrDefault(a => a.Id == workProductManifest.GetAlphaId());
                     WorkProduct workProduct = workProducts.FirstOrDefault(a => a.Id == workProductManifest.GetWorkProductId());
-                    if(workProduct != null && alpha != null)
+                    if (workProduct != null && alpha != null)
                     {
                         workProductManifest.SetWorkProduct(workProduct);
                         workProductManifest.SetAlpha(alpha);
@@ -257,7 +241,7 @@ namespace Alpha
         }
         private void DeserializeJsonWorkProducts()
         {
-            workProducts = WorkProductsTable.DeserializeJsonWorkProducts();
+            workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
         }
         // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
         private void SortStatesCheckpointsByOrder(List<State> states)
@@ -305,8 +289,8 @@ namespace Alpha
             }
             Button b = (Button)sender;
             Guid alphaId = Guid.Parse(b.AccessibleName);
-            Alpha alpha = alphas.FirstOrDefault(a=>a.GetAlphaId()==alphaId);
-            if(alpha == null)
+            Alpha alpha = alphas.FirstOrDefault(a => a.GetAlphaId() == alphaId);
+            if (alpha == null)
             {
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -317,9 +301,9 @@ namespace Alpha
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
-        
+
         private void RemoveFromAlphaContains(Alpha alpha)
-        {            
+        {
             foreach (var subordinateAlphaContaimnent in alpha.GetSubordinateAlphaConteinments())
             {
                 alphaContaiments.Remove(subordinateAlphaContaimnent);
@@ -333,14 +317,9 @@ namespace Alpha
         // TODO: split this method
         public void ExportAllToJsonFiles()
         {
-            var jsonAlphas = JsonSerializer.Serialize(alphas, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToAlphasFile, jsonAlphas);
-
+            jsonSerializationToFileService.ExportAlphasToFile(alphas);
             SortAlphasStatesByOrder();
+
             List<State> states = GetAllStates();
             var jsonStates = JsonSerializer.Serialize(states, new JsonSerializerOptions
             {

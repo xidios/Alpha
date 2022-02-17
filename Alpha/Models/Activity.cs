@@ -11,9 +11,11 @@ namespace Alpha.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
+        private List<WorkProductCriterion> WorkProductCriterions { get; set; } = new List<WorkProductCriterion>();
         public string GetName() => Name;
         public string GetDescription() => Description;
         public Guid GetId() => Id;
+
 
         public Activity()
         {
@@ -26,11 +28,19 @@ namespace Alpha.Models
         }
         public void SetName(string name)
         {
-            Name =name;
+            Name = name;
         }
         public void SetDescription(string description)
         {
             Description = description;
+        }
+        public void AddWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        {
+            WorkProductCriterions.Add(workProductCriterion);
+        }
+        public void DeleteWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        {
+            WorkProductCriterions.Remove(workProductCriterion);
         }
     }
 }

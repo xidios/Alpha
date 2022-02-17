@@ -13,12 +13,14 @@ namespace Alpha.Models
         public string Description { get; set; }
         public Guid WorkProductId { get; set; }
         public int Order { get; set; }
+        private WorkProductCriterion WorkProductCriterion { get; set; } = null;
 
         public Guid GetId() => Id;
         public string GetName() => Name;
         public string GetDescription() => Description;
         public int GetOrder() => Order;
         public Guid GetWorkProductId() => WorkProductId;
+        public WorkProductCriterion GetWorkProductCriterion() => WorkProductCriterion;
         public LevelOfDetail()
         {
 
@@ -29,6 +31,10 @@ namespace Alpha.Models
             Description = description;
             Order = order;
             WorkProductId = workProduct.Id;
+        }
+        public void SetWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        {
+            WorkProductCriterion = workProductCriterion;
         }
     }
 }
