@@ -92,12 +92,14 @@ namespace Alpha
             tableLayoutPanel1.Controls.Add(new Label
             {
                 Text = "Alpha",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(200,20)
             }, 0, 0);
             tableLayoutPanel1.Controls.Add(new Label
             {
                 Text = "Alpha Parent",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(200, 20)
             }, 1, 0);
             tableLayoutPanel1.Controls.Add(new Label
             {
@@ -129,14 +131,16 @@ namespace Alpha
                 deleteButton.Click += new EventHandler(buttonDelete_Click);
 
                 Label alphaNameLabel = new Label();
+                alphaNameLabel.AutoSize = true;
                 alphaNameLabel.Text = alpha.Name;
 
                 tableLayoutPanel1.Controls.Add(alphaNameLabel, 0, i);
 
-                if (alpha.Parent != null)
+                if (alpha.ParentAlphaId != null)
                 {
                     Label alphaParentNameLabel = new Label();
-                    alphaParentNameLabel.Text = alpha.Parent.Name;
+                    alphaParentNameLabel.Text = alpha.GetAlphaParent().GetName();
+                    alphaParentNameLabel.AutoSize = true;
                     tableLayoutPanel1.Controls.Add(alphaParentNameLabel, 1, i);
                 }
 

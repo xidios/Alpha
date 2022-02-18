@@ -43,7 +43,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(570, 391);
+            this.panel1.Size = new System.Drawing.Size(826, 391);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -61,7 +61,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(570, 391);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(826, 391);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // addAlphaButton
@@ -76,7 +76,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(454, 12);
+            this.buttonClose.Location = new System.Drawing.Point(710, 12);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(104, 41);
             this.buttonClose.TabIndex = 3;
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 450);
+            this.ClientSize = new System.Drawing.Size(826, 450);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.addAlphaButton);
             this.Controls.Add(this.panel1);

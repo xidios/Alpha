@@ -35,13 +35,13 @@ namespace Alpha
         }
         private void UpdateAlphaParentUI()
         {
-            if (alpha.Parent == null)
+            if (alpha.GetAlphaParent() == null)
             {
                 labelAlphaParent.Text = "Alpha parent: null";
             }
             else
             {
-                labelAlphaParent.Text = $"Alpha parent: {alpha.Parent.GetName()}";
+                labelAlphaParent.Text = $"Alpha parent: {alpha.GetAlphaParent().GetName()}";
                 checkBoxChildAlpha.Checked = true;
                 listBoxAlphas.Enabled = true;
             }
@@ -226,7 +226,7 @@ namespace Alpha
             if (checkBoxChildAlpha.Checked)
             {
                 listBoxAlphas.Enabled = true;
-                alphaParent = alpha.Parent;
+                alphaParent = alpha.GetAlphaParent();
             }
             else
             {
@@ -243,12 +243,12 @@ namespace Alpha
                 {
                     var allAlphas = form1.GetListOfAlphas();
                     alphaParent = allAlphas.FirstOrDefault(a => a.Name == alphaPatentName);
-                    alpha.Parent = alphaParent;
+                    alpha.SetParentAlpha(alphaParent);
                 }
             }
             else
             {
-                alpha.Parent = null;
+                alpha.DeleteAlphaParent();
             }
         }
 

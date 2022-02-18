@@ -41,14 +41,25 @@ namespace Alpha.Services
         {
             if (File.Exists(jsonPaths.PathToAlphasFile))
             {
+                List<Alpha> alphas = new List<Alpha>();
                 string jsonString = File.ReadAllText(jsonPaths.PathToAlphasFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    return JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions
+                    alphas = JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions
                     {
                         IncludeFields = true,
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                     });
+                    foreach (Alpha alpha in alphas)
+                    {
+                        Guid? alphaParentId = alpha.GetAlphaParentId();
+                        if (alphaParentId != null)
+                        {
+                            Alpha alphaParent = alphas.FirstOrDefault(a => a.Id == alphaParentId);
+                            alpha.SetParentAlpha(alphaParent);
+                        }
+                    }
+                    return alphas;
                 }
                 else
                 {

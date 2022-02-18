@@ -10,7 +10,8 @@ namespace Alpha
     public class Alpha
     {
         // TODO Parent contains only ID
-        public Alpha Parent { get; set; } = null;
+        private Alpha Parent { get; set; } = null;
+        public Guid? ParentAlphaId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -31,6 +32,7 @@ namespace Alpha
             Name = name;
             Description = description;
             Parent = parent;
+            ParentAlphaId = parent.GetAlphaId();
         }
         public string GetName() => Name;
         public List<State> GetStates() => States;
@@ -38,6 +40,8 @@ namespace Alpha
         public WorkProductManifest GetWorkProductManifest() => WorkProductManifest;
         public AlphaContaiment GetSupperAlphaContainment() => SupperAlphaContaiment;
         public List<AlphaContaiment> GetSubordinateAlphaConteinments() => SubordinateAlphaConteinments;
+        public Alpha GetAlphaParent() => Parent;
+        public Guid? GetAlphaParentId() => ParentAlphaId;
         public void AddState(State state)
         {
             States.Add(state);
@@ -69,6 +73,16 @@ namespace Alpha
         public void DeleteWorkProductManifest()
         {
             WorkProductManifest = null;
+        }
+        public void SetParentAlpha(Alpha alpha)
+        {
+            Parent = alpha;
+            ParentAlphaId = alpha.GetAlphaId();
+        }
+        public void DeleteAlphaParent()
+        {
+            ParentAlphaId = null;
+            Parent = null;
         }
     }
 }
