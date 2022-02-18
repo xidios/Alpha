@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,8 @@ namespace Alpha
         public string Description { get; set; }
         public Guid AlphaId { get; set; }
         public int Order { get; set; }
-        private List<Checkpoint> Checkpoints = new List<Checkpoint>();
+        private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
+        private AlphaCriterion AlphaCriterion { get; set; } = null;
 
         public State()
         {
@@ -28,6 +30,7 @@ namespace Alpha
         }
         public Guid GetStateId() => Id;
         public List<Checkpoint> GetCheckpoints() => Checkpoints;
+        public AlphaCriterion GetAlphaCriterion() => AlphaCriterion;
         public void AddCheckpoint(Checkpoint checkpoint)
         {
             Checkpoints.Add(checkpoint);
@@ -36,7 +39,14 @@ namespace Alpha
         {
             Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
         }
-        
+        public void SetAlphaContaiment(AlphaCriterion alphaCriterion)
+        {
+            AlphaCriterion = alphaCriterion;
+        }
+        public void DeleteAlphaCriterion()
+        {
+            AlphaCriterion = null;
+        }
 
     }
 }

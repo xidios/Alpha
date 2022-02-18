@@ -107,6 +107,40 @@ namespace Alpha.Services
                 return new List<WorkProductCriterion>();
             }
         }
+        public List<AlphaCriterion> DeserializeJsonAlphaCriterions(List<Activity> activities, List<State> states)
+        {
+
+            if (File.Exists(jsonPaths.PathToAlphaCriterionsFile))
+            {
+                List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
+                string jsonString = File.ReadAllText(jsonPaths.PathToAlphaCriterionsFile);
+                if (jsonString != null && jsonString != "")
+                {
+                    alphaCriterions = JsonSerializer.Deserialize<List<AlphaCriterion>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var alphaCriterion in alphaCriterions)
+                {
+                    Activity activity = activities.FirstOrDefault(a => a.Id == alphaCriterion.GetActivityId());
+                    State state = states.FirstOrDefault(s => s.GetStateId() == alphaCriterion.GetStateId());
+                    if (activity != null && state != null)
+                    {
+                        alphaCriterion.SetActivity(activity);
+                        alphaCriterion.SetState(state);
+                        continue;
+                    }
+                    if (state == null) // w/o states
+                    {
+                        alphaCriterion.SetActivity(activity);
+                    }
+                }
+                return alphaCriterions;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.PathToAlphaCriterionsFile)) { }
+                return new List<AlphaCriterion>();
+            }
+        }
 
     }
 }

@@ -25,8 +25,17 @@ namespace Alpha.Services
                 WriteIndented = true
                 
             });
-
             File.WriteAllText(jsonPaths.PathToWorkProductCriterionsFile, jsonWorkProductCriterions);
+        }
+        public void ExportAlphaCriterionsToFile(List<AlphaCriterion> alphaCriterions)
+        {
+            var jsonAlphaCriterions = JsonSerializer.Serialize(alphaCriterions, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+
+            });
+            File.WriteAllText(jsonPaths.PathToAlphaCriterionsFile, jsonAlphaCriterions);
         }
         public void ExportActivitiesToJsonFile(List<Activity> activities)
         {

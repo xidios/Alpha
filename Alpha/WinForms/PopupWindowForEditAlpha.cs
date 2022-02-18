@@ -301,6 +301,7 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            form1.DeleteAlphaCriterion(state.GetAlphaCriterion());
             states.Remove(state);
             form1.ExportAllToJsonFiles();
             UpdateStatesTable();

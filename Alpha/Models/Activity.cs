@@ -12,10 +12,12 @@ namespace Alpha.Models
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private List<WorkProductCriterion> WorkProductCriterions { get; set; } = new List<WorkProductCriterion>();
+        private List<AlphaCriterion> AlphaCriterions { get; set; } = new List<AlphaCriterion>();
         public string GetName() => Name;
         public string GetDescription() => Description;
         public Guid GetId() => Id;
         public List<WorkProductCriterion> GetWorkProductCriterions() => WorkProductCriterions;
+        public List<AlphaCriterion> GetAlphaCriterions() => AlphaCriterions;
 
 
         public Activity()
@@ -42,6 +44,14 @@ namespace Alpha.Models
         public void DeleteWorkProductCriterion(WorkProductCriterion workProductCriterion)
         {
             WorkProductCriterions.Remove(workProductCriterion);
+        }
+        public void AddAlphaCriterion(AlphaCriterion alphaCriterion)
+        {
+            AlphaCriterions.Add(alphaCriterion);
+        }
+        public void DeleteAlphaCriterion(AlphaCriterion alphaCriterion)
+        {
+            AlphaCriterions.Remove(alphaCriterion);
         }
     }
 }

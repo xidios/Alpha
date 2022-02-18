@@ -27,6 +27,7 @@ namespace Alpha
         private List<WorkProduct> workProducts = new List<WorkProduct>();
         private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
         private List<Activity> activities = new List<Activity>();
+        private List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService(); 
         private string pathToStatesFile = "states.json";
@@ -38,6 +39,18 @@ namespace Alpha
             InitializeComponent();
             UpdateAlphasTable();
         }
+        public void AddAlphaCriterion(AlphaCriterion alphaCriterion)
+        {
+            alphaCriterions.Add(alphaCriterion);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
+        }
+        public void DeleteAlphaCriterion(AlphaCriterion alphaCriterion)
+        {
+            alphaCriterions.Remove(alphaCriterion);
+            ExportAllToJsonFiles();
+        }
+        public List<Activity> GetAllActivities() => activities; 
+        
 
         public List<Alpha> GetListOfAlphas() => alphas;
 
@@ -47,6 +60,7 @@ namespace Alpha
             alphaContaiments.Add(alphaContaiment);
             ExportAllToJsonFiles();
         }
+
         public void AddWorkProductManifest(WorkProductManifest workProductManifest)
         {
             workProductManifests.Add(workProductManifest);
@@ -63,7 +77,10 @@ namespace Alpha
             ExportAllToJsonFiles();
         }
 
-
+        public void ExportAllAlphaCriterionsToFile()
+        {
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
+        }
         public void UpdateAlphasTable()
         {
             DeserializeJsonFiles();
@@ -134,6 +151,7 @@ namespace Alpha
             DeserializeJsonAlphaContainments();
             DeserializeJsonWorkProducts();
             DeserializeJsonWorkProductManifest();
+            alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, GetAllStates());
         }
 
         private void DeserializeJsonStates()
@@ -297,11 +315,20 @@ namespace Alpha
             }
             RemoveFromAlphaContains(alpha);
             RemoveFromWokrProductManifests(alpha);
+            RemoveFromAlphaCriterion(alpha);
             alphas.Remove(alpha);
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
-
+        private void RemoveFromAlphaCriterion(Alpha alpha)
+        {
+            List<State> states = alpha.GetStates();
+            foreach (var state in states)
+            {
+                var alphaCriterion = state.GetAlphaCriterion();
+                alphaCriterions.Remove(alphaCriterion);
+            }
+        }
         private void RemoveFromAlphaContains(Alpha alpha)
         {
             foreach (var subordinateAlphaContaimnent in alpha.GetSubordinateAlphaConteinments())
@@ -345,6 +372,7 @@ namespace Alpha
             File.WriteAllText(pathToAlphaContainmentsFile, jsonAlphaContainments);
 
             ExportWorkProductManifestsToJsonFile();
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
         }
         public void ExportWorkProductManifestsToJsonFile()
         {

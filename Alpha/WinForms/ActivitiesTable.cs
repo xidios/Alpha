@@ -20,6 +20,7 @@ namespace Alpha.WinForms
     {
         private List<Activity> activities = new List<Activity>();
         private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
+        private List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
         public ActivitiesTable()
@@ -89,12 +90,14 @@ namespace Alpha.WinForms
         {
             activities = jsonDeserializationService.DeserializeJsonActivities();
             workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, new List<LevelOfDetail>());
+            alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, new List<State>());
         }
 
         public void ExportAllToJsonFiles()
         {
             jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
             jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
         }
 
         private void buttonAddActivity_Click(object sender, EventArgs e)
@@ -118,6 +121,7 @@ namespace Alpha.WinForms
                 return;
             }
             RemoveFromWorkProductCriterion(activity);
+            RemoveFromAlphaCriterion(activity);
             activities.Remove(activity);
             ExportAllToJsonFiles();
             UpdateActivitiesTable();
@@ -128,6 +132,14 @@ namespace Alpha.WinForms
             foreach (var workProductCriterion in activityWorkProductCriterions)
             {
                 workProductCriterions.Remove(workProductCriterion);
+            }
+        }
+        private void RemoveFromAlphaCriterion(Activity activity)
+        {
+            List<AlphaCriterion> activityAlphaCriterions = activity.GetAlphaCriterions();
+            foreach (var alphaCriterion in activityAlphaCriterions)
+            {
+                alphaCriterions.Remove(alphaCriterion);
             }
         }
         private void buttonEdit_Click(object sender, EventArgs e)
