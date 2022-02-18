@@ -22,8 +22,9 @@ namespace Alpha.Services
             var jsonWorkProductCriterions = JsonSerializer.Serialize(workProductCriterions, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-                
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+
             });
             File.WriteAllText(jsonPaths.PathToWorkProductCriterionsFile, jsonWorkProductCriterions);
         }
@@ -32,7 +33,8 @@ namespace Alpha.Services
             var jsonAlphaCriterions = JsonSerializer.Serialize(alphaCriterions, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
 
             });
             File.WriteAllText(jsonPaths.PathToAlphaCriterionsFile, jsonAlphaCriterions);
@@ -42,7 +44,8 @@ namespace Alpha.Services
             var jsonActivities = JsonSerializer.Serialize(activities, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
             File.WriteAllText(jsonPaths.PathToActivitiesFile, jsonActivities);
         }
@@ -51,7 +54,8 @@ namespace Alpha.Services
             var jsonAlphas = JsonSerializer.Serialize(alphas, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
             File.WriteAllText(jsonPaths.PathToAlphasFile, jsonAlphas);
         }
@@ -60,10 +64,61 @@ namespace Alpha.Services
             var jsonWorkProducts = JsonSerializer.Serialize(workProducts, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
             File.WriteAllText(jsonPaths.PathToWorkProductsFile, jsonWorkProducts);
         }
-       
+        public void ExportWorkProductManifestsToJsonFile(List<WorkProductManifest> workProductManifests)
+        {
+            var jsonWorkProductManifests = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToWorkProductManifest, jsonWorkProductManifests);
+        }
+        public void ExportLevelOfDetailsToJsonFile(List<LevelOfDetail> levelOfDetails)
+        {
+
+            var jsonLevelOfDetails = JsonSerializer.Serialize(levelOfDetails, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToLevelOfDetails, jsonLevelOfDetails);
+        }
+        public void ExportStatesToJsonFile(List<State> states)
+        {
+            var jsonStates = JsonSerializer.Serialize(states, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToStatesFile, jsonStates);
+        }
+        public void ExportCheckpointsToJsonFile(List<Checkpoint> checkpoints)
+        {
+            var jsonCheckpoints = JsonSerializer.Serialize(checkpoints, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToCheckpointsFile, jsonCheckpoints);
+        }
+        public void ExportAlphaContainmentsToJsonFile(List<AlphaContaiment> alphaContaiments)
+        {
+            var jsonAlphaContainments = JsonSerializer.Serialize(alphaContaiments, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToAlphaContainmentsFile, jsonAlphaContainments);
+        }
     }
 }

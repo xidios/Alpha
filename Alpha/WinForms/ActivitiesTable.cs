@@ -45,7 +45,8 @@ namespace Alpha.WinForms
             tableLayoutPanelActivities.Controls.Add(new Label
             {
                 Text = "Activity",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(250,20)
             }, 0, 0);
             tableLayoutPanelActivities.Controls.Add(new Label
             {
@@ -75,6 +76,7 @@ namespace Alpha.WinForms
                 deleteButton.Click += new EventHandler(buttonDelete_Click);
 
                 Label activityNameLabel = new Label();
+                activityNameLabel.AutoSize = true;
                 activityNameLabel.Text = activity.Name;
 
                 tableLayoutPanelActivities.Controls.Add(activityNameLabel, 0, i);

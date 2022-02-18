@@ -20,7 +20,11 @@ namespace Alpha.Services
                 string jsonString = File.ReadAllText(jsonPaths.PathToActivitiesFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    return JsonSerializer.Deserialize<List<Activity>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    return JsonSerializer.Deserialize<List<Activity>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 else
                 {
@@ -40,7 +44,11 @@ namespace Alpha.Services
                 string jsonString = File.ReadAllText(jsonPaths.PathToAlphasFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    return JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    return JsonSerializer.Deserialize<List<Alpha>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 else
                 {
@@ -60,7 +68,11 @@ namespace Alpha.Services
                 string jsonString = File.ReadAllText(jsonPaths.PathToWorkProductsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    return JsonSerializer.Deserialize<List<WorkProduct>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    return JsonSerializer.Deserialize<List<WorkProduct>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 else
                 {
@@ -75,14 +87,18 @@ namespace Alpha.Services
         }
         public List<WorkProductCriterion> DeserializeJsonWorkProductCriterions(List<Activity> activities, List<LevelOfDetail> levelOfDetails)
         {
-            
+
             if (File.Exists(jsonPaths.PathToWorkProductCriterionsFile))
             {
                 List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
                 string jsonString = File.ReadAllText(jsonPaths.PathToWorkProductCriterionsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    workProductCriterions = JsonSerializer.Deserialize<List<WorkProductCriterion>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    workProductCriterions = JsonSerializer.Deserialize<List<WorkProductCriterion>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 foreach (var workProductCriterion in workProductCriterions)
                 {
@@ -116,7 +132,11 @@ namespace Alpha.Services
                 string jsonString = File.ReadAllText(jsonPaths.PathToAlphaCriterionsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    alphaCriterions = JsonSerializer.Deserialize<List<AlphaCriterion>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    alphaCriterions = JsonSerializer.Deserialize<List<AlphaCriterion>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 foreach (var alphaCriterion in alphaCriterions)
                 {
@@ -142,5 +162,111 @@ namespace Alpha.Services
             }
         }
 
+        public List<WorkProductManifest> DeserializeJsonWorkProductManifests(List<Alpha> alphas,List<WorkProduct> workProducts)
+        {
+            List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
+            if (File.Exists(jsonPaths.pathToWorkProductManifest))
+            {
+                string jsonString = File.ReadAllText(jsonPaths.pathToWorkProductManifest);
+                if (jsonString != null && jsonString != "")
+                {
+                    workProductManifests = JsonSerializer.Deserialize<List<WorkProductManifest>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var workProductManifest in workProductManifests)
+                {
+                    Alpha alpha = alphas.FirstOrDefault(a => a.Id == workProductManifest.GetAlphaId());
+                    WorkProduct workProduct = workProducts.FirstOrDefault(a => a.Id == workProductManifest.GetWorkProductId());
+                    if (workProduct != null && alpha != null)
+                    {
+                        workProductManifest.SetWorkProduct(workProduct);
+                        workProductManifest.SetAlpha(alpha);
+                    }
+                    if (alpha == null && alphas.Count() == 0)
+                    {
+                        workProductManifest.SetWorkProduct(workProduct);
+                    }
+                }
+                return workProductManifests;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToWorkProductManifest)) { }
+                return new List<WorkProductManifest>();
+            }
+        }
+        public List<LevelOfDetail> DeserializeJsonLevelOfDetails(List<WorkProduct> workProducts)
+        {
+            if (File.Exists(jsonPaths.pathToLevelOfDetails))
+            {
+                string jsonString = File.ReadAllText(jsonPaths.pathToLevelOfDetails);
+                List<LevelOfDetail> levelOfDetails = new List<LevelOfDetail>();
+                if (jsonString != null && jsonString != "")
+                {
+                    levelOfDetails = JsonSerializer.Deserialize<List<LevelOfDetail>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var levelOfDetail in levelOfDetails)
+                {
+                    WorkProduct workProduct = workProducts.First(wp => wp.GetWorkProductId() == levelOfDetail.GetWorkProductId());
+                    if (workProduct != null)
+                    {
+                        workProduct.AddLevelOfDetailToList(levelOfDetail);
+                    }
+                }
+                SortWorkProductsLevelOfStatesByOrder(workProducts);
+
+                return levelOfDetails;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToLevelOfDetails)) { }
+                return new List<LevelOfDetail>();
+            }
+        }
+        private void SortWorkProductsLevelOfStatesByOrder(List<WorkProduct> workProducts)
+        {
+            foreach (var workProduct in workProducts)
+            {
+                workProduct.SortListOfLevelOfDetailsByOrder();
+            }
+        }
+        public List<AlphaContaiment> DeserializeJsonAlphaContainments(List<Alpha> alphas)
+        {
+            if (File.Exists(jsonPaths.pathToAlphaContainmentsFile))
+            {
+                List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();
+                string jsonString = File.ReadAllText(jsonPaths.pathToAlphaContainmentsFile);
+                if (jsonString != null && jsonString != "")
+                {
+                    alphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { 
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var alphaContaiment in alphaContaiments)
+                {
+                    Alpha supAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSupAlphaId());
+                    Alpha subAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSubAlphaId());
+                    if (supAlpha != null && subAlpha != null)
+                    {
+                        alphaContaiment.SetSupAlpha(supAlpha);
+                        alphaContaiment.SetSubAlpha(subAlpha);
+                    }
+                }
+                return alphaContaiments;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToAlphaContainmentsFile)) { }
+                return new List<AlphaContaiment>();
+            }
+        }
     }
 }

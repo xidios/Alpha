@@ -24,9 +24,6 @@ namespace Alpha.WinForms
         private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
-
-        private string pathToWorkProductManifest = Form1.pathToWorkProductManifest;
-        private string pathToLevelOfDetails = "levelOfDetails.json";
         public List<Activity> GetActivities() => activities;
         private List<WorkProductCriterion> workProductCriteria = new List<WorkProductCriterion>();
         public WorkProductsTable()
@@ -150,105 +147,24 @@ namespace Alpha.WinForms
         {
             this.Close();
         }
-
-        private void buttonAddWP_Click(object sender, EventArgs e)
-        {
-
-        }
         private void DeserializeJsonFiles()
         {
             workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
             activities = jsonDeserializationService.DeserializeJsonActivities();
-            DeserializeJsonWorkProductManifests();
-            DeserializeJsonLevelOfDetails();
+            workProductManifests = jsonDeserializationService.DeserializeJsonWorkProductManifests(new List<Alpha>(), workProducts);
+            jsonDeserializationService.DeserializeJsonLevelOfDetails(workProducts);
             workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, GetAllLevelOfDetails());
         }
 
-        private void DeserializeJsonWorkProductManifests()
-        {
-            if (File.Exists(pathToWorkProductManifest))
-            {
-                string jsonString = File.ReadAllText(pathToWorkProductManifest);
-                if (jsonString != null && jsonString != "")
-                {
-                    workProductManifests = JsonSerializer.Deserialize<List<WorkProductManifest>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                foreach (var workProductManifest in workProductManifests)
-                {
-                    WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.Id == workProductManifest.GetWorkProductId());
-                    if (workProduct != null)
-                    {
-                        workProductManifest.SetWorkProduct(workProduct);
-                    }
-                }
-            }
-            else
-            {
-                using (File.Create(pathToWorkProductManifest)) { }
-            }
-        }
 
-        private void DeserializeJsonLevelOfDetails()
-        {
-            if (File.Exists(pathToLevelOfDetails))
-            {
-                string jsonString = File.ReadAllText(pathToLevelOfDetails);
-                List<LevelOfDetail> levelOfDetails = new List<LevelOfDetail>();
-                if (jsonString != null && jsonString != "")
-                {
-                    levelOfDetails = JsonSerializer.Deserialize<List<LevelOfDetail>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                foreach (var levelOfDetail in levelOfDetails)
-                {
-                    WorkProduct workProduct = workProducts.First(wp => wp.GetWorkProductId() == levelOfDetail.GetWorkProductId());
-                    if (workProduct != null)
-                    {
-                        workProduct.AddLevelOfDetailToList(levelOfDetail);
-                    }
-                }
-                SortWorkProductsLevelOfStatesByOrder();
-            }
-            else
-            {
-                using (File.Create(pathToLevelOfDetails)) { }
-            }
-        }
-        private void SortWorkProductsLevelOfStatesByOrder()
-        {
-            foreach (var workProduct in workProducts)
-            {
-                workProduct.SortListOfLevelOfDetailsByOrder();
-            }
-        }
         public void ExportAllToJsonFiles()
         {
             jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
-            ExportWorkProductManifestsToJsonFile();
-            ExportLevelOfDetailsToJsonFile();
+            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
+            jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(GetAllLevelOfDetails());
             jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
         }
 
-
-
-        private void ExportWorkProductManifestsToJsonFile()
-        {
-            var jsonWorkProducts = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToWorkProductManifest, jsonWorkProducts);
-        }
-        private void ExportLevelOfDetailsToJsonFile()
-        {
-
-            var jsonLevelOfDetails = JsonSerializer.Serialize(GetAllLevelOfDetails(), new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToLevelOfDetails, jsonLevelOfDetails);
-        }
         private List<LevelOfDetail> GetAllLevelOfDetails()
         {
             List<LevelOfDetail> AllLevelOfDetails = new List<LevelOfDetail>();

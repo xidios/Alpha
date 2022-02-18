@@ -13,5 +13,10 @@ namespace Alpha.Data
         public readonly string PathToActivitiesFile = "activities.json";
         public readonly string PathToAlphasFile = "alphas.json";
         public readonly string PathToWorkProductsFile = "workProducts.json";
+        public readonly string pathToWorkProductManifest = "workProductManifests.json";
+        public readonly string pathToLevelOfDetails = "levelOfDetails.json";
+        public readonly string pathToCheckpointsFile = "checkpoints.json";
+        public readonly string pathToStatesFile = "states.json";
+        public readonly string pathToAlphaContainmentsFile = "alphaContainments.json";
     }
 }

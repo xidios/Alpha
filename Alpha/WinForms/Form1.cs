@@ -32,8 +32,7 @@ namespace Alpha
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService(); 
         private string pathToStatesFile = "states.json";
         private string pathToCheckpointsFile = "checkpoints.json";
-        private string pathToAlphaContainmentsFile = "alphaContainments.json";
-        public static string pathToWorkProductManifest = "workProductManifests.json";
+        
         public Form1()
         {
             InitializeComponent();
@@ -60,7 +59,10 @@ namespace Alpha
             alphaContaiments.Add(alphaContaiment);
             ExportAllToJsonFiles();
         }
-
+        public void ExportWorkProductManifestsToJsonFile()
+        {
+            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
+        }
         public void AddWorkProductManifest(WorkProductManifest workProductManifest)
         {
             workProductManifests.Add(workProductManifest);
@@ -148,9 +150,9 @@ namespace Alpha
             alphas = jsonDeserializationService.DeserializeJsonAlphas();
             activities = jsonDeserializationService.DeserializeJsonActivities();
             DeserializeJsonStates();
-            DeserializeJsonAlphaContainments();
+            alphaContaiments = jsonDeserializationService.DeserializeJsonAlphaContainments(alphas);
             DeserializeJsonWorkProducts();
-            DeserializeJsonWorkProductManifest();
+            workProductManifests = jsonDeserializationService.DeserializeJsonWorkProductManifests(alphas, workProducts);
             alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, GetAllStates());
         }
 
@@ -162,7 +164,11 @@ namespace Alpha
                 List<State> states = new List<State>();
                 if (jsonString != null && jsonString != "")
                 {
-                    states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 foreach (var state in states)
                 {
@@ -188,7 +194,11 @@ namespace Alpha
                 List<Checkpoint> checkpoints = new List<Checkpoint>();
                 if (jsonString != null && jsonString != "")
                 {
-                    checkpoints = JsonSerializer.Deserialize<List<Checkpoint>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                    checkpoints = JsonSerializer.Deserialize<List<Checkpoint>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
                 }
                 foreach (var checkpoint in checkpoints)
                 {
@@ -204,59 +214,7 @@ namespace Alpha
             {
                 using (File.Create(pathToStatesFile)) { }
             }
-        }
-
-        private void DeserializeJsonAlphaContainments()
-        {
-            if (File.Exists(pathToAlphaContainmentsFile))
-            {
-                string jsonString = File.ReadAllText(pathToAlphaContainmentsFile);
-                if (jsonString != null && jsonString != "")
-                {
-                    alphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                foreach (var alphaContaiment in alphaContaiments)
-                {
-                    Alpha supAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSupAlphaId());
-                    Alpha subAlpha = alphas.FirstOrDefault(a => a.Id == alphaContaiment.GetSubAlphaId());
-                    if (supAlpha != null && subAlpha != null)
-                    {
-                        alphaContaiment.SetSupAlpha(supAlpha);
-                        alphaContaiment.SetSubAlpha(subAlpha);
-                    }
-                }
-            }
-            else
-            {
-                using (File.Create(pathToAlphaContainmentsFile)) { }
-            }
-        }
-
-        private void DeserializeJsonWorkProductManifest()
-        {
-            if (File.Exists(pathToWorkProductManifest))
-            {
-                string jsonString = File.ReadAllText(pathToWorkProductManifest);
-                if (jsonString != null && jsonString != "")
-                {
-                    workProductManifests = JsonSerializer.Deserialize<List<WorkProductManifest>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
-                }
-                foreach (var workProductManifest in workProductManifests)
-                {
-                    Alpha alpha = alphas.FirstOrDefault(a => a.Id == workProductManifest.GetAlphaId());
-                    WorkProduct workProduct = workProducts.FirstOrDefault(a => a.Id == workProductManifest.GetWorkProductId());
-                    if (workProduct != null && alpha != null)
-                    {
-                        workProductManifest.SetWorkProduct(workProduct);
-                        workProductManifest.SetAlpha(alpha);
-                    }
-                }
-            }
-            else
-            {
-                using (File.Create(pathToWorkProductManifest)) { }
-            }
-        }
+        } 
         private void DeserializeJsonWorkProducts()
         {
             workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
@@ -348,42 +306,15 @@ namespace Alpha
             SortAlphasStatesByOrder();
 
             List<State> states = GetAllStates();
-            var jsonStates = JsonSerializer.Serialize(states, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToStatesFile, jsonStates);
+            jsonSerializationToFileService.ExportStatesToJsonFile(states);
 
             SortStatesCheckpointsByOrder(states);
             List<Checkpoint> checkpoints = GetAllCheckpoints(states);
-            var jsonCheckpoints = JsonSerializer.Serialize(checkpoints, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToCheckpointsFile, jsonCheckpoints);
-
-            var jsonAlphaContainments = JsonSerializer.Serialize(alphaContaiments, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToAlphaContainmentsFile, jsonAlphaContainments);
-
-            ExportWorkProductManifestsToJsonFile();
+            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints);
+            jsonSerializationToFileService.ExportAlphaContainmentsToJsonFile(alphaContaiments);
+            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
             jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
         }
-        public void ExportWorkProductManifestsToJsonFile()
-        {
-            var jsonWorkProducts = JsonSerializer.Serialize(workProductManifests, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
-            File.WriteAllText(pathToWorkProductManifest, jsonWorkProducts);
-        }
-        // TODO интерфейс для GetAll
         private List<State> GetAllStates()
         {
             List<State> states = new List<State>();
