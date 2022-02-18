@@ -45,7 +45,7 @@
             this.minimalTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.listBoxOfActivities = new System.Windows.Forms.ListBox();
-            this.buttonDeleteAlphaContainment = new System.Windows.Forms.Button();
+            this.buttonDeleteWorkProductCriterion = new System.Windows.Forms.Button();
             this.labelWorkProductCriterion = new System.Windows.Forms.Label();
             this.buttonSaveCriterion = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.levelOfDetailOrderInput)).BeginInit();
@@ -140,7 +140,7 @@
             this.panel1.Controls.Add(this.minimalTextBox);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.listBoxOfActivities);
-            this.panel1.Controls.Add(this.buttonDeleteAlphaContainment);
+            this.panel1.Controls.Add(this.buttonDeleteWorkProductCriterion);
             this.panel1.Controls.Add(this.labelWorkProductCriterion);
             this.panel1.Controls.Add(this.buttonSaveCriterion);
             this.panel1.Location = new System.Drawing.Point(333, 17);
@@ -217,14 +217,15 @@
             this.listBoxOfActivities.Size = new System.Drawing.Size(276, 82);
             this.listBoxOfActivities.TabIndex = 24;
             // 
-            // buttonDeleteAlphaContainment
+            // buttonDeleteWorkProductCriterion
             // 
-            this.buttonDeleteAlphaContainment.Location = new System.Drawing.Point(206, 262);
-            this.buttonDeleteAlphaContainment.Name = "buttonDeleteAlphaContainment";
-            this.buttonDeleteAlphaContainment.Size = new System.Drawing.Size(75, 23);
-            this.buttonDeleteAlphaContainment.TabIndex = 26;
-            this.buttonDeleteAlphaContainment.Text = "Delete";
-            this.buttonDeleteAlphaContainment.UseVisualStyleBackColor = true;
+            this.buttonDeleteWorkProductCriterion.Location = new System.Drawing.Point(206, 262);
+            this.buttonDeleteWorkProductCriterion.Name = "buttonDeleteWorkProductCriterion";
+            this.buttonDeleteWorkProductCriterion.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteWorkProductCriterion.TabIndex = 26;
+            this.buttonDeleteWorkProductCriterion.Text = "Delete";
+            this.buttonDeleteWorkProductCriterion.UseVisualStyleBackColor = true;
+            this.buttonDeleteWorkProductCriterion.Click += new System.EventHandler(this.buttonDeleteWorkProductCriterion_Click);
             // 
             // labelWorkProductCriterion
             // 
@@ -289,7 +290,7 @@
         private System.Windows.Forms.TextBox minimalTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBoxOfActivities;
-        private System.Windows.Forms.Button buttonDeleteAlphaContainment;
+        private System.Windows.Forms.Button buttonDeleteWorkProductCriterion;
         private System.Windows.Forms.Label labelWorkProductCriterion;
         private System.Windows.Forms.Button buttonSaveCriterion;
     }

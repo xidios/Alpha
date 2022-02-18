@@ -18,6 +18,7 @@ namespace Alpha.WinForms
         private List<Activity> activities;
         private string oldWorkProductName;
         public List<Activity> GetActivities() => activities;
+        public WorkProductsTable GetworkProductsTable() => workProductsTable;
         public PopupWindowForEditWorkProduct(WorkProductsTable workProductsTable, WorkProduct workProduct)
         {
             InitializeComponent();
@@ -164,10 +165,10 @@ namespace Alpha.WinForms
                 MessageBox.Show("Some problems with level of detail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            workProductsTable.DeleteWorkProductCriterion(levelOfDetail.GetWorkProductCriterion());
             levelOfDetails.Remove(levelOfDetail);
             UpdateLevelOfDetailsTable();
         }
-        
         private void buttonAddlevelOfDetail_Click(object sender, EventArgs e)
         {
             PopupWindowForAddLevelOfDetails popupWindowForAddLevelOfDetails = new PopupWindowForAddLevelOfDetails(this, workProduct);

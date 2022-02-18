@@ -18,7 +18,8 @@ namespace Alpha.WinForms
 {
     public partial class ActivitiesTable : Form
     {
-        List<Activity> activities = new List<Activity>();
+        private List<Activity> activities = new List<Activity>();
+        private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
         public ActivitiesTable()
@@ -87,11 +88,13 @@ namespace Alpha.WinForms
         private void DeserializeJsonFiles()
         {
             activities = jsonDeserializationService.DeserializeJsonActivities();
+            workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, new List<LevelOfDetail>());
         }
 
         public void ExportAllToJsonFiles()
         {
             jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
         }
 
         private void buttonAddActivity_Click(object sender, EventArgs e)
@@ -114,10 +117,18 @@ namespace Alpha.WinForms
                 MessageBox.Show("Some problems with activity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            //RemoveFromWorkProductManifests(workProduct);
+            RemoveFromWorkProductCriterion(activity);
             activities.Remove(activity);
             ExportAllToJsonFiles();
             UpdateActivitiesTable();
+        }
+        private void RemoveFromWorkProductCriterion(Activity activity)
+        {
+            List<WorkProductCriterion> activityWorkProductCriterions = activity.GetWorkProductCriterions();
+            foreach (var workProductCriterion in activityWorkProductCriterions)
+            {
+                workProductCriterions.Remove(workProductCriterion);
+            }
         }
         private void buttonEdit_Click(object sender, EventArgs e)
         {

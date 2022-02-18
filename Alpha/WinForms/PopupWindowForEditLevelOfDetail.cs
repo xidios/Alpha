@@ -16,14 +16,16 @@ namespace Alpha.WinForms
         private LevelOfDetail levelOfDetail;
         private PopupWindowForEditWorkProduct popupWindowForEditWorkProduct;
         private WorkProductCriterion workProductCriterion = null;
+        private WorkProductsTable workProductsTable = null;
         private List<Activity> activities = new List<Activity>();
 
-        public PopupWindowForEditLevelOfDetail(PopupWindowForEditWorkProduct popupWindowForEditWork, LevelOfDetail levelOfDetail)
+        public PopupWindowForEditLevelOfDetail(PopupWindowForEditWorkProduct popupWindowForEditWorkProduct, LevelOfDetail levelOfDetail)
         {
             InitializeComponent();
             this.levelOfDetail = levelOfDetail;
-            this.popupWindowForEditWorkProduct = popupWindowForEditWork;
+            this.popupWindowForEditWorkProduct = popupWindowForEditWorkProduct;
             activities = popupWindowForEditWorkProduct.GetActivities();
+            workProductsTable = popupWindowForEditWorkProduct.GetworkProductsTable();
             this.Text = $"Edit {levelOfDetail.GetName()}";
             UpdateEditLevelOfDetailsUI();
             UpdateListBoxes();
@@ -49,6 +51,9 @@ namespace Alpha.WinForms
             if (workProductCriterion == null)
             {
                 labelWorkProductCriterion.Text = "Work product criterion: null";
+                typeTextBox.Text = "";
+                partialTextBox.Text = "";
+                minimalTextBox.Text = "";
                 return;
             }
             string workProductCriterionActivityName = workProductCriterion.GetActivity().GetName();
@@ -95,8 +100,7 @@ namespace Alpha.WinForms
         }
         private void buttonSaveCriterion_Click(object sender, EventArgs e)
         {
-            
-            
+               
             string workProductCriterionType = typeTextBox.Text;
             if (workProductCriterionType == null || workProductCriterionType == "" && workProductCriterion == null)
             {
@@ -134,10 +138,9 @@ namespace Alpha.WinForms
             if (workProductCriterion == null)
             {
                 workProductCriterion = new WorkProductCriterion(workProductCriterionType, workProductCriterionPartial, workProductCriterionMinimal, activity);
-                activity.AddWorkProductCriterion(workProductCriterion);
-                levelOfDetail.SetWorkProductCriterion(workProductCriterion);
-                //workProduct.AddWorkProductManifest(workProductManifest);
-                //form1.AddWorkProductManifest(workProductManifest);
+                workProductCriterion.SetLevelOfDetail(levelOfDetail);
+                workProductCriterion.SetActivity(activity);
+                workProductsTable.AddWorkProductCriterion(workProductCriterion);               
             }
             else
             {
@@ -150,10 +153,28 @@ namespace Alpha.WinForms
                 workProductCriterion.Type = workProductCriterionType;
                 workProductCriterion.Partial = workProductCriterionPartial;
                 workProductCriterion.Minimal = workProductCriterionMinimal;
-                // TODO: this
-                //form1.ExportWorkProductManifestsToJsonFile();
+                workProductsTable.ExportAllWorkProductCriterionsToFile();
 
             }
+            UpdateWorkProductCriterionAndLabel();
+        }
+
+        private void buttonDeleteWorkProductCriterion_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            if (workProductCriterion == null)
+            {
+                return;
+            }
+            workProductCriterion.GetActivity().DeleteWorkProductCriterion(workProductCriterion);
+            LevelOfDetail levelOfDetail = workProductCriterion.GetLevelOfDetail();
+            levelOfDetail.DeleteWorkProductCriterion();
+            workProductsTable.DeleteWorkProductCriterion(workProductCriterion);
+            workProductCriterion = null;
             UpdateWorkProductCriterionAndLabel();
         }
     }

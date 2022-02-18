@@ -36,5 +36,9 @@ namespace Alpha.Models
         {
             WorkProductCriterion = workProductCriterion;
         }
+        public void DeleteWorkProductCriterion()
+        {
+            WorkProductCriterion = null;
+        }
     }
 }

@@ -12,17 +12,21 @@ using System.IO;
 
 namespace Alpha.Services
 {
+    // TODO: Generic
     public class JsonSerializationToFileService
     {
         private JsonPaths jsonPaths = new JsonPaths();
+        // TODO: PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         public void ExportWorkProductCriterionsToFile(List<WorkProductCriterion> workProductCriterions)
         {
             var jsonWorkProductCriterions = JsonSerializer.Serialize(workProductCriterions, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
+                
             });
-            File.WriteAllText(jsonPaths.PathToWorkProductCriterions, jsonWorkProductCriterions);
+
+            File.WriteAllText(jsonPaths.PathToWorkProductCriterionsFile, jsonWorkProductCriterions);
         }
         public void ExportActivitiesToJsonFile(List<Activity> activities)
         {
@@ -51,5 +55,6 @@ namespace Alpha.Services
             });
             File.WriteAllText(jsonPaths.PathToWorkProductsFile, jsonWorkProducts);
         }
+       
     }
 }

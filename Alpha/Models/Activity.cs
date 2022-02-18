@@ -15,6 +15,7 @@ namespace Alpha.Models
         public string GetName() => Name;
         public string GetDescription() => Description;
         public Guid GetId() => Id;
+        public List<WorkProductCriterion> GetWorkProductCriterions() => WorkProductCriterions;
 
 
         public Activity()

@@ -21,9 +21,10 @@ namespace Alpha.WinForms
         private List<WorkProduct> workProducts = new List<WorkProduct>();
         private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
         private List<Activity> activities = new List<Activity>();
+        private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
-        
+
         private string pathToWorkProductManifest = Form1.pathToWorkProductManifest;
         private string pathToLevelOfDetails = "levelOfDetails.json";
         public List<Activity> GetActivities() => activities;
@@ -32,6 +33,20 @@ namespace Alpha.WinForms
         {
             InitializeComponent();
             UpdateWorkProductsTable();
+        }
+        public void DeleteWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        {
+            workProductCriterions.Remove(workProductCriterion);
+            ExportAllToJsonFiles();
+        }
+        public void ExportAllWorkProductCriterionsToFile()
+        {
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
+        }
+        public void AddWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        {
+            workProductCriterions.Add(workProductCriterion);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
         }
         public void UpdateWorkProductsTable()
         {
@@ -81,7 +96,7 @@ namespace Alpha.WinForms
                 tableLayoutPanelWP.Controls.Add(deleteButton, 2, i);
             }
         }
-        
+
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -112,6 +127,7 @@ namespace Alpha.WinForms
                 return;
             }
             RemoveFromWorkProductManifests(workProduct);
+            RemoveFromWorkProductCriterion(workProduct);
             workProducts.Remove(workProduct);
             ExportAllToJsonFiles();
             UpdateWorkProductsTable();
@@ -121,6 +137,15 @@ namespace Alpha.WinForms
             foreach (var workProductManifest in workProduct.GetWorkProductManifests())
                 workProductManifests.Remove(workProductManifest);
         }
+        private void RemoveFromWorkProductCriterion(WorkProduct workProduct)
+        {
+            List<LevelOfDetail> levelOfDetails = workProduct.GetLevelOfDetails();
+            foreach (var levelOfDetail in levelOfDetails)
+            {
+                var workProductCriterion = levelOfDetail.GetWorkProductCriterion();
+                workProductCriterions.Remove(workProductCriterion);
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -128,7 +153,7 @@ namespace Alpha.WinForms
 
         private void buttonAddWP_Click(object sender, EventArgs e)
         {
-            
+
         }
         private void DeserializeJsonFiles()
         {
@@ -136,9 +161,9 @@ namespace Alpha.WinForms
             activities = jsonDeserializationService.DeserializeJsonActivities();
             DeserializeJsonWorkProductManifests();
             DeserializeJsonLevelOfDetails();
+            workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, GetAllLevelOfDetails());
         }
 
-        
         private void DeserializeJsonWorkProductManifests()
         {
             if (File.Exists(pathToWorkProductManifest))
@@ -200,9 +225,10 @@ namespace Alpha.WinForms
             jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
             ExportWorkProductManifestsToJsonFile();
             ExportLevelOfDetailsToJsonFile();
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
         }
 
-        
+
 
         private void ExportWorkProductManifestsToJsonFile()
         {

@@ -73,5 +73,40 @@ namespace Alpha.Services
                 return new List<WorkProduct>();
             }
         }
+        public List<WorkProductCriterion> DeserializeJsonWorkProductCriterions(List<Activity> activities, List<LevelOfDetail> levelOfDetails)
+        {
+            
+            if (File.Exists(jsonPaths.PathToWorkProductCriterionsFile))
+            {
+                List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
+                string jsonString = File.ReadAllText(jsonPaths.PathToWorkProductCriterionsFile);
+                if (jsonString != null && jsonString != "")
+                {
+                    workProductCriterions = JsonSerializer.Deserialize<List<WorkProductCriterion>>(jsonString, new JsonSerializerOptions { IncludeFields = true });
+                }
+                foreach (var workProductCriterion in workProductCriterions)
+                {
+                    Activity activity = activities.FirstOrDefault(a => a.Id == workProductCriterion.GetActivityId());
+                    LevelOfDetail levelOfDetail = levelOfDetails.FirstOrDefault(l => l.GetId() == workProductCriterion.GetLevelOfDetailId());
+                    if (activity != null && levelOfDetail != null)
+                    {
+                        workProductCriterion.SetActivity(activity);
+                        workProductCriterion.SetLevelOfDetail(levelOfDetail);
+                        continue;
+                    }
+                    if (levelOfDetail == null) // w/o level of details
+                    {
+                        workProductCriterion.SetActivity(activity);
+                    }
+                }
+                return workProductCriterions;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.PathToWorkProductCriterionsFile)) { }
+                return new List<WorkProductCriterion>();
+            }
+        }
+
     }
 }

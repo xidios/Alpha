@@ -21,6 +21,9 @@ namespace Alpha.Models
         public string GetTypeParameter() => Type;
         public string GetPartial() => Partial;
         public string GetMinimal() => Minimal;
+        public Guid GetActivityId() => ActivityId;
+        public Guid GetLevelOfDetailId() => LevelOfDetailId;
+        public LevelOfDetail GetLevelOfDetail() => LevelOfDetail;
         public WorkProductCriterion()
         {
 
@@ -38,6 +41,12 @@ namespace Alpha.Models
             Activity = activity;
             ActivityId = activity.GetId();
             activity.AddWorkProductCriterion(this);
+        }
+        public void SetLevelOfDetail(LevelOfDetail levelOfDetail)
+        {
+            LevelOfDetail = levelOfDetail;
+            LevelOfDetailId = levelOfDetail.GetId();
+            levelOfDetail.SetWorkProductCriterion(this);
         }
 
     }
