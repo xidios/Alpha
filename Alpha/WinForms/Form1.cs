@@ -16,6 +16,7 @@ using Alpha.Models;
 using Alpha.WinForms;
 using Alpha.Services;
 using Alpha.Interfaces;
+using Alpha.Data;
 
 namespace Alpha
 {
@@ -234,7 +235,7 @@ namespace Alpha
             List<State> states = GetAllStates();
             jsonSerializationToFileService.ExportStatesToJsonFile(states);
             List<Checkpoint> checkpoints = GetAllCheckpoints(states);
-            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints);
+            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints, JsonPaths.pathToStateCheckpointsFile);
             jsonSerializationToFileService.ExportAlphaContainmentsToJsonFile(alphaContaiments);
             jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
             jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);

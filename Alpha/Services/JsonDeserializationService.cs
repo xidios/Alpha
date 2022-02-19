@@ -1,4 +1,5 @@
 ﻿using Alpha.Data;
+using Alpha.Interfaces;
 using Alpha.Models;
 using System;
 using System.Collections.Generic;
@@ -215,6 +216,7 @@ namespace Alpha.Services
             {
                 string jsonString = File.ReadAllText(jsonPaths.pathToLevelOfDetails);
                 List<LevelOfDetail> levelOfDetails = new List<LevelOfDetail>();
+                List<IDetailing> details = new List<IDetailing>();
                 if (jsonString != null && jsonString != "")
                 {
                     levelOfDetails = JsonSerializer.Deserialize<List<LevelOfDetail>>(jsonString, new JsonSerializerOptions
@@ -232,6 +234,12 @@ namespace Alpha.Services
                     }
                 }
                 SortWorkProductsLevelOfStatesByOrder(workProducts);
+                foreach (var level in levelOfDetails)
+                {
+                    details.Add(level);
+                }
+
+                DeserializeJsonCheckpoints(details, JsonPaths.pathToLevelOfDetailCheckpointsFile);
 
                 return levelOfDetails;
             }
@@ -280,6 +288,7 @@ namespace Alpha.Services
             {
                 string jsonString = File.ReadAllText(jsonPaths.pathToStatesFile);
                 List<State> states = new List<State>();
+                List<IDetailing> details = new List<IDetailing>();
                 if (jsonString != null && jsonString != "")
                 {
                     states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions
@@ -297,18 +306,24 @@ namespace Alpha.Services
                     }
                 }
                 SortAlphasStatesByOrder(alphas);
-                DeserializeJsonCheckpoints(states);
+
+                foreach (var state in states)
+                {
+                    details.Add(state);
+                }
+
+                DeserializeJsonCheckpoints(details,JsonPaths.pathToStateCheckpointsFile);
             }
             else
             {
                 using (File.Create(jsonPaths.pathToStatesFile)) { }
             }
         }
-        private void DeserializeJsonCheckpoints(List<State> states)
+        private void DeserializeJsonCheckpoints(List<IDetailing> details,string path)
         {
-            if (File.Exists(jsonPaths.pathToCheckpointsFile))
+            if (File.Exists(path))
             {
-                string jsonString = File.ReadAllText(jsonPaths.pathToCheckpointsFile);
+                string jsonString = File.ReadAllText(path);
                 List<Checkpoint> checkpoints = new List<Checkpoint>();
                 if (jsonString != null && jsonString != "")
                 {
@@ -320,17 +335,17 @@ namespace Alpha.Services
                 }
                 foreach (var checkpoint in checkpoints)
                 {
-                    State state = states.First(s => s.Id == checkpoint.StateId);
-                    if (state != null)
+                    IDetailing detail = details.First(s => s.GetId() == checkpoint.StateId);
+                    if (detail != null)
                     {
-                        state.AddCheckpoint(checkpoint);
+                        detail.AddCheckpoint(checkpoint);
                     }
                 }
-                SortStatesCheckpointsByOrder(states);
+                SortDetailsCheckpointsByOrder(details);
             }
             else
             {
-                using (File.Create(jsonPaths.pathToCheckpointsFile)) { }
+                using (File.Create(path)) { }
             }
         }
         private void SortWorkProductsLevelOfStatesByOrder(List<WorkProduct> workProducts)
@@ -341,11 +356,11 @@ namespace Alpha.Services
             }
         }
 
-        private void SortStatesCheckpointsByOrder(List<State> states)
+        private void SortDetailsCheckpointsByOrder(List<IDetailing> details)
         {
-            foreach (var state in states)
+            foreach (var detail in details)
             {
-                state.SortListOfCheckpointsByOrder();
+                detail.SortListOfCheckpointsByOrder();
             }
         }
         private void SortAlphasStatesByOrder(List<Alpha> alphas)

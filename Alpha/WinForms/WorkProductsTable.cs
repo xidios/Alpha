@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Services;
 using Alpha.Interfaces;
+using Alpha.Data;
 
 namespace Alpha.WinForms
 {
@@ -165,6 +166,8 @@ namespace Alpha.WinForms
             jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
             jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(GetAllLevelOfDetails());
+            List<Checkpoint> checkpoints = GetAllCheckpoints(GetAllLevelOfDetails());
+            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints, JsonPaths.pathToLevelOfDetailCheckpointsFile);
             jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
         }
 
@@ -195,6 +198,15 @@ namespace Alpha.WinForms
         public List<WorkProduct> GetWorkProducts()
         {
             return workProducts;
+        }
+        private List<Checkpoint> GetAllCheckpoints(List<LevelOfDetail> levelOfDetails)
+        {
+            List<Checkpoint> checkpoints = new List<Checkpoint>();
+            foreach (var level in levelOfDetails)
+            {
+                checkpoints.AddRange(level.GetCheckpoints());
+            }
+            return checkpoints;
         }
     }
 }

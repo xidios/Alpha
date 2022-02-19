@@ -100,7 +100,7 @@ namespace Alpha.Services
             });
             File.WriteAllText(jsonPaths.pathToStatesFile, jsonStates);
         }
-        public void ExportCheckpointsToJsonFile(List<Checkpoint> checkpoints)
+        public void ExportCheckpointsToJsonFile(List<Checkpoint> checkpoints,string path)
         {
             var jsonCheckpoints = JsonSerializer.Serialize(checkpoints, new JsonSerializerOptions
             {
@@ -108,7 +108,7 @@ namespace Alpha.Services
                 WriteIndented = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
-            File.WriteAllText(jsonPaths.pathToCheckpointsFile, jsonCheckpoints);
+            File.WriteAllText(path, jsonCheckpoints);
         }
         public void ExportAlphaContainmentsToJsonFile(List<AlphaContaiment> alphaContaiments)
         {
