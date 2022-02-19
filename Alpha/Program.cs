@@ -11,6 +11,8 @@ namespace Alpha
     {
         /// <summary>
         /// Главная точка входа для приложения.
+        /// TODO: Сделать шаблон для popupWindow
+        /// TODO: singleton
         /// </summary>
         [STAThread]
         static void Main()

@@ -241,13 +241,7 @@ namespace Alpha.Services
                 return new List<LevelOfDetail>();
             }
         }
-        private void SortWorkProductsLevelOfStatesByOrder(List<WorkProduct> workProducts)
-        {
-            foreach (var workProduct in workProducts)
-            {
-                workProduct.SortListOfLevelOfDetailsByOrder();
-            }
-        }
+        
         public List<AlphaContaiment> DeserializeJsonAlphaContainments(List<Alpha> alphas)
         {
             if (File.Exists(jsonPaths.pathToAlphaContainmentsFile))
@@ -277,6 +271,88 @@ namespace Alpha.Services
             {
                 using (File.Create(jsonPaths.pathToAlphaContainmentsFile)) { }
                 return new List<AlphaContaiment>();
+            }
+        }
+
+        public void DeserializeJsonStates(List<Alpha> alphas)
+        {
+            if (File.Exists(jsonPaths.pathToStatesFile))
+            {
+                string jsonString = File.ReadAllText(jsonPaths.pathToStatesFile);
+                List<State> states = new List<State>();
+                if (jsonString != null && jsonString != "")
+                {
+                    states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var state in states)
+                {
+                    Alpha alpha = alphas.First(a => a.Id == state.AlphaId);
+                    if (alpha != null)
+                    {
+                        alpha.AddState(state);
+                    }
+                }
+                SortAlphasStatesByOrder(alphas);
+                DeserializeJsonCheckpoints(states);
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToStatesFile)) { }
+            }
+        }
+        private void DeserializeJsonCheckpoints(List<State> states)
+        {
+            if (File.Exists(jsonPaths.pathToCheckpointsFile))
+            {
+                string jsonString = File.ReadAllText(jsonPaths.pathToCheckpointsFile);
+                List<Checkpoint> checkpoints = new List<Checkpoint>();
+                if (jsonString != null && jsonString != "")
+                {
+                    checkpoints = JsonSerializer.Deserialize<List<Checkpoint>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var checkpoint in checkpoints)
+                {
+                    State state = states.First(s => s.Id == checkpoint.StateId);
+                    if (state != null)
+                    {
+                        state.AddCheckpoint(checkpoint);
+                    }
+                }
+                SortStatesCheckpointsByOrder(states);
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToCheckpointsFile)) { }
+            }
+        }
+        private void SortWorkProductsLevelOfStatesByOrder(List<WorkProduct> workProducts)
+        {
+            foreach (var workProduct in workProducts)
+            {
+                workProduct.SortListOfLevelOfDetailsByOrder();
+            }
+        }
+
+        private void SortStatesCheckpointsByOrder(List<State> states)
+        {
+            foreach (var state in states)
+            {
+                state.SortListOfCheckpointsByOrder();
+            }
+        }
+        private void SortAlphasStatesByOrder(List<Alpha> alphas)
+        {
+            foreach (var alpha in alphas)
+            {
+                alpha.SortListOfStatesByOrder();
             }
         }
     }

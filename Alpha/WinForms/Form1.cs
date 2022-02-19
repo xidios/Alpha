@@ -18,8 +18,6 @@ using Alpha.Services;
 
 namespace Alpha
 {
-    // TODO: Там нужно будет добавить поле, которого не было в исходном, типа степени влияния...
-    // TODO: REFACTORING
     public partial class Form1 : Form
     {
         private List<Alpha> alphas = new List<Alpha>();
@@ -29,10 +27,7 @@ namespace Alpha
         private List<Activity> activities = new List<Activity>();
         private List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
-        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService(); 
-        private string pathToStatesFile = "states.json";
-        private string pathToCheckpointsFile = "checkpoints.json";
-        
+        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();        
         public Form1()
         {
             InitializeComponent();
@@ -112,8 +107,6 @@ namespace Alpha
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 3, 0);
 
-
-
             for (int i = 1; i <= alphas.Count; i++)
             {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
@@ -122,7 +115,7 @@ namespace Alpha
 
                 Button editButton = new Button();
                 editButton.Text = "Edit";
-                editButton.AccessibleName = (i - 1).ToString();
+                editButton.AccessibleName = alphaId.ToString();
                 editButton.Click += new EventHandler(buttonEdit_Click);
 
                 Button deleteButton = new Button();
@@ -153,92 +146,18 @@ namespace Alpha
         {
             alphas = jsonDeserializationService.DeserializeJsonAlphas();
             activities = jsonDeserializationService.DeserializeJsonActivities();
-            DeserializeJsonStates();
+            jsonDeserializationService.DeserializeJsonStates(alphas);
             alphaContaiments = jsonDeserializationService.DeserializeJsonAlphaContainments(alphas);
             DeserializeJsonWorkProducts();
             workProductManifests = jsonDeserializationService.DeserializeJsonWorkProductManifests(alphas, workProducts);
             alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, GetAllStates());
         }
 
-        private void DeserializeJsonStates()
-        {
-            if (File.Exists(pathToStatesFile))
-            {
-                string jsonString = File.ReadAllText(pathToStatesFile);
-                List<State> states = new List<State>();
-                if (jsonString != null && jsonString != "")
-                {
-                    states = JsonSerializer.Deserialize<List<State>>(jsonString, new JsonSerializerOptions
-                    {
-                        IncludeFields = true,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-                }
-                foreach (var state in states)
-                {
-                    Alpha alpha = alphas.First(a => a.Id == state.AlphaId);
-                    if (alpha != null)
-                    {
-                        alpha.AddState(state);
-                    }
-                }
-                SortAlphasStatesByOrder();
-                DeserializeJsonCheckpoints(states);
-            }
-            else
-            {
-                using (File.Create(pathToStatesFile)) { }
-            }
-        }
-        private void DeserializeJsonCheckpoints(List<State> states)
-        {
-            if (File.Exists(pathToCheckpointsFile))
-            {
-                string jsonString = File.ReadAllText(pathToCheckpointsFile);
-                List<Checkpoint> checkpoints = new List<Checkpoint>();
-                if (jsonString != null && jsonString != "")
-                {
-                    checkpoints = JsonSerializer.Deserialize<List<Checkpoint>>(jsonString, new JsonSerializerOptions
-                    {
-                        IncludeFields = true,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-                }
-                foreach (var checkpoint in checkpoints)
-                {
-                    State state = states.First(s => s.Id == checkpoint.StateId);
-                    if (state != null)
-                    {
-                        state.AddCheckpoint(checkpoint);
-                    }
-                }
-                SortStatesCheckpointsByOrder(states);
-            }
-            else
-            {
-                using (File.Create(pathToStatesFile)) { }
-            }
-        } 
+         
         private void DeserializeJsonWorkProducts()
         {
             workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
-        }
-        // TODO: добавить интерфейс для Alpha и State, чтобы через дженерик метод вызывать сортировку
-        private void SortStatesCheckpointsByOrder(List<State> states)
-        {
-            foreach (var state in states)
-            {
-                state.SortListOfCheckpointsByOrder();
-            }
-        }
-        private void SortAlphasStatesByOrder()
-        {
-            foreach (var alpha in alphas)
-            {
-                alpha.SortListOfStatesByOrder();
-            }
-        }
-        //
+        }       
         private void AddAlpha_Click(object sender, EventArgs e)
         {
             PopupWindowForAddAlpha popupWindowForAddAlpha = new PopupWindowForAddAlpha(this);
@@ -251,12 +170,16 @@ namespace Alpha
             ExportAllToJsonFiles();
             UpdateAlphasTable();
         }
-        // TODO: edit by AlphaId
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
-            int alphaId = Int32.Parse(b.AccessibleName);
-            Alpha alpha = alphas[alphaId];
+            Guid alphaId = Guid.Parse(b.AccessibleName);
+            Alpha alpha = alphas.FirstOrDefault(a => a.GetAlphaId() == alphaId);
+            if (alpha == null)
+            {
+                MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             PopupWindowForEditAlpha popupWindowForEditAlpha = new PopupWindowForEditAlpha(this, alpha);
             popupWindowForEditAlpha.ShowDialog();
         }
@@ -307,12 +230,8 @@ namespace Alpha
         public void ExportAllToJsonFiles()
         {
             jsonSerializationToFileService.ExportAlphasToFile(alphas);
-            SortAlphasStatesByOrder();
-
             List<State> states = GetAllStates();
             jsonSerializationToFileService.ExportStatesToJsonFile(states);
-
-            SortStatesCheckpointsByOrder(states);
             List<Checkpoint> checkpoints = GetAllCheckpoints(states);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints);
             jsonSerializationToFileService.ExportAlphaContainmentsToJsonFile(alphaContaiments);

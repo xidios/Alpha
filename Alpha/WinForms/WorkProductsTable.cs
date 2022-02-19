@@ -54,7 +54,8 @@ namespace Alpha.WinForms
             tableLayoutPanelWP.Controls.Add(new Label
             {
                 Text = "Work Product",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(250,20)
             }, 0, 0);
             tableLayoutPanelWP.Controls.Add(new Label
             {
@@ -86,6 +87,7 @@ namespace Alpha.WinForms
                 deleteButton.Click += new EventHandler(buttonDelete_Click);
 
                 Label workProductNameLabel = new Label();
+                workProductNameLabel.AutoSize = true;
                 workProductNameLabel.Text = workProduct.Name;
 
                 tableLayoutPanelWP.Controls.Add(workProductNameLabel, 0, i);
