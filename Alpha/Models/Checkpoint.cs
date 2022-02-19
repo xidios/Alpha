@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,12 @@ namespace Alpha
         {
 
         }
-        public Checkpoint(string name,string description,int order, State state)
+        public Checkpoint(string name,string description,int order, IDetailing detail)
         {
             Name = name;
             Description = description;
             Order = order;
-            StateId = state.GetStateId();
+            StateId = detail.GetId();
         }
         public Guid GetCheckpointId() => Id;
 

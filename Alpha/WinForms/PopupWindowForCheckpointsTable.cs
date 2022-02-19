@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alpha.Models;
+using Alpha.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,29 +9,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alpha.Interfaces;
 
 namespace Alpha
 {
     public partial class PopupWindowForCheckpointsTable : Form
     {
-        State state;
-        Form1 form1;
-        public PopupWindowForCheckpointsTable(Form1 form1, State state)
+        IDetailing detail;
+        IMainFormInterface form;
+        public PopupWindowForCheckpointsTable(IMainFormInterface form, IDetailing detail)
         {
             InitializeComponent();
-            this.form1 = form1;
-            this.state = state;
-            this.Text = $"Checkpoints of {state.Name}";
+            this.form = form;
+            this.detail = detail;
+            this.Text = $"Checkpoints of {detail.GetName()}";
             UpdateCheckpointsTable();
         }
 
         public void UpdateCheckpointsTable()
         {
 
-            form1.ExportAllToJsonFiles();
+            form.ExportAllToJsonFiles();
             tableLayoutPanelOfCheckpoints.Controls.Clear();
 
-            tableLayoutPanelOfCheckpoints.RowCount = state.GetCheckpoints().Count() + 1; //не бейте
+            tableLayoutPanelOfCheckpoints.RowCount = detail.GetCheckpoints().Count() + 1; //не бейте
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
                 Text = "Checkpoint",
@@ -55,7 +58,7 @@ namespace Alpha
                 Text = "Delete",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 4, 0);
-            List<Checkpoint> checkpoints = state.GetCheckpoints();
+            List<Checkpoint> checkpoints = detail.GetCheckpoints();
             for (int i = 1; i <= checkpoints.Count; i++)
             {
                 tableLayoutPanelOfCheckpoints.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
@@ -92,7 +95,7 @@ namespace Alpha
         }
         private void buttonAddCheckpoint_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddCheckpoint popupWindowForAddState = new PopupWindowForAddCheckpoint(this,state);
+            PopupWindowForAddCheckpoint popupWindowForAddState = new PopupWindowForAddCheckpoint(this, detail);
             popupWindowForAddState.ShowDialog();
         }
         private void buttonDeleteCheckpoint_Click(object sender, EventArgs e)
@@ -104,7 +107,7 @@ namespace Alpha
             }
             Button b = (Button)sender;
             Guid checkpointId = Guid.Parse(b.AccessibleName);
-            List<Checkpoint> checkpoints = state.GetCheckpoints();
+            List<Checkpoint> checkpoints = detail.GetCheckpoints();
             Checkpoint checkpoint = checkpoints.First(c => c.GetCheckpointId() == checkpointId);
             if (checkpoint == null)
             {
@@ -119,7 +122,7 @@ namespace Alpha
         {
             Button b = (Button)sender;
             Guid checkpointId = Guid.Parse(b.AccessibleName);
-            List<Checkpoint> checkpoints = state.GetCheckpoints();
+            List<Checkpoint> checkpoints = detail.GetCheckpoints();
             Checkpoint checkpoint = checkpoints.First(c => c.GetCheckpointId() == checkpointId);
             if (checkpoint == null)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alpha.Models
 {
-    public class LevelOfDetail : ICheckable
+    public class LevelOfDetail : IDetailing, ICheckable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
@@ -14,7 +15,8 @@ namespace Alpha.Models
         public Guid WorkProductId { get; set; }
         public int Order { get; set; }
         private WorkProductCriterion WorkProductCriterion { get; set; } = null;
-
+        private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
+        public List<Checkpoint> GetCheckpoints() => Checkpoints;
         public Guid GetId() => Id;
         public string GetName() => Name;
         public string GetDescription() => Description;
@@ -39,6 +41,14 @@ namespace Alpha.Models
         public void DeleteWorkProductCriterion()
         {
             WorkProductCriterion = null;
+        }
+        public void AddCheckpoint(Checkpoint checkpoint)
+        {
+            Checkpoints.Add(checkpoint);
+        }
+        public void SortListOfCheckpointsByOrder()
+        {
+            Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
         }
     }
 }

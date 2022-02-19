@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\JsonPaths.cs" />
+    <Compile Include="Interfaces\IDetailing.cs" />
+    <Compile Include="Interfaces\IMainFormInterface.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Alpha.cs" />
     <Compile Include="Models\AlphaContaiment.cs" />

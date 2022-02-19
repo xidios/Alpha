@@ -98,13 +98,13 @@
             // tableLayoutPanelOfLevelOfDetails
             // 
             this.tableLayoutPanelOfLevelOfDetails.AutoScroll = true;
-            this.tableLayoutPanelOfLevelOfDetails.ColumnCount = 5;
+            this.tableLayoutPanelOfLevelOfDetails.ColumnCount = 6;
             this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelOfLevelOfDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfLevelOfDetails.Location = new System.Drawing.Point(439, 41);
             this.tableLayoutPanelOfLevelOfDetails.Name = "tableLayoutPanelOfLevelOfDetails";
             this.tableLayoutPanelOfLevelOfDetails.RowCount = 2;

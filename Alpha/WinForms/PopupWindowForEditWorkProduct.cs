@@ -1,4 +1,5 @@
 ﻿using Alpha.Models;
+using Alpha.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,14 +55,19 @@ namespace Alpha.WinForms
             }, 2, 0);
             tableLayoutPanelOfLevelOfDetails.Controls.Add(new Label
             {
-                Text = "Edit",
+                Text = "Checkpoints",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 3, 0);
             tableLayoutPanelOfLevelOfDetails.Controls.Add(new Label
             {
-                Text = "Delete",
+                Text = "Edit",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold)
             }, 4, 0);
+            tableLayoutPanelOfLevelOfDetails.Controls.Add(new Label
+            {
+                Text = "Delete",
+                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+            }, 5, 0);
             List<LevelOfDetail> levelOfDetails = workProduct.GetLevelOfDetails();
             for (int i = 1; i <= levelOfDetails.Count; i++)
             {
@@ -77,6 +83,11 @@ namespace Alpha.WinForms
                 Label levelOfDetailOrder = new Label();
                 levelOfDetailOrder.Text = levelOfDetail.GetOrder().ToString();
 
+                Button openCheckpointsButton = new Button();
+                openCheckpointsButton.Text = "Open";
+                openCheckpointsButton.AccessibleName = levelOfDetailId.ToString();
+                openCheckpointsButton.Click += new EventHandler(buttonOpenCheckpointTable_Click);
+
                 Button deleteLevelOfDetailButton = new Button();
                 deleteLevelOfDetailButton.Text = "Delete";
                 deleteLevelOfDetailButton.AccessibleName = levelOfDetailId.ToString();
@@ -91,8 +102,9 @@ namespace Alpha.WinForms
                 tableLayoutPanelOfLevelOfDetails.Controls.Add(levelOfDetailNameLabel, 0, i);
                 tableLayoutPanelOfLevelOfDetails.Controls.Add(levelOfDetailDescription, 1, i);
                 tableLayoutPanelOfLevelOfDetails.Controls.Add(levelOfDetailOrder, 2, i);
-                tableLayoutPanelOfLevelOfDetails.Controls.Add(editLevelOfDetailButton, 3, i);
-                tableLayoutPanelOfLevelOfDetails.Controls.Add(deleteLevelOfDetailButton, 4, i);
+                tableLayoutPanelOfLevelOfDetails.Controls.Add(openCheckpointsButton, 3, i);
+                tableLayoutPanelOfLevelOfDetails.Controls.Add(editLevelOfDetailButton, 4, i);
+                tableLayoutPanelOfLevelOfDetails.Controls.Add(deleteLevelOfDetailButton, 5, i);
             }
 
         }
@@ -100,7 +112,21 @@ namespace Alpha.WinForms
         {
             this.Close();
         }
-
+        // TODO: this
+        private void buttonOpenCheckpointTable_Click(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            Guid levelOfDetailId = Guid.Parse(b.AccessibleName);
+            List<LevelOfDetail> levelOfDetails = workProduct.GetLevelOfDetails();
+            var levelOfDetail = levelOfDetails.First(s => s.GetId() == levelOfDetailId);
+            if (levelOfDetail == null)
+            {
+                MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(workProductsTable, levelOfDetail);
+            popupWindowForCheckpointsTable.ShowDialog();
+        }
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             string workProductName = workProductNameInput.Text;

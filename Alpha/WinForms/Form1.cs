@@ -15,10 +15,11 @@ using System.Text.Encodings.Web;
 using Alpha.Models;
 using Alpha.WinForms;
 using Alpha.Services;
+using Alpha.Interfaces;
 
 namespace Alpha
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMainFormInterface
     {
         private List<Alpha> alphas = new List<Alpha>();
         private List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();

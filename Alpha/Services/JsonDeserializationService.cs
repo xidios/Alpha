@@ -152,7 +152,7 @@ namespace Alpha.Services
                 foreach (var alphaCriterion in alphaCriterions)
                 {
                     Activity activity = activities.FirstOrDefault(a => a.Id == alphaCriterion.GetActivityId());
-                    State state = states.FirstOrDefault(s => s.GetStateId() == alphaCriterion.GetStateId());
+                    State state = states.FirstOrDefault(s => s.GetId() == alphaCriterion.GetStateId());
                     if (activity != null && state != null)
                     {
                         alphaCriterion.SetActivity(activity);

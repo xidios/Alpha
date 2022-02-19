@@ -1,4 +1,5 @@
-﻿using Alpha.Models;
+﻿using Alpha.Interfaces;
+using Alpha.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Alpha
 {
-    public class State : ICheckable
+    public class State : IDetailing, ICheckable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
@@ -28,7 +29,8 @@ namespace Alpha
             Order = order;
             AlphaId = alpha.Id;
         }
-        public Guid GetStateId() => Id;
+        public Guid GetId() => Id;
+        public string GetName() => Name;
         public List<Checkpoint> GetCheckpoints() => Checkpoints;
         public AlphaCriterion GetAlphaCriterion() => AlphaCriterion;
         public void AddCheckpoint(Checkpoint checkpoint)

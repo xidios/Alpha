@@ -138,7 +138,7 @@ namespace Alpha
             {
                 tableLayoutPanelOfStates.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
                 State state = states[i - 1];
-                Guid stateId = state.GetStateId();
+                Guid stateId = state.GetId();
                 Label stateNameLabel = new Label();
                 stateNameLabel.Text = state.Name;
 
@@ -262,7 +262,7 @@ namespace Alpha
             Button b = (Button)sender;
             Guid stateId = Guid.Parse(b.AccessibleName);
             List<State> alphaStates = alpha.GetStates();
-            var state = alphaStates.First(s => s.GetStateId() == stateId);
+            var state = alphaStates.First(s => s.GetId() == stateId);
             if (state == null)
             {
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -276,7 +276,7 @@ namespace Alpha
             Button b = (Button)sender;
             Guid stateId = Guid.Parse(b.AccessibleName);
             List<State> states = alpha.GetStates();
-            State state = states.First(s => s.GetStateId() == stateId);
+            State state = states.First(s => s.GetId() == stateId);
             if (state == null)
             {
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -295,7 +295,7 @@ namespace Alpha
             Button b = (Button)sender;
             Guid stateId = Guid.Parse(b.AccessibleName);
             List<State> states = alpha.GetStates();
-            State state = states.First(s => s.GetStateId() == stateId);
+            State state = states.First(s => s.GetId() == stateId);
             if (state == null)
             {
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -46,7 +46,7 @@ namespace Alpha.Models
         public void SetState(State state)
         {
             State = state;
-            StateId = state.GetStateId();
+            StateId = state.GetId();
             state.SetAlphaContaiment(this);
         }
 

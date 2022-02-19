@@ -13,10 +13,11 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Services;
+using Alpha.Interfaces;
 
 namespace Alpha.WinForms
 {
-    public partial class WorkProductsTable : Form
+    public partial class WorkProductsTable : Form, IMainFormInterface
     {
         private List<WorkProduct> workProducts = new List<WorkProduct>();
         private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();

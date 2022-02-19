@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,13 +13,13 @@ namespace Alpha
 {
     public partial class PopupWindowForAddCheckpoint : Form
     {
-        State state;
+        IDetailing detail;
         PopupWindowForCheckpointsTable popupWindowForCheckpointsTable;
-        public PopupWindowForAddCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, State state)
+        public PopupWindowForAddCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, IDetailing detail)
         {
             this.popupWindowForCheckpointsTable = popupWindowForCheckpointsTable;
-            this.state = state;
-            this.Text = $"Add checkpoint for {state.Name}";
+            this.detail = detail;
+            this.Text = $"Add checkpoint for {detail.GetName()}";
             InitializeComponent();
         }
 
@@ -42,9 +43,9 @@ namespace Alpha
                 MessageBox.Show("Please enter checkpoint's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            int stateOrder = state.GetCheckpoints().Count() * 10;
-            Checkpoint checkpoint = new Checkpoint(stateName, stateDescription, stateOrder, state);
-            state.AddCheckpoint(checkpoint);
+            int stateOrder = detail.GetCheckpoints().Count() * 10;
+            Checkpoint checkpoint = new Checkpoint(stateName, stateDescription, stateOrder, detail);
+            detail.AddCheckpoint(checkpoint);
             popupWindowForCheckpointsTable.UpdateCheckpointsTable();
             this.Close();
         }
