@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
     public partial class MainForm : Form
     {
+        DataStorageService dataStorageService = DataStorageService.GetInstance();
         public MainForm()
         {
             InitializeComponent();

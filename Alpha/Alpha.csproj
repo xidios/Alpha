@@ -91,6 +91,7 @@
     <Compile Include="Models\WorkProduct.cs" />
     <Compile Include="Models\WorkProductCriterion.cs" />
     <Compile Include="Models\WorkProductManifest.cs" />
+    <Compile Include="Services\DataStorageService.cs" />
     <Compile Include="Services\JsonDeserializationService.cs" />
     <Compile Include="Services\JsonSerializationToFileService.cs" />
     <Compile Include="WinForms\ActivitiesTable.cs">

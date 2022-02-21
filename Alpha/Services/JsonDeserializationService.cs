@@ -282,7 +282,7 @@ namespace Alpha.Services
             }
         }
 
-        public void DeserializeJsonStates(List<Alpha> alphas)
+        public List<State> DeserializeJsonStates(List<Alpha> alphas)
         {
             if (File.Exists(jsonPaths.pathToStatesFile))
             {
@@ -313,10 +313,12 @@ namespace Alpha.Services
                 }
 
                 DeserializeJsonCheckpoints(details,JsonPaths.pathToStateCheckpointsFile);
+                return states;
             }
             else
             {
                 using (File.Create(jsonPaths.pathToStatesFile)) { }
+                return new List<State>();
             }
         }
         private void DeserializeJsonCheckpoints(List<IDetailing> details,string path)

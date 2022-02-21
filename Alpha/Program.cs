@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.WinForms;
+using Alpha.Services;
 
 namespace Alpha
 {
@@ -19,6 +20,7 @@ namespace Alpha
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DataStorageService.GetInstance();
             Application.Run(new MainForm());
         }
     }
