@@ -120,5 +120,15 @@ namespace Alpha.Services
             });
             File.WriteAllText(jsonPaths.pathToAlphaContainmentsFile, jsonAlphaContainments);
         }
+        public void ExportDegreesOfEvidenceToJsonFile(List<DegreeOfEvidence> degreeOfEvidences)
+        {
+            var jsonDegreesOfEvidence = JsonSerializer.Serialize(degreeOfEvidences, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            File.WriteAllText(jsonPaths.pathToDegreesOfEvidence, jsonDegreesOfEvidence);
+        }
     }
 }

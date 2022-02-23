@@ -19,5 +19,6 @@ namespace Alpha.Data
         public static readonly string pathToLevelOfDetailCheckpointsFile = "levelOfDetailCheckpoints.json";
         public readonly string pathToStatesFile = "states.json";
         public readonly string pathToAlphaContainmentsFile = "alphaContainments.json";
+        public readonly string pathToDegreesOfEvidence = "degreesOfEvidence.json";
     }
 }

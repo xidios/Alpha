@@ -38,7 +38,7 @@ namespace Alpha.WinForms
             }
             foreach (var wp in workProductsTable.GetWorkProducts())
             {
-                if (wp.GetWorkProductName() == workProductName)
+                if (wp.GetName() == workProductName)
                 {
                     MessageBox.Show("Work product with same name already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;

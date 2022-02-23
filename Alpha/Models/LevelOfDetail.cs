@@ -10,19 +10,23 @@ namespace Alpha.Models
     public class LevelOfDetail : IDetailing, ICheckable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        public string SpecialId { get; set; } = null;
         public string Name { get; set; }
         public string Description { get; set; }
+        private WorkProduct WorkProduct { get; set; }
         public Guid WorkProductId { get; set; }
         public int Order { get; set; }
         private WorkProductCriterion WorkProductCriterion { get; set; } = null;
         private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
         public List<Checkpoint> GetCheckpoints() => Checkpoints;
         public Guid GetId() => Id;
+        public string GetSpecialId() => SpecialId;
         public string GetName() => Name;
         public string GetDescription() => Description;
         public int GetOrder() => Order;
         public Guid GetWorkProductId() => WorkProductId;
         public WorkProductCriterion GetWorkProductCriterion() => WorkProductCriterion;
+        public IBaseObject GetBaseObject() => WorkProduct;
         public LevelOfDetail()
         {
 
@@ -33,6 +37,7 @@ namespace Alpha.Models
             Description = description;
             Order = order;
             WorkProductId = workProduct.Id;
+            WorkProduct = workProduct;
         }
         public void SetWorkProductCriterion(WorkProductCriterion workProductCriterion)
         {
@@ -49,6 +54,10 @@ namespace Alpha.Models
         public void SortListOfCheckpointsByOrder()
         {
             Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
+        }
+        public void SetWorkProduct(WorkProduct workProduct)
+        {
+            WorkProduct = workProduct;
         }
     }
 }

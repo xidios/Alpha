@@ -1,4 +1,5 @@
 ﻿using Alpha.Interfaces;
+using Alpha.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,9 @@ namespace Alpha
         public string Description { get; set; }
         public int Order { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
-        public Guid StateId { get; set; }
-
+        public string SpecialId { get; set; } = null;
+        public Guid DetailId { get; set; }
+        private List<DegreeOfEvidence> DegreeOfEvidences { get; set; } = new List<DegreeOfEvidence>();
         public Checkpoint()
         {
 
@@ -25,9 +27,17 @@ namespace Alpha
             Name = name;
             Description = description;
             Order = order;
-            StateId = detail.GetId();
+            DetailId = detail.GetId();
         }
-        public Guid GetCheckpointId() => Id;
-
+        public Guid GetId() => Id;
+        public string GetSpecialId() => SpecialId;
+        public Guid GetDetailId() => DetailId;
+        public string GetName() => Name;
+        public string GetDescription() => Description;
+        public List<DegreeOfEvidence> GetDegreeOfEvidences() => DegreeOfEvidences;
+        public void AddDegreeOfEvidence(DegreeOfEvidence degreeOfEvidence)
+        {
+            DegreeOfEvidences.Add(degreeOfEvidence);
+        }
     }
 }

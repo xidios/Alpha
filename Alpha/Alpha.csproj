@@ -80,13 +80,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\JsonPaths.cs" />
+    <Compile Include="Enums\DegreeOfEvidenceEnum.cs" />
     <Compile Include="Interfaces\IDetailing.cs" />
     <Compile Include="Interfaces\IMainFormInterface.cs" />
+    <Compile Include="Interfaces\IBaseObject.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Alpha.cs" />
     <Compile Include="Models\AlphaContaiment.cs" />
     <Compile Include="Models\AlphaCriterion.cs" />
     <Compile Include="Models\Checkpoint.cs" />
+    <Compile Include="Models\DegreeOfEvidence.cs" />
     <Compile Include="Models\LevelOfDetail.cs" />
     <Compile Include="Models\WorkProduct.cs" />
     <Compile Include="Models\WorkProductCriterion.cs" />
@@ -111,6 +114,18 @@
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddActivity.Designer.cs">
       <DependentUpon>PopupWindowForAddActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddDegreeOfEvidence.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddDegreeOfEvidence.Designer.cs">
+      <DependentUpon>PopupWindowForAddDegreeOfEvidence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForCheckpointDegreeOfEvidences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForCheckpointDegreeOfEvidences.Designer.cs">
+      <DependentUpon>PopupWindowForCheckpointDegreeOfEvidences.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddLevelOfDetails.cs">
       <SubType>Form</SubType>
@@ -217,6 +232,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForAddCheckpoint.resx">
       <DependentUpon>PopupWindowForAddCheckpoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForAddDegreeOfEvidence.resx">
+      <DependentUpon>PopupWindowForAddDegreeOfEvidence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForCheckpointDegreeOfEvidences.resx">
+      <DependentUpon>PopupWindowForCheckpointDegreeOfEvidences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForAddLevelOfDetails.resx">
       <DependentUpon>PopupWindowForAddLevelOfDetails.cs</DependentUpon>

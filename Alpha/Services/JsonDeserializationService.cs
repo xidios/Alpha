@@ -227,9 +227,10 @@ namespace Alpha.Services
                 }
                 foreach (var levelOfDetail in levelOfDetails)
                 {
-                    WorkProduct workProduct = workProducts.First(wp => wp.GetWorkProductId() == levelOfDetail.GetWorkProductId());
+                    WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.GetWorkProductId() == levelOfDetail.GetWorkProductId());
                     if (workProduct != null)
                     {
+                        levelOfDetail.SetWorkProduct(workProduct);
                         workProduct.AddLevelOfDetailToList(levelOfDetail);
                     }
                 }
@@ -299,9 +300,10 @@ namespace Alpha.Services
                 }
                 foreach (var state in states)
                 {
-                    Alpha alpha = alphas.First(a => a.Id == state.AlphaId);
+                    Alpha alpha = alphas.FirstOrDefault(a => a.Id == state.AlphaId);
                     if (alpha != null)
                     {
+                        state.SetAlpha(alpha);
                         alpha.AddState(state);
                     }
                 }
@@ -337,18 +339,68 @@ namespace Alpha.Services
                 }
                 foreach (var checkpoint in checkpoints)
                 {
-                    IDetailing detail = details.First(s => s.GetId() == checkpoint.StateId);
+                    IDetailing detail = details.First(s => s.GetId() == checkpoint.GetDetailId());
                     if (detail != null)
                     {
                         detail.AddCheckpoint(checkpoint);
                     }
                 }
+                //DeserializeJsonDegreesOfEvidence(checkpoints);
                 SortDetailsCheckpointsByOrder(details);
             }
             else
             {
                 using (File.Create(path)) { }
             }
+        }
+        //TODO: логика сломана
+        //private void DeserializeJsonDegreesOfEvidence(List<Checkpoint> checkpoints)
+        //{
+        //    var levelOfDetails = DeserializeJsonLevelOfDetails(new List<WorkProduct>());
+        //    var states = DeserializeJsonStates(new List<Alpha>());
+        //    List<IDetailing> idetails = new List<IDetailing>();
+        //    List<ICheckable> icheckables = new List<ICheckable>();
+        //    idetails.AddRange(levelOfDetails);
+        //    idetails.AddRange(states);
+        //    var checkpointsTemp = GetAllCheckpointsOfStates(idetails);
+        //    icheckables.AddRange(checkpointsTemp);
+        //    icheckables.AddRange(states);
+        //    icheckables.AddRange(levelOfDetails);
+
+        //    if (File.Exists(jsonPaths.pathToDegreesOfEvidence))
+        //    {
+        //        string jsonString = File.ReadAllText(jsonPaths.pathToDegreesOfEvidence);
+        //        List<DegreeOfEvidence> degreesOfEvidence = new List<DegreeOfEvidence>();
+        //        if (jsonString != null && jsonString != "")
+        //        {
+        //            degreesOfEvidence = JsonSerializer.Deserialize<List<DegreeOfEvidence>>(jsonString, new JsonSerializerOptions
+        //            {
+        //                IncludeFields = true,
+        //                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //            });
+        //        }
+        //        foreach (var checkpoint in checkpoints)
+        //        {
+        //            DegreeOfEvidence degreeOfEvidence = degreesOfEvidence.FirstOrDefault(e => e.GetCheckpointId() == checkpoint.GetId());
+        //            if (degreeOfEvidence != null)
+        //            {
+        //                checkpoint.AddDegreeOfEvidence(degreeOfEvidence);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        using (File.Create(jsonPaths.pathToDegreesOfEvidence)) { }
+        //    }
+        //}
+        private List<Checkpoint> GetAllCheckpointsOfStates(List<IDetailing> details)
+        {
+            List<Checkpoint> checkpointsTemp = new List<Checkpoint>();
+            foreach (var detail in details)
+            {
+                checkpointsTemp.AddRange(detail.GetCheckpoints());
+            }
+            return checkpointsTemp;
         }
         private void SortWorkProductsLevelOfStatesByOrder(List<WorkProduct> workProducts)
         {

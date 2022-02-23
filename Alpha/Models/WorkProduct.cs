@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alpha.Models
 {
-    public class WorkProduct
+    public class WorkProduct : IBaseObject
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,14 +18,14 @@ namespace Alpha.Models
         {
 
         }
-        public WorkProduct(string name, string description) 
+        public WorkProduct(string name, string description)
         {
             Name = name;
             Description = description;
         }
-        public string GetWorkProductName() => Name;
+        public string GetName() => Name;
 
-        public string GetWorkProductDescription() => Description;
+        public string GetDescription() => Description;
 
         public Guid GetWorkProductId() => Id;
         public List<WorkProductManifest> GetWorkProductManifests() => WorkProductManifests;

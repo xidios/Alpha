@@ -24,12 +24,12 @@ namespace Alpha.WinForms
         {
             InitializeComponent();
             activities = workProductsTable.GetActivities();
-            this.Text = $"Edit {workProduct.GetWorkProductName()}";
+            this.Text = $"Edit {workProduct.GetName()}";
             this.workProductsTable = workProductsTable;
             this.workProduct = workProduct;
-            oldWorkProductName = workProduct.GetWorkProductName();
+            oldWorkProductName = workProduct.GetName();
             workProductNameInput.Text = oldWorkProductName;
-            workProductDescriptionInput.Text = workProduct.GetWorkProductDescription();
+            workProductDescriptionInput.Text = workProduct.GetDescription();
             UpdateLevelOfDetailsTable();
         }
         public void UpdateLevelOfDetailsTable()
@@ -140,7 +140,7 @@ namespace Alpha.WinForms
                 foreach (var wp in workProductsTable.GetWorkProducts())
                 {
 
-                    if (wp.GetWorkProductName() == workProductName)
+                    if (wp.GetName() == workProductName)
                     {
                         MessageBox.Show("Work product with same name already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alpha.WinForms;
+using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,11 +16,14 @@ namespace Alpha
     {
         PopupWindowForCheckpointsTable popupWindowForCheckpointsTable;
         Checkpoint checkpoint;
-        public PopupWindowForEditCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, Checkpoint checkpoint)
+        IDetailing detail;
+        
+        public PopupWindowForEditCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, Checkpoint checkpoint, IDetailing detail)
         {
             InitializeComponent();
             this.popupWindowForCheckpointsTable = popupWindowForCheckpointsTable;
             this.checkpoint = checkpoint;
+            this.detail = detail;
             this.Text = $"Edit {checkpoint.Name}";
             checkpointNameInput.Text = checkpoint.Name;
             checkpointDescriptionInput.Text = checkpoint.Description;
@@ -57,6 +62,12 @@ namespace Alpha
             checkpoint.Order = Int32.Parse(checkpointOdred);
             popupWindowForCheckpointsTable.UpdateCheckpointsTable();
             this.Close();
+        }
+
+        private void buttonAddDegreeOfEvidence_Click(object sender, EventArgs e)
+        {
+            PopupWindowForCheckpointDegreeOfEvidences popupWindowForAddDegreeOfEvidence = new PopupWindowForCheckpointDegreeOfEvidences(checkpoint, detail.GetBaseObject(), detail);
+            popupWindowForAddDegreeOfEvidence.ShowDialog();
         }
     }
 }

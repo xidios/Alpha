@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alpha
+namespace Alpha.Interfaces
 {
-    public interface ICheckable
+    public interface IBaseObject
     {
-        Guid Id { get; set; }
-        string SpecialId { get; set; }
         string Name { get; set; }
+        string Description { get; set; }
 
         string GetName();
-        Guid GetId();
-        string GetSpecialId();
+        string GetDescription();
     }
 }

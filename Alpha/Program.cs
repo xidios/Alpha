@@ -20,7 +20,7 @@ namespace Alpha
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            DataStorageService.GetInstance();
+            //DataStorageService.GetInstance();
             Application.Run(new MainForm());
         }
     }

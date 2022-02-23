@@ -76,7 +76,7 @@ namespace Alpha
 
                 return;
             }
-            string workProductManifestName = workProductManifest.GetWorkProduct().GetWorkProductName();
+            string workProductManifestName = workProductManifest.GetWorkProduct().GetName();
             labelWorkProductManifest.Text = $"Work Product: {workProductManifestName}";
             upperBoundOfWorkProductManifestUpDown.Value = workProductManifest.GetUpperBound();
             lowerBoundOfWorkProductManifestUpDown.Value = workProductManifest.GetLowerBound();
@@ -356,7 +356,7 @@ namespace Alpha
                 return;
             }
             var allWorkProducts = form1.GetListOfWorkProducts();
-            var workProduct = allWorkProducts.FirstOrDefault(wp => wp.GetWorkProductName() == workProductName);
+            var workProduct = allWorkProducts.FirstOrDefault(wp => wp.GetName() == workProductName);
             if (workProduct == null && workProductManifest == null)
             {
                 MessageBox.Show("Some problems with Work Product Manifest", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

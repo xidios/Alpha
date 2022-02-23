@@ -13,5 +13,6 @@ namespace Alpha.Interfaces
         void AddCheckpoint(Checkpoint checkpoint);
         Guid GetId();
         void SortListOfCheckpointsByOrder();
+        IBaseObject GetBaseObject();
     }
 }

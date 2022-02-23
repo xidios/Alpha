@@ -13,7 +13,7 @@ namespace Alpha.WinForms
 {
     public partial class MainForm : Form
     {
-        DataStorageService dataStorageService = DataStorageService.GetInstance();
+        //DataStorageService dataStorageService = DataStorageService.GetInstance();
         public MainForm()
         {
             InitializeComponent();

@@ -1,4 +1,5 @@
-﻿using Alpha.Models;
+﻿using Alpha.Interfaces;
+using Alpha.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Alpha
 {
-    public class Alpha
+    public class Alpha : IBaseObject
     {
         // TODO Parent contains only ID
         private Alpha Parent { get; set; } = null;
@@ -19,6 +20,7 @@ namespace Alpha
         private AlphaContaiment SupperAlphaContaiment { get; set; } = null;
         private List<AlphaContaiment> SubordinateAlphaConteinments { get; set; } = new List<AlphaContaiment>();
         private WorkProductManifest WorkProductManifest { get; set; } = null;
+       
         public Alpha()
         {
         }
@@ -35,6 +37,7 @@ namespace Alpha
             ParentAlphaId = parent.GetAlphaId();
         }
         public string GetName() => Name;
+        public string GetDescription() => Description;
         public List<State> GetStates() => States;
         public Guid GetAlphaId() => Id;
         public WorkProductManifest GetWorkProductManifest() => WorkProductManifest;

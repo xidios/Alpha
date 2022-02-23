@@ -36,12 +36,13 @@
             this.checkpointNameInput = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonAddDegreeOfEvidence = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.checkpointOrderInput)).BeginInit();
             this.SuspendLayout();
             // 
             // checkpointOrderInput
             // 
-            this.checkpointOrderInput.Location = new System.Drawing.Point(12, 179);
+            this.checkpointOrderInput.Location = new System.Drawing.Point(12, 218);
             this.checkpointOrderInput.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -53,7 +54,7 @@
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(12, 205);
+            this.buttonEdit.Location = new System.Drawing.Point(12, 244);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
             this.buttonEdit.TabIndex = 35;
@@ -63,7 +64,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(103, 205);
+            this.buttonClose.Location = new System.Drawing.Point(103, 244);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 34;
@@ -74,7 +75,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 163);
+            this.label3.Location = new System.Drawing.Point(9, 202);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 33;
@@ -82,7 +83,7 @@
             // 
             // checkpointDescriptionInput
             // 
-            this.checkpointDescriptionInput.Location = new System.Drawing.Point(12, 64);
+            this.checkpointDescriptionInput.Location = new System.Drawing.Point(12, 103);
             this.checkpointDescriptionInput.MaxLength = 255;
             this.checkpointDescriptionInput.Name = "checkpointDescriptionInput";
             this.checkpointDescriptionInput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
@@ -92,7 +93,7 @@
             // 
             // checkpointNameInput
             // 
-            this.checkpointNameInput.Location = new System.Drawing.Point(12, 25);
+            this.checkpointNameInput.Location = new System.Drawing.Point(12, 64);
             this.checkpointNameInput.MaxLength = 100;
             this.checkpointNameInput.Name = "checkpointNameInput";
             this.checkpointNameInput.Size = new System.Drawing.Size(282, 20);
@@ -101,7 +102,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 48);
+            this.label2.Location = new System.Drawing.Point(9, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 30;
@@ -110,17 +111,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Location = new System.Drawing.Point(9, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 29;
             this.label1.Text = "Name";
             // 
+            // buttonAddDegreeOfEvidence
+            // 
+            this.buttonAddDegreeOfEvidence.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddDegreeOfEvidence.Location = new System.Drawing.Point(12, 12);
+            this.buttonAddDegreeOfEvidence.Name = "buttonAddDegreeOfEvidence";
+            this.buttonAddDegreeOfEvidence.Size = new System.Drawing.Size(181, 21);
+            this.buttonAddDegreeOfEvidence.TabIndex = 37;
+            this.buttonAddDegreeOfEvidence.Text = "Degrees of evidence";
+            this.buttonAddDegreeOfEvidence.UseVisualStyleBackColor = true;
+            this.buttonAddDegreeOfEvidence.Click += new System.EventHandler(this.buttonAddDegreeOfEvidence_Click);
+            // 
             // PopupWindowForEditCheckpoint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(307, 232);
+            this.ClientSize = new System.Drawing.Size(307, 276);
+            this.Controls.Add(this.buttonAddDegreeOfEvidence);
             this.Controls.Add(this.checkpointOrderInput);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.buttonClose);
@@ -147,5 +160,6 @@
         private System.Windows.Forms.TextBox checkpointNameInput;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonAddDegreeOfEvidence;
     }
 }
