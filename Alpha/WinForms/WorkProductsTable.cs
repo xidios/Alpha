@@ -37,7 +37,7 @@ namespace Alpha.WinForms
             {
                 Text = "Work Product",
                 Font = new Font(Label.DefaultFont, FontStyle.Bold),
-                Size = new Size(250,20)
+                Size = new Size(250, 20)
             }, 0, 0);
             tableLayoutPanelWP.Controls.Add(new Label
             {
@@ -123,7 +123,8 @@ namespace Alpha.WinForms
             foreach (var levelOfDetail in levelOfDetails)
             {
                 var workProductCriterion = levelOfDetail.GetWorkProductCriterion();
-                dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
+                if (workProductCriterion != null)
+                    dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
             }
         }
         private void button1_Click(object sender, EventArgs e)

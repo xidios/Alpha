@@ -14,7 +14,7 @@ namespace Alpha.Services
         private static DataStorageService instance = null;
         private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
         private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
-        private List<Alpha> Alphas{ get; set; } = new List<Alpha>();
+        private List<Alpha> Alphas { get; set; } = new List<Alpha>();
         private List<AlphaContaiment> AlphaContaiments { get; set; } = new List<AlphaContaiment>();
         private List<State> States { get; set; } = new List<State>();
         private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
@@ -26,6 +26,8 @@ namespace Alpha.Services
         private List<AlphaCriterion> AlphaCriterions { get; set; } = new List<AlphaCriterion>();
         private List<WorkProductManifest> WorkProductManifests { get; set; } = new List<WorkProductManifest>();
         private List<IDetailing> Details { get; set; } = new List<IDetailing>();
+        private List<ICheckable> Checkables { get; set; } = new List<ICheckable>();
+        private List<DegreeOfEvidence> DegreesOfEvidence { get; set; } = new List<DegreeOfEvidence>();
 
         public List<Alpha> GetAlphas() => Alphas;
         public List<Activity> GetActivities() => Activities;
@@ -33,6 +35,16 @@ namespace Alpha.Services
         public List<AlphaCriterion> GetAlphaCriterions() => AlphaCriterions;
         public List<WorkProduct> GetWorkProducts() => WorkProducts;
         public List<WorkProductManifest> GetWorkProductManifests() => WorkProductManifests;
+        public List<ICheckable> GetICheckables()
+        {
+            UpdateICheckablesList();
+            return Checkables;
+        }
+        public List<IDetailing> GetDetails()
+        {
+            UpdateIDetailsList();
+            return Details;
+        }
         public static DataStorageService GetInstance()
         {
             if (instance == null)
@@ -55,9 +67,12 @@ namespace Alpha.Services
             AlphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(Activities, States);
             UpdateIDetailsList();
             Checkpoints = jsonDeserializationService.DeserializeJsonCheckpoints(Details);
+            UpdateICheckablesList();
+            DegreesOfEvidence = jsonDeserializationService.DeserializeJsonDegreesOfEvidence(Checkpoints, Checkables);
         }
         private void UpdateIDetailsList()
         {
+            Details.Clear();
             foreach (var level in LevelOfDetails)
             {
                 Details.Add(level);
@@ -65,6 +80,22 @@ namespace Alpha.Services
             foreach (var state in States)
             {
                 Details.Add(state);
+            }
+        }
+        private void UpdateICheckablesList()
+        {
+            Checkables.Clear();
+            foreach (var level in LevelOfDetails)
+            {
+                Checkables.Add(level);
+            }
+            foreach (var state in States)
+            {
+                Checkables.Add(state);
+            }
+            foreach (var checkpoint in Checkpoints)
+            {
+                Checkables.Add(checkpoint);
             }
         }
         public void AddAlpha(Alpha alpha)
@@ -77,18 +108,20 @@ namespace Alpha.Services
             jsonSerializationToFileService.ExportAlphasToFile(Alphas);
         }
         public void RemoveAlpha(Alpha alpha)
-        {            
+        {
             List<State> statesForRemove = alpha.GetStates();
             foreach (var state in statesForRemove)
             {
                 RemoveCheckpointsByDetail(state);
                 States.Remove(state);
                 Details.Remove(state);
+                Checkables.Remove(state);
             }
             Alphas.Remove(alpha);
             jsonSerializationToFileService.ExportAlphasToFile(Alphas);
             jsonSerializationToFileService.ExportStatesToJsonFile(States);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
         public void AddWorkProduct(WorkProduct workProduct)
         {
@@ -103,11 +136,13 @@ namespace Alpha.Services
                 RemoveCheckpointsByDetail(levelOfDetail);
                 LevelOfDetails.Remove(levelOfDetail);
                 Details.Remove(levelOfDetail);
+                Checkables.Remove(levelOfDetail);
             }
             WorkProducts.Remove(workProduct);
             jsonSerializationToFileService.ExportWorkProductsToJsonFile(WorkProducts);
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
         public void UpdateWorkProducts()
         {
@@ -147,7 +182,7 @@ namespace Alpha.Services
         {
             WorkProductManifests.Add(workProductManifest);
             jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(WorkProductManifests);
-        }        
+        }
         public void RemoveWorkProductManifest(WorkProductManifest workProductManifest)
         {
             WorkProductManifests.Remove(workProductManifest);
@@ -162,6 +197,7 @@ namespace Alpha.Services
 
             States.Add(state);
             Details.Add(state);
+            Checkables.Add(state);
             jsonSerializationToFileService.ExportStatesToJsonFile(States);
         }
         public void RemoveState(State state)
@@ -169,8 +205,11 @@ namespace Alpha.Services
             RemoveCheckpointsByDetail(state);
             States.Remove(state);
             Details.Remove(state);
+            Checkables.Remove(state);
+            RemoveDegreesOfEvidenceByICheckable(state);
             jsonSerializationToFileService.ExportStatesToJsonFile(States);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
         public void UpdateStates()
         {
@@ -179,18 +218,23 @@ namespace Alpha.Services
         public void AddCheckpoint(Checkpoint checkpoint)
         {
             Checkpoints.Add(checkpoint);
+            Checkables.Add(checkpoint);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
         }
         public void RemoveCheckpoint(Checkpoint checkpoint)
         {
+            RemoveDegreesOfEvidenceByCheckpoint(checkpoint);
             Checkpoints.Remove(checkpoint);
-            IDetailing detailing = Details.FirstOrDefault(i => i.GetId() == checkpoint.GetDetailId());
+            Checkables.Remove(checkpoint);
+            RemoveDegreesOfEvidenceByICheckable(checkpoint);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
         public void UpdateCheckpoints()
         {
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
         }
+
         public void AddActivity(Activity activity)
         {
             Activities.Add(activity);
@@ -204,6 +248,21 @@ namespace Alpha.Services
         {
             Activities.Remove(activity);
             jsonSerializationToFileService.ExportActivitiesToJsonFile(Activities);
+        }
+
+        public void AddDegreeOfEvidence(DegreeOfEvidence degreeOfEvidence)
+        {
+            DegreesOfEvidence.Add(degreeOfEvidence);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+        }
+        public void UpdateDegreesOfEvidence()
+        {
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+        }
+        public void RemoveDegreeOfEvidence(DegreeOfEvidence degreeOfEvidence)
+        {
+            DegreesOfEvidence.Remove(degreeOfEvidence);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
 
         public void AddWorkProductCriterion(WorkProductCriterion workProductCriterion)
@@ -225,6 +284,7 @@ namespace Alpha.Services
         public void AddLevelOfDetail(LevelOfDetail levelOfDetail)
         {
             LevelOfDetails.Add(levelOfDetail);
+            Checkables.Add(levelOfDetail);
             Details.Add(levelOfDetail);
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
         }
@@ -232,20 +292,41 @@ namespace Alpha.Services
         {
             RemoveCheckpointsByDetail(levelOfDetail);
             LevelOfDetails.Remove(levelOfDetail);
+            Checkables.Remove(levelOfDetail);
             Details.Remove(levelOfDetail);
+            RemoveDegreesOfEvidenceByICheckable(levelOfDetail);
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
+            jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
         }
         public void UpdateLevelOfDetails()
         {
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
         }
-        public void RemoveCheckpointsByDetail(IDetailing detail)
+        private void RemoveCheckpointsByDetail(IDetailing detail)
         {
             List<Checkpoint> checkpointsForRemove = detail.GetCheckpoints();
             foreach (var checkpoint in checkpointsForRemove)
             {
+                RemoveDegreesOfEvidenceByCheckpoint(checkpoint);
+                Checkables.Remove(checkpoint);
                 Checkpoints.Remove(checkpoint);
+            }
+        }
+        private void RemoveDegreesOfEvidenceByCheckpoint(Checkpoint checkpoint)
+        {
+            List<DegreeOfEvidence> degreeOfEvidences = checkpoint.GetDegreeOfEvidences();
+            foreach (var degreeOfEvidence in degreeOfEvidences)
+            {
+                DegreesOfEvidence.Remove(degreeOfEvidence);
+            }
+        }
+        private void RemoveDegreesOfEvidenceByICheckable(ICheckable checkable)
+        {
+            var degreesOfEvidences = DegreesOfEvidence.Where(e => e.ICheckableId == checkable.GetId()).ToList();
+            foreach (var degree in degreesOfEvidences)
+            {
+                DegreesOfEvidence.Remove(degree);
             }
         }
     }

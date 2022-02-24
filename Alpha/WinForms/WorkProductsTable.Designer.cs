@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkProductsTable));
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanelWP = new System.Windows.Forms.TableLayoutPanel();
             this.buttonAddWP = new System.Windows.Forms.Button();
@@ -88,6 +89,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonAddWP);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkProductsTable";
             this.Text = "Work Products Table";
             this.panel1.ResumeLayout(false);

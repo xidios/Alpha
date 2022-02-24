@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopupWindowForAddWorkProduct));
             this.label1 = new System.Windows.Forms.Label();
             this.labelAlphaName = new System.Windows.Forms.Label();
             this.workProductDescriptionInput = new System.Windows.Forms.RichTextBox();
@@ -104,6 +105,7 @@
             this.Controls.Add(this.labelAlphaName);
             this.Controls.Add(this.workProductDescriptionInput);
             this.Controls.Add(this.workProductNameInput);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PopupWindowForAddWorkProduct";
             this.Text = "Create Work Product";
             this.ResumeLayout(false);

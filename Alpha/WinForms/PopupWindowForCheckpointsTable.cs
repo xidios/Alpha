@@ -125,7 +125,7 @@ namespace Alpha
             Checkpoint checkpoint = checkpoints.First(c => c.GetId() == checkpointId);
             if (checkpoint == null)
             {
-                MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Some problems with checkpoint", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             PopupWindowForEditCheckpoint popupWindowForEditCheckpoint = new PopupWindowForEditCheckpoint(checkpoint,detail);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopupWindowForCheckpointDegreeOfEvidences));
             this.buttonClose = new System.Windows.Forms.Button();
             this.baseObjectDescriptionTextBox = new System.Windows.Forms.RichTextBox();
             this.baseObjectNameTextBox = new System.Windows.Forms.RichTextBox();
@@ -124,8 +125,9 @@
             this.Controls.Add(this.baseObjectNameTextBox);
             this.Controls.Add(this.baseObjectDescriptionTextBox);
             this.Controls.Add(this.buttonClose);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PopupWindowForCheckpointDegreeOfEvidences";
-            this.Text = "PopupWindowForAddDegreeOfEvidence";
+            this.Text = "Degrees of evidence";
             this.ResumeLayout(false);
 
         }

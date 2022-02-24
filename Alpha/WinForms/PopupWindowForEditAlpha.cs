@@ -303,7 +303,9 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            dataStorageService.RemoveAlphaCriterion(state.GetAlphaCriterion());
+            AlphaCriterion alphaCriterion = state.GetAlphaCriterion();
+            if (alphaCriterion != null)
+                dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             states.Remove(state);
             dataStorageService.RemoveState(state);
             UpdateStatesTable();

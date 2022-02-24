@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopupWindowForEditAlpha));
             this.label1 = new System.Windows.Forms.Label();
             this.labelAlphaName = new System.Windows.Forms.Label();
             this.alphaDescriptionInput = new System.Windows.Forms.RichTextBox();
@@ -449,6 +450,7 @@
             this.Controls.Add(this.alphaNameInput);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonClose);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PopupWindowForEditAlpha";
             this.Text = "PopupWindowForEditAlpha";
             ((System.ComponentModel.ISupportInitialize)(this.upperBoundOfAlphaCotainmentNumericUpDown)).EndInit();

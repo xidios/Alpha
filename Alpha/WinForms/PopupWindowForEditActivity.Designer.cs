@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopupWindowForEditActivity));
             this.buttonEdit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.labelAlphaName = new System.Windows.Forms.Label();
@@ -104,6 +105,7 @@
             this.Controls.Add(this.labelAlphaName);
             this.Controls.Add(this.activityDescriptionInput);
             this.Controls.Add(this.activityNameInput);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PopupWindowForEditActivity";
             this.Text = "PopupWindowForEditActivity";
             this.ResumeLayout(false);

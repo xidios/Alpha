@@ -189,6 +189,12 @@
     <Compile Include="WinForms\PopupWindowForEditAlpha.Designer.cs">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\PopupWindowForEditDegreeOfEvidence.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForEditDegreeOfEvidence.Designer.cs">
+      <DependentUpon>PopupWindowForEditDegreeOfEvidence.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\PopupWindowForEditLevelOfDetail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,6 +267,9 @@
     <EmbeddedResource Include="WinForms\PopupWindowForEditCheckpoint.resx">
       <DependentUpon>PopupWindowForEditCheckpoint.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForEditDegreeOfEvidence.resx">
+      <DependentUpon>PopupWindowForEditDegreeOfEvidence.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditLevelOfDetail.resx">
       <DependentUpon>PopupWindowForEditLevelOfDetail.cs</DependentUpon>
     </EmbeddedResource>
@@ -296,7 +305,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Data\Alpha-logos_black.png" />
+    <Content Include="Data\Icons8-Ios7-Science-Alpha.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonOpenAlphasTable = new System.Windows.Forms.Button();
             this.buttonOpenWPTable = new System.Windows.Forms.Button();
             this.buttonOpenActivitiesTable = new System.Windows.Forms.Button();
@@ -71,6 +72,7 @@
             this.Controls.Add(this.buttonOpenActivitiesTable);
             this.Controls.Add(this.buttonOpenWPTable);
             this.Controls.Add(this.buttonOpenAlphasTable);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Main menu";
             this.ResumeLayout(false);

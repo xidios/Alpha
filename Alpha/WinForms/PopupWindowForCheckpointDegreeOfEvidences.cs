@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Interfaces;
 using Alpha.Models;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
@@ -17,6 +18,7 @@ namespace Alpha.WinForms
         private IBaseObject baseObject;
         private IDetailing datail;
         private Checkpoint checkpoint;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public PopupWindowForCheckpointDegreeOfEvidences(Checkpoint checkpoint, IBaseObject baseObject, IDetailing datail)
         {
             InitializeComponent();
@@ -24,9 +26,9 @@ namespace Alpha.WinForms
             this.datail = datail;
             this.checkpoint = checkpoint;
             InitAllLabels();
-            UpdateAlphasTable();
+            UpdateDegreesOfEvidenceTable();
         }
-        public void UpdateAlphasTable()
+        public void UpdateDegreesOfEvidenceTable()
         {
             tableLayoutPanelDegreeOfEvidence.Controls.Clear();
             List<DegreeOfEvidence> degreeOfEvidences = checkpoint.GetDegreeOfEvidences();
@@ -96,12 +98,12 @@ namespace Alpha.WinForms
                 Button editButton = new Button();
                 editButton.Text = "Edit";
                 editButton.AccessibleName = alphaId.ToString();
-                //editButton.Click += new EventHandler(buttonEdit_Click);
+                editButton.Click += new EventHandler(buttonEditDegreeOfEvidence_Click);
 
                 Button deleteButton = new Button();
                 deleteButton.Text = "Delete";
                 deleteButton.AccessibleName = alphaId.ToString();
-                //deleteButton.Click += new EventHandler(buttonDelete_Click);
+                deleteButton.Click += new EventHandler(buttonDeleteDegreeOfEvidence_Click);
 
                 tableLayoutPanelDegreeOfEvidence.Controls.Add(ichekableSpecialIdLabel, 0, i);
                 tableLayoutPanelDegreeOfEvidence.Controls.Add(ichekableNameLabel, 1, i);
@@ -127,7 +129,42 @@ namespace Alpha.WinForms
         {
             PopupWindowForAddDegreeOfEvidence popupWindowForAddDegreeOfEvidence = new PopupWindowForAddDegreeOfEvidence(checkpoint);
             popupWindowForAddDegreeOfEvidence.ShowDialog();
-            UpdateAlphasTable();
+            UpdateDegreesOfEvidenceTable();
+        }
+        private void buttonEditDegreeOfEvidence_Click(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            Guid degreeOfEvidenceId = Guid.Parse(b.AccessibleName);
+            List<DegreeOfEvidence> degreeOfEvidences = checkpoint.GetDegreeOfEvidences();
+            DegreeOfEvidence degreeOfEvidence = degreeOfEvidences.First(d => d.GetId() == degreeOfEvidenceId);
+            if (degreeOfEvidence == null)
+            {
+                MessageBox.Show("Some problems with degree of evidence", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            PopupWindowForEditDegreeOfEvidence popupWindowForEditDegreeOfEvidence = new PopupWindowForEditDegreeOfEvidence(checkpoint, degreeOfEvidence);
+            popupWindowForEditDegreeOfEvidence.ShowDialog();
+            UpdateDegreesOfEvidenceTable();
+        }
+        private void buttonDeleteDegreeOfEvidence_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            Button b = (Button)sender;
+            Guid degreeOfEvidenceId = Guid.Parse(b.AccessibleName);
+            List<DegreeOfEvidence> degreeOfEvidences = checkpoint.GetDegreeOfEvidences();
+            DegreeOfEvidence degreeOfEvidence = degreeOfEvidences.First(d => d.GetId() == degreeOfEvidenceId);
+            if (degreeOfEvidence == null)
+            {
+                MessageBox.Show("Some problems with degree of evidence", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            checkpoint.RemoveDegreeOfEvidence(degreeOfEvidence);
+            dataStorageService.RemoveDegreeOfEvidence(degreeOfEvidence);
+            UpdateDegreesOfEvidenceTable();
         }
     }
 }

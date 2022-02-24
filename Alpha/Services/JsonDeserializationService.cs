@@ -174,7 +174,7 @@ namespace Alpha.Services
             }
         }
 
-        public List<WorkProductManifest> DeserializeJsonWorkProductManifests(List<Alpha> alphas,List<WorkProduct> workProducts)
+        public List<WorkProductManifest> DeserializeJsonWorkProductManifests(List<Alpha> alphas, List<WorkProduct> workProducts)
         {
             List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
             if (File.Exists(jsonPaths.pathToWorkProductManifest))
@@ -233,7 +233,7 @@ namespace Alpha.Services
                         workProduct.AddLevelOfDetailToList(levelOfDetail);
                     }
                 }
-                SortWorkProductsLevelOfStatesByOrder(workProducts);                
+                SortWorkProductsLevelOfStatesByOrder(workProducts);
                 return levelOfDetails;
             }
             else
@@ -242,7 +242,7 @@ namespace Alpha.Services
                 return new List<LevelOfDetail>();
             }
         }
-        
+
         public List<AlphaContaiment> DeserializeJsonAlphaContainments(List<Alpha> alphas)
         {
             if (File.Exists(jsonPaths.pathToAlphaContainmentsFile))
@@ -251,7 +251,8 @@ namespace Alpha.Services
                 string jsonString = File.ReadAllText(jsonPaths.pathToAlphaContainmentsFile);
                 if (jsonString != null && jsonString != "")
                 {
-                    alphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions { 
+                    alphaContaiments = JsonSerializer.Deserialize<List<AlphaContaiment>>(jsonString, new JsonSerializerOptions
+                    {
                         IncludeFields = true,
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                     });
@@ -340,46 +341,36 @@ namespace Alpha.Services
                 return new List<Checkpoint>();
             }
         }
-        //TODO: логика сломана
-        //private void DeserializeJsonDegreesOfEvidence(List<Checkpoint> checkpoints)
-        //{
-        //    var levelOfDetails = DeserializeJsonLevelOfDetails(new List<WorkProduct>());
-        //    var states = DeserializeJsonStates(new List<Alpha>());
-        //    List<IDetailing> idetails = new List<IDetailing>();
-        //    List<ICheckable> icheckables = new List<ICheckable>();
-        //    idetails.AddRange(levelOfDetails);
-        //    idetails.AddRange(states);
-        //    var checkpointsTemp = GetAllCheckpointsOfStates(idetails);
-        //    icheckables.AddRange(checkpointsTemp);
-        //    icheckables.AddRange(states);
-        //    icheckables.AddRange(levelOfDetails);
-
-        //    if (File.Exists(jsonPaths.pathToDegreesOfEvidence))
-        //    {
-        //        string jsonString = File.ReadAllText(jsonPaths.pathToDegreesOfEvidence);
-        //        List<DegreeOfEvidence> degreesOfEvidence = new List<DegreeOfEvidence>();
-        //        if (jsonString != null && jsonString != "")
-        //        {
-        //            degreesOfEvidence = JsonSerializer.Deserialize<List<DegreeOfEvidence>>(jsonString, new JsonSerializerOptions
-        //            {
-        //                IncludeFields = true,
-        //                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        //            });
-        //        }
-        //        foreach (var checkpoint in checkpoints)
-        //        {
-        //            DegreeOfEvidence degreeOfEvidence = degreesOfEvidence.FirstOrDefault(e => e.GetCheckpointId() == checkpoint.GetId());
-        //            if (degreeOfEvidence != null)
-        //            {
-        //                checkpoint.AddDegreeOfEvidence(degreeOfEvidence);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        using (File.Create(jsonPaths.pathToDegreesOfEvidence)) { }
-        //    }
-        //}
+        public List<DegreeOfEvidence> DeserializeJsonDegreesOfEvidence(List<Checkpoint> checkpoints, List<ICheckable> checkables)
+        {
+            if (File.Exists(jsonPaths.pathToDegreesOfEvidence))
+            {
+                string jsonString = File.ReadAllText(jsonPaths.pathToDegreesOfEvidence);
+                List<DegreeOfEvidence> degreesOfEvidence = new List<DegreeOfEvidence>();
+                if (jsonString != null && jsonString != "")
+                {
+                    degreesOfEvidence = JsonSerializer.Deserialize<List<DegreeOfEvidence>>(jsonString, new JsonSerializerOptions
+                    {
+                        IncludeFields = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                }
+                foreach (var degreeOfEvidence in degreesOfEvidence)
+                {
+                    ICheckable checkable = checkables.FirstOrDefault(c => c.GetId() == degreeOfEvidence.GetICheckableId());
+                    degreeOfEvidence.SetICheckable(checkable);
+                    Checkpoint checkpoint = checkpoints.FirstOrDefault(c => c.GetId() == degreeOfEvidence.GetCheckpointId());
+                    if (checkpoint != null)
+                        checkpoint.AddDegreeOfEvidence(degreeOfEvidence);
+                }
+                return degreesOfEvidence;
+            }
+            else
+            {
+                using (File.Create(jsonPaths.pathToDegreesOfEvidence)) { }
+                return new List<DegreeOfEvidence>();
+            }
+        }
         private List<Checkpoint> GetAllCheckpointsOfStates(List<IDetailing> details)
         {
             List<Checkpoint> checkpointsTemp = new List<Checkpoint>();

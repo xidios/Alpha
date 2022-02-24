@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopupWindowForEditLevelOfDetail));
             this.levelOfDetailOrderInput = new System.Windows.Forms.NumericUpDown();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
@@ -37,6 +38,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.minimalNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -47,7 +49,6 @@
             this.buttonDeleteWorkProductCriterion = new System.Windows.Forms.Button();
             this.labelWorkProductCriterion = new System.Windows.Forms.Label();
             this.buttonSaveCriterion = new System.Windows.Forms.Button();
-            this.minimalNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.levelOfDetailOrderInput)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minimalNumericUpDown)).BeginInit();
@@ -149,6 +150,18 @@
             this.panel1.Size = new System.Drawing.Size(288, 288);
             this.panel1.TabIndex = 29;
             // 
+            // minimalNumericUpDown
+            // 
+            this.minimalNumericUpDown.Location = new System.Drawing.Point(6, 131);
+            this.minimalNumericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.minimalNumericUpDown.Name = "minimalNumericUpDown";
+            this.minimalNumericUpDown.Size = new System.Drawing.Size(275, 20);
+            this.minimalNumericUpDown.TabIndex = 36;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -240,18 +253,6 @@
             this.buttonSaveCriterion.UseVisualStyleBackColor = true;
             this.buttonSaveCriterion.Click += new System.EventHandler(this.buttonSaveCriterion_Click);
             // 
-            // minimalNumericUpDown
-            // 
-            this.minimalNumericUpDown.Location = new System.Drawing.Point(6, 131);
-            this.minimalNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.minimalNumericUpDown.Name = "minimalNumericUpDown";
-            this.minimalNumericUpDown.Size = new System.Drawing.Size(275, 20);
-            this.minimalNumericUpDown.TabIndex = 36;
-            // 
             // PopupWindowForEditLevelOfDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,6 +267,7 @@
             this.Controls.Add(this.levelOfDetailNameInput);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PopupWindowForEditLevelOfDetail";
             this.Text = "PopupWindowForEditLevelOfDetail";
             ((System.ComponentModel.ISupportInitialize)(this.levelOfDetailOrderInput)).EndInit();

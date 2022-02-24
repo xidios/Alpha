@@ -160,7 +160,8 @@ namespace Alpha
             foreach (var state in states)
             {
                 var alphaCriterion = state.GetAlphaCriterion();
-                dataStorageService.RemoveAlphaCriterion(alphaCriterion);
+                if(alphaCriterion != null)
+                    dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             }
         }
         private void RemoveFromAlphaContains(Alpha alpha)

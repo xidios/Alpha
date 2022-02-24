@@ -1,5 +1,6 @@
-﻿using Alpha.Services;
+﻿using Alpha.Enums;
 using Alpha.Models;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,22 +10,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Alpha.Interfaces;
-using Alpha.Enums;
 
 namespace Alpha.WinForms
 {
-
-    public partial class PopupWindowForAddDegreeOfEvidence : Form
+    public partial class PopupWindowForEditDegreeOfEvidence : Form
     {
         private Checkpoint checkpoint;
+        private DegreeOfEvidence degreeOfEvidence;
         private DataStorageService dataStorageService = DataStorageService.GetInstance();
-        public PopupWindowForAddDegreeOfEvidence(Checkpoint checkpoint)
+        public PopupWindowForEditDegreeOfEvidence(Checkpoint checkpoint, DegreeOfEvidence degreeOfEvidence)
         {
             InitializeComponent();
             this.checkpoint = checkpoint;
+            this.degreeOfEvidence = degreeOfEvidence;            
             BindListBox();
             BindComboboxWithEnum();
+            UpdateLabels();
+        }
+        private void UpdateLabels()
+        {
+            labelICheckable.Text = $"ICheckable: {degreeOfEvidence.GetICheckable().GetName()}";
+            comboBoxDegreeOfEvidence.SelectedIndex = (int)degreeOfEvidence.GetDegreeOfEvidenceEnumValue();
+            checkBoxTypeOfEvidence.Checked = degreeOfEvidence.GetTypeOfEvidence();
         }
         private void BindListBox()
         {
@@ -41,7 +48,7 @@ namespace Alpha.WinForms
             this.Close();
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonEdit_Click(object sender, EventArgs e)
         {
             var icheckable = listBoxOfICheckable.SelectedItem;
             if (icheckable == null)
@@ -54,10 +61,13 @@ namespace Alpha.WinForms
 
             DegreeOfEvidenceEnum degreeOfEvidenceEnum;
             Enum.TryParse<DegreeOfEvidenceEnum>(comboBoxDegreeOfEvidence.SelectedValue.ToString(), out degreeOfEvidenceEnum);
-            DegreeOfEvidence degreeOfEvidence = new DegreeOfEvidence(checkpoint, icheckableCopy, typeOfEvidenceBool, degreeOfEvidenceEnum);
-            checkpoint.AddDegreeOfEvidence(degreeOfEvidence);
-            dataStorageService.AddDegreeOfEvidence(degreeOfEvidence);
+            degreeOfEvidence.SetTypeOfEvidence(typeOfEvidenceBool);
+            degreeOfEvidence.SetICheckable(icheckableCopy);
+            degreeOfEvidence.SetDegreeOfEvidenceEnum(degreeOfEvidenceEnum);
+            dataStorageService.UpdateDegreesOfEvidence();
             this.Close();
         }
+
+
     }
 }

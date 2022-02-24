@@ -39,5 +39,9 @@ namespace Alpha
         {
             DegreeOfEvidences.Add(degreeOfEvidence);
         }
+        public void RemoveDegreeOfEvidence(DegreeOfEvidence degreeOfEvidence)
+        {
+            DegreeOfEvidences.Remove(degreeOfEvidence);
+        }
     }
 }
