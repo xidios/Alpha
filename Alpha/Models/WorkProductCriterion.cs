@@ -10,7 +10,7 @@ namespace Alpha.Models
     {
         public string Type { get; set; }
         public string Partial { get; set; }
-        public string Minimal { get; set; }
+        public int Minimal { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private LevelOfDetail LevelOfDetail { get; set; } = null;
         public Guid LevelOfDetailId { get; set; }
@@ -20,7 +20,7 @@ namespace Alpha.Models
         public Activity GetActivity() => Activity;
         public string GetTypeParameter() => Type;
         public string GetPartial() => Partial;
-        public string GetMinimal() => Minimal;
+        public int GetMinimal() => Minimal;
         public Guid GetActivityId() => ActivityId;
         public Guid GetLevelOfDetailId() => LevelOfDetailId;
         public LevelOfDetail GetLevelOfDetail() => LevelOfDetail;
@@ -28,7 +28,7 @@ namespace Alpha.Models
         {
 
         }
-        public WorkProductCriterion(string type,string partial, string minimal, Activity activity)
+        public WorkProductCriterion(string type,string partial, int minimal, Activity activity)
         {
             Type = type;
             Partial = partial;

@@ -1,4 +1,5 @@
 ﻿using Alpha.Models;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +14,11 @@ namespace Alpha.WinForms
 {
     public partial class PopupWindowForAddLevelOfDetails : Form
     {
-        PopupWindowForEditWorkProduct windowForEditWorkProduct;
-        WorkProduct workProduct;
-        public PopupWindowForAddLevelOfDetails(PopupWindowForEditWorkProduct windowForEditWorkProduct, WorkProduct workProduct)
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        private WorkProduct workProduct;
+        public PopupWindowForAddLevelOfDetails(WorkProduct workProduct)
         {
             InitializeComponent();
-            this.windowForEditWorkProduct = windowForEditWorkProduct;
             this.workProduct = workProduct;
 
         }
@@ -46,7 +46,7 @@ namespace Alpha.WinForms
             int levelOfDatailOrder = workProduct.GetLevelOfDetails().Count() * 10;
             LevelOfDetail levelOfDetail = new LevelOfDetail(levelOfDatailName, levelOfDatailDescription, levelOfDatailOrder, workProduct);
             workProduct.AddLevelOfDetailToList(levelOfDetail);
-            windowForEditWorkProduct.UpdateLevelOfDetailsTable();
+            dataStorageService.AddLevelOfDetail(levelOfDetail);
             this.Close();
         }
     }

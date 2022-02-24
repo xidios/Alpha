@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,12 +13,11 @@ namespace Alpha
 {
     public partial class PopupWindowForAddAlpha : Form
     {
-        private Form1 form1;
-        public PopupWindowForAddAlpha(Form1 form)
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForAddAlpha()
         {
             InitializeComponent();
-            form1 = form;
-            var alphasName =  form1.GetListOfAlphas().Select(o => o.Name).ToList();
+            var alphasName = dataStorageService.GetAlphas().Select(o => o.Name).ToList();
             foreach (var name in alphasName)
                 listBoxAlphas.Items.Add(name);
             
@@ -45,7 +45,7 @@ namespace Alpha
                 MessageBox.Show("Please enter alpha's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            foreach (var a in form1.GetListOfAlphas())
+            foreach (var a in dataStorageService.GetAlphas())
             {
                 if (a.Name == alphaName)
                 {
@@ -58,14 +58,14 @@ namespace Alpha
                 var alphaPatentName = listBoxAlphas.Text;
                 if(alphaPatentName != null && alphaPatentName != "")
                 {
-                    var allAlphas = form1.GetListOfAlphas();
+                    var allAlphas = dataStorageService.GetAlphas();
                     alphaParent = allAlphas.First(a => a.Name == alphaPatentName); 
                 }
             }
 
             
-            Alpha alpha = new Alpha(alphaName, alphaDescription, alphaParent);            
-            form1.AddNewAlpha(alpha);
+            Alpha alpha = new Alpha(alphaName, alphaDescription, alphaParent);
+            dataStorageService.AddAlpha(alpha);
             this.Close();
         }
 

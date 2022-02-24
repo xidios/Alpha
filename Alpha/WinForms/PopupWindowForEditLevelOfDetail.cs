@@ -8,24 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Models;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
     public partial class PopupWindowForEditLevelOfDetail : Form
     {
         private LevelOfDetail levelOfDetail;
-        private PopupWindowForEditWorkProduct popupWindowForEditWorkProduct;
         private WorkProductCriterion workProductCriterion = null;
-        private WorkProductsTable workProductsTable = null;
-        private List<Activity> activities = new List<Activity>();
-
-        public PopupWindowForEditLevelOfDetail(PopupWindowForEditWorkProduct popupWindowForEditWorkProduct, LevelOfDetail levelOfDetail)
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForEditLevelOfDetail(LevelOfDetail levelOfDetail)
         {
             InitializeComponent();
             this.levelOfDetail = levelOfDetail;
-            this.popupWindowForEditWorkProduct = popupWindowForEditWorkProduct;
-            activities = popupWindowForEditWorkProduct.GetActivities();
-            workProductsTable = popupWindowForEditWorkProduct.GetworkProductsTable();
             this.Text = $"Edit {levelOfDetail.GetName()}";
             UpdateEditLevelOfDetailsUI();
             UpdateListBoxes();
@@ -39,7 +34,7 @@ namespace Alpha.WinForms
         }
         private void UpdateListBoxes()
         {
-            var activitiesName = activities.Select(a => a.Name).ToList();
+            var activitiesName = dataStorageService.GetActivities().Select(a => a.Name).ToList();
             foreach (var name in activitiesName)
             {
                 listBoxOfActivities.Items.Add(name);
@@ -53,14 +48,14 @@ namespace Alpha.WinForms
                 labelWorkProductCriterion.Text = "Work product criterion: null";
                 typeTextBox.Text = "";
                 partialTextBox.Text = "";
-                minimalTextBox.Text = "";
+                minimalNumericUpDown.Value = 0;
                 return;
             }
             string workProductCriterionActivityName = workProductCriterion.GetActivity().GetName();
             labelWorkProductCriterion.Text = $"Work product criterion: {workProductCriterionActivityName}";
             typeTextBox.Text = workProductCriterion.GetTypeParameter();
             partialTextBox.Text = workProductCriterion.GetPartial();
-            minimalTextBox.Text = workProductCriterion.GetMinimal();
+            minimalNumericUpDown.Value = workProductCriterion.GetMinimal();
 
         }
 
@@ -90,7 +85,7 @@ namespace Alpha.WinForms
             levelOfDetail.Name = levelOfDetailName;
             levelOfDetail.Description = levelOfDetailDescription;
             levelOfDetail.Order = Int32.Parse(levelOfDetailOdred);
-            popupWindowForEditWorkProduct.UpdateLevelOfDetailsTable();
+            dataStorageService.UpdateLevelOfDetails();
             this.Close();
         }
 
@@ -115,12 +110,7 @@ namespace Alpha.WinForms
                 return;
             }
 
-            string workProductCriterionMinimal = minimalTextBox.Text;
-            if (workProductCriterionMinimal == null || workProductCriterionMinimal == "" && workProductCriterion == null)
-            {
-                MessageBox.Show("Work product criterion minimal was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            int workProductCriterionMinimal = (int)minimalNumericUpDown.Value;
 
             var activityName = listBoxOfActivities.Text;
             if (activityName == null || activityName == "" && workProductCriterion == null)
@@ -129,7 +119,7 @@ namespace Alpha.WinForms
                 return;
             }
 
-            var activity = activities.FirstOrDefault(a => a.GetName() == activityName);
+            var activity = dataStorageService.GetActivities().FirstOrDefault(a => a.GetName() == activityName);
             if (activity == null && workProductCriterion == null)
             {
                 MessageBox.Show("Some problems with Work Product Criterion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -140,7 +130,7 @@ namespace Alpha.WinForms
                 workProductCriterion = new WorkProductCriterion(workProductCriterionType, workProductCriterionPartial, workProductCriterionMinimal, activity);
                 workProductCriterion.SetLevelOfDetail(levelOfDetail);
                 workProductCriterion.SetActivity(activity);
-                workProductsTable.AddWorkProductCriterion(workProductCriterion);               
+                dataStorageService.AddWorkProductCriterion(workProductCriterion);               
             }
             else
             {
@@ -153,7 +143,7 @@ namespace Alpha.WinForms
                 workProductCriterion.Type = workProductCriterionType;
                 workProductCriterion.Partial = workProductCriterionPartial;
                 workProductCriterion.Minimal = workProductCriterionMinimal;
-                workProductsTable.ExportAllWorkProductCriterionsToFile();
+                dataStorageService.UpdateWorkProductCriterions();
 
             }
             UpdateWorkProductCriterionAndLabel();
@@ -173,7 +163,7 @@ namespace Alpha.WinForms
             workProductCriterion.GetActivity().DeleteWorkProductCriterion(workProductCriterion);
             LevelOfDetail levelOfDetail = workProductCriterion.GetLevelOfDetail();
             levelOfDetail.DeleteWorkProductCriterion();
-            workProductsTable.DeleteWorkProductCriterion(workProductCriterion);
+            dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
             workProductCriterion = null;
             UpdateWorkProductCriterionAndLabel();
         }

@@ -20,69 +20,33 @@ using Alpha.Data;
 
 namespace Alpha
 {
-    public partial class Form1 : Form, IMainFormInterface
+    public partial class Form1 : Form
     {
-        private List<Alpha> alphas = new List<Alpha>();
-        private List<AlphaContaiment> alphaContaiments = new List<AlphaContaiment>();
-        private List<WorkProduct> workProducts = new List<WorkProduct>();
-        private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
-        private List<Activity> activities = new List<Activity>();
-        private List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
-        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
-        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();        
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public Form1()
         {
             InitializeComponent();
             UpdateAlphasTable();
         }
-        public void AddAlphaCriterion(AlphaCriterion alphaCriterion)
-        {
-            alphaCriterions.Add(alphaCriterion);
-            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
-        }
-        public void DeleteAlphaCriterion(AlphaCriterion alphaCriterion)
-        {
-            alphaCriterions.Remove(alphaCriterion);
-            ExportAllToJsonFiles();
-        }
-        public List<Activity> GetAllActivities() => activities; 
-        
-
-        public List<Alpha> GetListOfAlphas() => alphas;
-
-        public List<WorkProduct> GetListOfWorkProducts() => workProducts;
+        public List<Activity> GetAllActivities() => dataStorageService.GetActivities(); 
+        public List<Alpha> GetListOfAlphas() => dataStorageService.GetAlphas();
+        public List<WorkProduct> GetListOfWorkProducts() => dataStorageService.GetWorkProducts();
         public void AddAlphaConteinment(AlphaContaiment alphaContaiment)
         {
-            alphaContaiments.Add(alphaContaiment);
-            ExportAllToJsonFiles();
-        }
-        public void ExportWorkProductManifestsToJsonFile()
-        {
-            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
-        }
-        public void AddWorkProductManifest(WorkProductManifest workProductManifest)
-        {
-            workProductManifests.Add(workProductManifest);
-            ExportWorkProductManifestsToJsonFile();
+            dataStorageService.AddAlphaContaiment(alphaContaiment);
         }
         public void DeleteAlphaConteinmentFromList(AlphaContaiment alphaContaiment)
         {
-            alphaContaiments.Remove(alphaContaiment);
-            ExportAllToJsonFiles();
+            dataStorageService.RemoveAlphaContaiment(alphaContaiment);
         }
         public void DeleteWorkProductManifestFromList(WorkProductManifest workProductManifest)
         {
-            workProductManifests.Remove(workProductManifest);
-            ExportAllToJsonFiles();
+            dataStorageService.RemoveWorkProductManifest(workProductManifest);
         }
 
-        public void ExportAllAlphaCriterionsToFile()
-        {
-            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
-        }
         public void UpdateAlphasTable()
         {
-            DeserializeJsonFiles();
+            List<Alpha> alphas = dataStorageService.GetAlphas();
             tableLayoutPanel1.Controls.Clear();
 
             tableLayoutPanel1.RowCount = alphas.Count() + 1;
@@ -138,45 +102,29 @@ namespace Alpha
                     alphaParentNameLabel.AutoSize = true;
                     tableLayoutPanel1.Controls.Add(alphaParentNameLabel, 1, i);
                 }
-
                 tableLayoutPanel1.Controls.Add(editButton, 2, i);
                 tableLayoutPanel1.Controls.Add(deleteButton, 3, i);
             }
         }
 
-        private void DeserializeJsonFiles()
-        {
-            alphas = jsonDeserializationService.DeserializeJsonAlphas();
-            activities = jsonDeserializationService.DeserializeJsonActivities();
-            jsonDeserializationService.DeserializeJsonStates(alphas);
-            alphaContaiments = jsonDeserializationService.DeserializeJsonAlphaContainments(alphas);
-            DeserializeJsonWorkProducts();
-            workProductManifests = jsonDeserializationService.DeserializeJsonWorkProductManifests(alphas, workProducts);
-            alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, GetAllStates());
-        }
-
-         
-        private void DeserializeJsonWorkProducts()
-        {
-            workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
-        }       
+            
         private void AddAlpha_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddAlpha popupWindowForAddAlpha = new PopupWindowForAddAlpha(this);
+            PopupWindowForAddAlpha popupWindowForAddAlpha = new PopupWindowForAddAlpha();
             popupWindowForAddAlpha.ShowDialog();
+            UpdateAlphasTable();
 
         }
         public void AddNewAlpha(Alpha alpha)
         {
-            alphas.Add(alpha);
-            ExportAllToJsonFiles();
+            dataStorageService.AddAlpha(alpha);
             UpdateAlphasTable();
         }
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
             Guid alphaId = Guid.Parse(b.AccessibleName);
-            Alpha alpha = alphas.FirstOrDefault(a => a.GetAlphaId() == alphaId);
+            Alpha alpha = dataStorageService.GetAlphas().FirstOrDefault(a => a.GetAlphaId() == alphaId);
             if (alpha == null)
             {
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -194,7 +142,7 @@ namespace Alpha
             }
             Button b = (Button)sender;
             Guid alphaId = Guid.Parse(b.AccessibleName);
-            Alpha alpha = alphas.FirstOrDefault(a => a.GetAlphaId() == alphaId);
+            Alpha alpha = dataStorageService.GetAlphas().FirstOrDefault(a => a.GetAlphaId() == alphaId);
             if (alpha == null)
             {
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -203,8 +151,7 @@ namespace Alpha
             RemoveFromAlphaContains(alpha);
             RemoveFromWokrProductManifests(alpha);
             RemoveFromAlphaCriterion(alpha);
-            alphas.Remove(alpha);
-            ExportAllToJsonFiles();
+            dataStorageService.RemoveAlpha(alpha);
             UpdateAlphasTable();
         }
         private void RemoveFromAlphaCriterion(Alpha alpha)
@@ -213,53 +160,21 @@ namespace Alpha
             foreach (var state in states)
             {
                 var alphaCriterion = state.GetAlphaCriterion();
-                alphaCriterions.Remove(alphaCriterion);
+                dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             }
         }
         private void RemoveFromAlphaContains(Alpha alpha)
         {
             foreach (var subordinateAlphaContaimnent in alpha.GetSubordinateAlphaConteinments())
             {
-                alphaContaiments.Remove(subordinateAlphaContaimnent);
+                dataStorageService.RemoveAlphaContaiment(subordinateAlphaContaimnent);
             }
-            alphaContaiments.Remove(alpha.GetSupperAlphaContainment());
+            dataStorageService.RemoveAlphaContaiment(alpha.GetSupperAlphaContainment());
         }
         private void RemoveFromWokrProductManifests(Alpha alpha)
         {
-            workProductManifests.Remove(alpha.GetWorkProductManifest());
+            dataStorageService.RemoveWorkProductManifest(alpha.GetWorkProductManifest());
         }
-        // TODO: split this method
-        public void ExportAllToJsonFiles()
-        {
-            jsonSerializationToFileService.ExportAlphasToFile(alphas);
-            List<State> states = GetAllStates();
-            jsonSerializationToFileService.ExportStatesToJsonFile(states);
-            List<Checkpoint> checkpoints = GetAllCheckpoints(states);
-            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints, JsonPaths.pathToStateCheckpointsFile);
-            jsonSerializationToFileService.ExportAlphaContainmentsToJsonFile(alphaContaiments);
-            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
-            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
-        }
-        private List<State> GetAllStates()
-        {
-            List<State> states = new List<State>();
-            foreach (var alpha in alphas)
-            {
-                states.AddRange(alpha.GetStates());
-            }
-            return states;
-        }
-
-        private List<Checkpoint> GetAllCheckpoints(List<State> states)
-        {
-            List<Checkpoint> checkpoints = new List<Checkpoint>();
-            foreach (var state in states)
-            {
-                checkpoints.AddRange(state.GetCheckpoints());
-            }
-            return checkpoints;
-        }
-
         private void buttonClose_Click(object sender, EventArgs e)
         {
             this.Close();

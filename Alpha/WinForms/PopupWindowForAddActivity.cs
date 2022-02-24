@@ -1,4 +1,5 @@
 ﻿using Alpha.Models;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,10 @@ namespace Alpha.WinForms
 {
     public partial class PopupWindowForAddActivity : Form
     {
-        ActivitiesTable activitiesTable;
-        public PopupWindowForAddActivity(ActivitiesTable activitiesTable)
+        DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForAddActivity()
         {
             InitializeComponent();
-            this.activitiesTable = activitiesTable;
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -40,7 +40,7 @@ namespace Alpha.WinForms
                 MessageBox.Show("Please enter activity's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            foreach (var a in activitiesTable.GetActivitiesList())
+            foreach (var a in dataStorageService.GetActivities())
             {
                 if (a.GetName() == activityName)
                 {
@@ -50,7 +50,7 @@ namespace Alpha.WinForms
             }
 
             Activity activity = new Activity(activityName, activityDescription);
-            activitiesTable.AddActivityToList(activity);
+            dataStorageService.AddActivity(activity);
             this.Close();
         }
     }

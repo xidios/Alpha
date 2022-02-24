@@ -10,18 +10,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Interfaces;
+using Alpha.Services;
 
 namespace Alpha
 {
     public partial class PopupWindowForCheckpointsTable : Form
     {
-        IDetailing detail;
-        IBaseObject baseObject;
-        IMainFormInterface form;
-        public PopupWindowForCheckpointsTable(IMainFormInterface form, IDetailing detail)
+        private IDetailing detail;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForCheckpointsTable(IDetailing detail)
         {
             InitializeComponent();
-            this.form = form;
             this.detail = detail;
             this.Text = $"Checkpoints of {detail.GetName()}";
             UpdateCheckpointsTable();
@@ -29,10 +28,7 @@ namespace Alpha
 
         public void UpdateCheckpointsTable()
         {
-
-            form.ExportAllToJsonFiles();
             tableLayoutPanelOfCheckpoints.Controls.Clear();
-
             tableLayoutPanelOfCheckpoints.RowCount = detail.GetCheckpoints().Count() + 1; //не бейте
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
@@ -96,8 +92,9 @@ namespace Alpha
         }
         private void buttonAddCheckpoint_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddCheckpoint popupWindowForAddState = new PopupWindowForAddCheckpoint(this, detail);
+            PopupWindowForAddCheckpoint popupWindowForAddState = new PopupWindowForAddCheckpoint(detail);
             popupWindowForAddState.ShowDialog();
+            UpdateCheckpointsTable();
         }
         private void buttonDeleteCheckpoint_Click(object sender, EventArgs e)
         {
@@ -115,7 +112,8 @@ namespace Alpha
                 MessageBox.Show("Some problems with checkpoint", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            checkpoints.Remove(checkpoint);
+            detail.RemoveCheckpoint(checkpoint);
+            dataStorageService.RemoveCheckpoint(checkpoint);
             UpdateCheckpointsTable();
         }
 
@@ -130,8 +128,9 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditCheckpoint popupWindowForEditCheckpoint = new PopupWindowForEditCheckpoint(this, checkpoint,detail);
+            PopupWindowForEditCheckpoint popupWindowForEditCheckpoint = new PopupWindowForEditCheckpoint(checkpoint,detail);
             popupWindowForEditCheckpoint.ShowDialog();
+            UpdateCheckpointsTable();
         }
     }
 }

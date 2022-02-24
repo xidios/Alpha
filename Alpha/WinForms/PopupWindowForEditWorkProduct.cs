@@ -1,5 +1,6 @@
 ﻿using Alpha.Models;
 using Alpha.Interfaces;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,18 +15,13 @@ namespace Alpha.WinForms
 {
     public partial class PopupWindowForEditWorkProduct : Form
     {
-        private WorkProductsTable workProductsTable;
         private WorkProduct workProduct;
-        private List<Activity> activities;
         private string oldWorkProductName;
-        public List<Activity> GetActivities() => activities;
-        public WorkProductsTable GetworkProductsTable() => workProductsTable;
-        public PopupWindowForEditWorkProduct(WorkProductsTable workProductsTable, WorkProduct workProduct)
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForEditWorkProduct(WorkProduct workProduct)
         {
             InitializeComponent();
-            activities = workProductsTable.GetActivities();
             this.Text = $"Edit {workProduct.GetName()}";
-            this.workProductsTable = workProductsTable;
             this.workProduct = workProduct;
             oldWorkProductName = workProduct.GetName();
             workProductNameInput.Text = oldWorkProductName;
@@ -34,9 +30,7 @@ namespace Alpha.WinForms
         }
         public void UpdateLevelOfDetailsTable()
         {
-            workProductsTable.ExportAllToJsonFiles();
             tableLayoutPanelOfLevelOfDetails.Controls.Clear();
-
             tableLayoutPanelOfLevelOfDetails.RowCount = workProduct.GetLevelOfDetails().Count() + 1;
             tableLayoutPanelOfLevelOfDetails.Controls.Add(new Label
             {
@@ -112,7 +106,6 @@ namespace Alpha.WinForms
         {
             this.Close();
         }
-        // TODO: this
         private void buttonOpenCheckpointTable_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -124,7 +117,7 @@ namespace Alpha.WinForms
                 MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(workProductsTable, levelOfDetail);
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(levelOfDetail);
             popupWindowForCheckpointsTable.ShowDialog();
         }
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -137,7 +130,7 @@ namespace Alpha.WinForms
             }
             if (oldWorkProductName != workProductName) 
             {
-                foreach (var wp in workProductsTable.GetWorkProducts())
+                foreach (var wp in dataStorageService.GetWorkProducts())
                 {
 
                     if (wp.GetName() == workProductName)
@@ -154,11 +147,9 @@ namespace Alpha.WinForms
                 MessageBox.Show("Please enter work product's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-
             workProduct.SetName(workProductName);
             workProduct.SetDescription(workProductDescription);
-            workProductsTable.ExportAllToJsonAndUpdateTable();
+            dataStorageService.UpdateWorkProducts();
             this.Close();
         }
         private void buttonEditLevelOfDetail_Click(object sender, EventArgs e)
@@ -172,8 +163,9 @@ namespace Alpha.WinForms
                 MessageBox.Show("Some problems with level of detail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditLevelOfDetail popupWindowForEditLevelOfDetail = new PopupWindowForEditLevelOfDetail(this, levelOfDetail);
+            PopupWindowForEditLevelOfDetail popupWindowForEditLevelOfDetail = new PopupWindowForEditLevelOfDetail(levelOfDetail);
             popupWindowForEditLevelOfDetail.ShowDialog();
+            UpdateLevelOfDetailsTable();
         }
         private void buttonDeleteLevelOfDetail_Click(object sender, EventArgs e)
         {
@@ -184,21 +176,22 @@ namespace Alpha.WinForms
             }
             Button b = (Button)sender;
             Guid levelOfDetailId = Guid.Parse(b.AccessibleName);
-            List<LevelOfDetail> levelOfDetails = workProduct.GetLevelOfDetails();
-            LevelOfDetail levelOfDetail = levelOfDetails.FirstOrDefault(l => l.GetId() == levelOfDetailId);
+            LevelOfDetail levelOfDetail = workProduct.GetLevelOfDetails().FirstOrDefault(l => l.GetId() == levelOfDetailId);
             if (levelOfDetail == null)
             {
                 MessageBox.Show("Some problems with level of detail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            workProductsTable.DeleteWorkProductCriterion(levelOfDetail.GetWorkProductCriterion());
-            levelOfDetails.Remove(levelOfDetail);
+            workProduct.RemoveLevelOfDetail(levelOfDetail);
+            dataStorageService.RemoveWorkProductCriterion(levelOfDetail.GetWorkProductCriterion());
+            dataStorageService.RemoveLevelOfDetail(levelOfDetail);
             UpdateLevelOfDetailsTable();
         }
         private void buttonAddlevelOfDetail_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddLevelOfDetails popupWindowForAddLevelOfDetails = new PopupWindowForAddLevelOfDetails(this, workProduct);
+            PopupWindowForAddLevelOfDetails popupWindowForAddLevelOfDetails = new PopupWindowForAddLevelOfDetails(workProduct);
             popupWindowForAddLevelOfDetails.ShowDialog();
+            UpdateLevelOfDetailsTable();
         }
     }
 }

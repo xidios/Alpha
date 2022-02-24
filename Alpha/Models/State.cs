@@ -58,5 +58,9 @@ namespace Alpha
         {
             Alpha = alpha;
         }
+        public void RemoveCheckpoint(Checkpoint checkpoint)
+        {
+            Checkpoints.Remove(checkpoint);
+        }
     }
 }

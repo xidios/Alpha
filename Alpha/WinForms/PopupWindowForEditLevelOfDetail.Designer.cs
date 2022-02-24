@@ -42,14 +42,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.typeTextBox = new System.Windows.Forms.TextBox();
             this.partialTextBox = new System.Windows.Forms.TextBox();
-            this.minimalTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.listBoxOfActivities = new System.Windows.Forms.ListBox();
             this.buttonDeleteWorkProductCriterion = new System.Windows.Forms.Button();
             this.labelWorkProductCriterion = new System.Windows.Forms.Label();
             this.buttonSaveCriterion = new System.Windows.Forms.Button();
+            this.minimalNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.levelOfDetailOrderInput)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minimalNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // levelOfDetailOrderInput
@@ -132,12 +133,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.Controls.Add(this.minimalNumericUpDown);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.typeTextBox);
             this.panel1.Controls.Add(this.partialTextBox);
-            this.panel1.Controls.Add(this.minimalTextBox);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.listBoxOfActivities);
             this.panel1.Controls.Add(this.buttonDeleteWorkProductCriterion);
@@ -191,14 +192,6 @@
             this.partialTextBox.Size = new System.Drawing.Size(276, 20);
             this.partialTextBox.TabIndex = 31;
             // 
-            // minimalTextBox
-            // 
-            this.minimalTextBox.Location = new System.Drawing.Point(6, 131);
-            this.minimalTextBox.MaxLength = 100;
-            this.minimalTextBox.Name = "minimalTextBox";
-            this.minimalTextBox.Size = new System.Drawing.Size(275, 20);
-            this.minimalTextBox.TabIndex = 30;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -247,6 +240,18 @@
             this.buttonSaveCriterion.UseVisualStyleBackColor = true;
             this.buttonSaveCriterion.Click += new System.EventHandler(this.buttonSaveCriterion_Click);
             // 
+            // minimalNumericUpDown
+            // 
+            this.minimalNumericUpDown.Location = new System.Drawing.Point(6, 131);
+            this.minimalNumericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.minimalNumericUpDown.Name = "minimalNumericUpDown";
+            this.minimalNumericUpDown.Size = new System.Drawing.Size(275, 20);
+            this.minimalNumericUpDown.TabIndex = 36;
+            // 
             // PopupWindowForEditLevelOfDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,6 +271,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.levelOfDetailOrderInput)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minimalNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,11 +293,11 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox typeTextBox;
         private System.Windows.Forms.TextBox partialTextBox;
-        private System.Windows.Forms.TextBox minimalTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBoxOfActivities;
         private System.Windows.Forms.Button buttonDeleteWorkProductCriterion;
         private System.Windows.Forms.Label labelWorkProductCriterion;
         private System.Windows.Forms.Button buttonSaveCriterion;
+        private System.Windows.Forms.NumericUpDown minimalNumericUpDown;
     }
 }

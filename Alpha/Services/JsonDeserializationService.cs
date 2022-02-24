@@ -216,7 +216,6 @@ namespace Alpha.Services
             {
                 string jsonString = File.ReadAllText(jsonPaths.pathToLevelOfDetails);
                 List<LevelOfDetail> levelOfDetails = new List<LevelOfDetail>();
-                List<IDetailing> details = new List<IDetailing>();
                 if (jsonString != null && jsonString != "")
                 {
                     levelOfDetails = JsonSerializer.Deserialize<List<LevelOfDetail>>(jsonString, new JsonSerializerOptions
@@ -234,14 +233,7 @@ namespace Alpha.Services
                         workProduct.AddLevelOfDetailToList(levelOfDetail);
                     }
                 }
-                SortWorkProductsLevelOfStatesByOrder(workProducts);
-                foreach (var level in levelOfDetails)
-                {
-                    details.Add(level);
-                }
-
-                DeserializeJsonCheckpoints(details, JsonPaths.pathToLevelOfDetailCheckpointsFile);
-
+                SortWorkProductsLevelOfStatesByOrder(workProducts);                
                 return levelOfDetails;
             }
             else
@@ -308,13 +300,6 @@ namespace Alpha.Services
                     }
                 }
                 SortAlphasStatesByOrder(alphas);
-
-                foreach (var state in states)
-                {
-                    details.Add(state);
-                }
-
-                DeserializeJsonCheckpoints(details,JsonPaths.pathToStateCheckpointsFile);
                 return states;
             }
             else
@@ -323,11 +308,11 @@ namespace Alpha.Services
                 return new List<State>();
             }
         }
-        private void DeserializeJsonCheckpoints(List<IDetailing> details,string path)
+        public List<Checkpoint> DeserializeJsonCheckpoints(List<IDetailing> details)
         {
-            if (File.Exists(path))
+            if (File.Exists(jsonPaths.pathToCheckpointsFile))
             {
-                string jsonString = File.ReadAllText(path);
+                string jsonString = File.ReadAllText(jsonPaths.pathToCheckpointsFile);
                 List<Checkpoint> checkpoints = new List<Checkpoint>();
                 if (jsonString != null && jsonString != "")
                 {
@@ -347,10 +332,12 @@ namespace Alpha.Services
                 }
                 //DeserializeJsonDegreesOfEvidence(checkpoints);
                 SortDetailsCheckpointsByOrder(details);
+                return checkpoints;
             }
             else
             {
-                using (File.Create(path)) { }
+                using (File.Create(jsonPaths.pathToCheckpointsFile)) { }
+                return new List<Checkpoint>();
             }
         }
         //TODO: логика сломана

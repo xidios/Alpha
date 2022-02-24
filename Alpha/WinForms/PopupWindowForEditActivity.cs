@@ -8,18 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Models;
+using Alpha.Services;
 
 namespace Alpha.WinForms
 {
     public partial class PopupWindowForEditActivity : Form
     {
+        DataStorageService dataStorageService = DataStorageService.GetInstance();
         Activity activity;
-        ActivitiesTable activitiesTable;
         string oldActivityName;
-        public PopupWindowForEditActivity(ActivitiesTable activitiesTable, Activity activity)
+        public PopupWindowForEditActivity(Activity activity)
         {
             InitializeComponent();
-            this.activitiesTable = activitiesTable;
             this.activity = activity;
             oldActivityName = activity.GetName();
             activityNameInput.Text = activity.GetName();
@@ -43,7 +43,7 @@ namespace Alpha.WinForms
             }
             if (oldActivityName != activityName)
             {
-                foreach (var a in activitiesTable.GetActivitiesList())
+                foreach (var a in dataStorageService.GetActivities())
                 {
 
                     if (a.GetName() == activityName)
@@ -60,11 +60,9 @@ namespace Alpha.WinForms
                 MessageBox.Show("Please enter activity's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-
             activity.SetName(activityName);
             activity.SetDescription(activityDescription);
-            activitiesTable.ExportAllToJsonAndUpdateTable();
+            dataStorageService.UpdateActivities();
             this.Close();
         }
     }

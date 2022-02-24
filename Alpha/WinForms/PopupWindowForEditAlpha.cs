@@ -1,4 +1,5 @@
 ﻿using Alpha.Models;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,7 @@ namespace Alpha
         private Alpha alphaParent;
         private AlphaContaiment alphaContaiment;
         private WorkProductManifest workProductManifest;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public PopupWindowForEditAlpha(Form1 form, Alpha alpha)
         {
             InitializeComponent();
@@ -99,7 +101,6 @@ namespace Alpha
         }
         public void UpdateStatesTable()
         {
-            form1.ExportAllToJsonFiles();
             tableLayoutPanelOfStates.Controls.Clear();
 
             tableLayoutPanelOfStates.RowCount = alpha.GetStates().Count() + 1; //не бейте
@@ -202,7 +203,7 @@ namespace Alpha
                 if (alpha.Name == alphaName)
                 {
                     alpha.Description = alphaDescription;
-                    form1.ExportAllToJsonFiles();
+                    dataStorageService.UpdateAlphas();
                     form1.UpdateAlphasTable();
                     this.Close();
                     return;
@@ -216,7 +217,7 @@ namespace Alpha
 
             alpha.Name = alphaName;
             alpha.Description = alphaDescription;
-            form1.ExportAllToJsonFiles();
+            dataStorageService.UpdateAlphas();
             form1.UpdateAlphasTable();
             this.Close();
         }
@@ -254,8 +255,9 @@ namespace Alpha
 
         private void buttonAddState_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddState popupWindowForAddState = new PopupWindowForAddState(alpha, this);
+            PopupWindowForAddState popupWindowForAddState = new PopupWindowForAddState(alpha);
             popupWindowForAddState.ShowDialog();
+            UpdateStatesTable();
         }
         private void buttonOpenCheckpointTable_Click(object sender, EventArgs e)
         {
@@ -268,7 +270,7 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(form1, state);
+            PopupWindowForCheckpointsTable popupWindowForCheckpointsTable = new PopupWindowForCheckpointsTable(state);
             popupWindowForCheckpointsTable.ShowDialog();
         }
         private void buttonEditState_Click(object sender, EventArgs e)
@@ -301,9 +303,9 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            form1.DeleteAlphaCriterion(state.GetAlphaCriterion());
+            dataStorageService.RemoveAlphaCriterion(state.GetAlphaCriterion());
             states.Remove(state);
-            form1.ExportAllToJsonFiles();
+            dataStorageService.RemoveState(state);
             UpdateStatesTable();
         }
 
@@ -341,7 +343,7 @@ namespace Alpha
                 alphaContaiment.SetSubAlpha(subAlpha);
                 alphaContaiment.UpperBound = upperBound;
                 alphaContaiment.LowerBound = lowerBound;
-                form1.ExportAllToJsonFiles();
+                dataStorageService.UpdateAlphaContaiments();
 
             }
             UpdateAplhaContainmentAndLabel();
@@ -369,7 +371,7 @@ namespace Alpha
                 workProductManifest = new WorkProductManifest(upperBound, lowerBound, alpha, workProduct);
                 alpha.SetWorkProductManifest(workProductManifest);
                 workProduct.AddWorkProductManifest(workProductManifest);
-                form1.AddWorkProductManifest(workProductManifest);
+                dataStorageService.AddWorkProductManifest(workProductManifest);
             }
             else
             {
@@ -381,7 +383,7 @@ namespace Alpha
                 workProductManifest.SetWorkProduct(workProduct);
                 workProductManifest.UpperBound = upperBound;
                 workProductManifest.LowerBound = lowerBound;
-                form1.ExportWorkProductManifestsToJsonFile();
+                dataStorageService.UpdateWorkProductManifests();
 
             }
             UpdateWorkProductManifestAndLabel();

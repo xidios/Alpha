@@ -9,19 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Alpha.Services;
 
 namespace Alpha
 {
     public partial class PopupWindowForEditCheckpoint : Form
     {
-        PopupWindowForCheckpointsTable popupWindowForCheckpointsTable;
-        Checkpoint checkpoint;
-        IDetailing detail;
-        
-        public PopupWindowForEditCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, Checkpoint checkpoint, IDetailing detail)
+        private Checkpoint checkpoint;
+        private IDetailing detail;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForEditCheckpoint(Checkpoint checkpoint, IDetailing detail)
         {
             InitializeComponent();
-            this.popupWindowForCheckpointsTable = popupWindowForCheckpointsTable;
             this.checkpoint = checkpoint;
             this.detail = detail;
             this.Text = $"Edit {checkpoint.Name}";
@@ -60,7 +59,7 @@ namespace Alpha
             checkpoint.Name = checkpointName;
             checkpoint.Description = checkpointDescription;
             checkpoint.Order = Int32.Parse(checkpointOdred);
-            popupWindowForCheckpointsTable.UpdateCheckpointsTable();
+            dataStorageService.UpdateCheckpoints();
             this.Close();
         }
 

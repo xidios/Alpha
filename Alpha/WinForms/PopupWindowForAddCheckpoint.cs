@@ -1,4 +1,5 @@
 ﻿using Alpha.Interfaces;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,10 @@ namespace Alpha
 {
     public partial class PopupWindowForAddCheckpoint : Form
     {
-        IDetailing detail;
-        PopupWindowForCheckpointsTable popupWindowForCheckpointsTable;
-        public PopupWindowForAddCheckpoint(PopupWindowForCheckpointsTable popupWindowForCheckpointsTable, IDetailing detail)
+        private IDetailing detail;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForAddCheckpoint(IDetailing detail)
         {
-            this.popupWindowForCheckpointsTable = popupWindowForCheckpointsTable;
             this.detail = detail;
             this.Text = $"Add checkpoint for {detail.GetName()}";
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace Alpha
             int stateOrder = detail.GetCheckpoints().Count() * 10;
             Checkpoint checkpoint = new Checkpoint(stateName, stateDescription, stateOrder, detail);
             detail.AddCheckpoint(checkpoint);
-            popupWindowForCheckpointsTable.UpdateCheckpointsTable();
+            dataStorageService.AddCheckpoint(checkpoint);
             this.Close();
         }
     }

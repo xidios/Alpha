@@ -8,16 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alpha.Models;
+using Alpha.Services;
 
 namespace Alpha
 {
     public partial class PopupWindowForEditState : Form
     {
-        State state;
-        Form1 form1;
-        PopupWindowForEditAlpha popupWindowForEditAlpha;
-        AlphaCriterion alphaCriterion;
-        List<Activity> activities;
+        private State state;
+        private Form1 form1;
+        private PopupWindowForEditAlpha popupWindowForEditAlpha;
+        private AlphaCriterion alphaCriterion;
+        private List<Activity> activities;
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public PopupWindowForEditState(State state, Form1 form1, PopupWindowForEditAlpha popupWindowForEditAlpha)
         {
             InitializeComponent();
@@ -52,14 +54,14 @@ namespace Alpha
                 labelAlphaCriterion.Text = "Alpha criterion: null";
                 typeTextBox.Text = "";
                 partialTextBox.Text = "";
-                minimalTextBox.Text = "";
+                minimalNumericUpDown.Value = 0;
                 return;
             }
             string AkphaCriterionActivityName = alphaCriterion.GetActivity().GetName();
             labelAlphaCriterion.Text = $"Alpha criterion: {AkphaCriterionActivityName}";
             typeTextBox.Text = alphaCriterion.GetTypeParameter();
             partialTextBox.Text = alphaCriterion.GetPartial();
-            minimalTextBox.Text = alphaCriterion.GetMinimal();
+            minimalNumericUpDown.Value = alphaCriterion.GetMinimal();
 
         }
         private void buttonClose_Click(object sender, EventArgs e)
@@ -93,7 +95,7 @@ namespace Alpha
             state.Name = stateName;
             state.Description = stateDescription;
             state.Order = Int32.Parse(stateOdred);
-            form1.ExportAllToJsonFiles();
+            dataStorageService.UpdateStates();
             popupWindowForEditAlpha.UpdateStatesTable();
             this.Close();
         }
@@ -114,12 +116,8 @@ namespace Alpha
                 return;
             }
 
-            string alphaCriterionMinimal = minimalTextBox.Text;
-            if (alphaCriterionMinimal == null || alphaCriterionMinimal == "" && alphaCriterion == null)
-            {
-                MessageBox.Show("Alpha criterion minimal was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            int alphaCriterionMinimal = (int)minimalNumericUpDown.Value;
+            
 
             var activityName = listBoxOfActivities.Text;
             if (activityName == null || activityName == "" && alphaCriterion == null)
@@ -139,7 +137,7 @@ namespace Alpha
                 alphaCriterion = new AlphaCriterion(alphaCriterionType, alphaCriterionPartial, alphaCriterionMinimal, activity);
                 alphaCriterion.SetState(state);
                 alphaCriterion.SetActivity(activity);
-                form1.AddAlphaCriterion(alphaCriterion);
+                dataStorageService.AddAlphaCriterion(alphaCriterion);
             }
             else
             {
@@ -152,8 +150,7 @@ namespace Alpha
                 alphaCriterion.Type = alphaCriterionType;
                 alphaCriterion.Partial = alphaCriterionPartial;
                 alphaCriterion.Minimal = alphaCriterionMinimal;
-                form1.ExportAllAlphaCriterionsToFile();
-
+                dataStorageService.UpdateAlphaCriterions();
             }
             UpdateWorkProductCriterionAndLabel();
         }
@@ -172,7 +169,7 @@ namespace Alpha
             alphaCriterion.GetActivity().DeleteAlphaCriterion(alphaCriterion);
             State state = alphaCriterion.GetState();
             state.DeleteAlphaCriterion();
-            form1.DeleteAlphaCriterion(alphaCriterion);
+            dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             alphaCriterion = null;
             UpdateWorkProductCriterionAndLabel();
         }

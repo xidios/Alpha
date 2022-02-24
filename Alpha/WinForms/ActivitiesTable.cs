@@ -18,29 +18,17 @@ namespace Alpha.WinForms
 {
     public partial class ActivitiesTable : Form
     {
-        private List<Activity> activities = new List<Activity>();
-        private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
-        private List<AlphaCriterion> alphaCriterions = new List<AlphaCriterion>();
-        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
-        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public ActivitiesTable()
         {
             InitializeComponent();
             UpdateActivitiesTable();
         }
-        public List<Activity> GetActivitiesList() => activities;
-        public void AddActivityToList(Activity activity)
-        {
-            activities.Add(activity);
-            jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
-            UpdateActivitiesTable();
-
-        }
+        public List<Activity> GetActivitiesList() => dataStorageService.GetActivities();
         public void UpdateActivitiesTable()
         {
-            DeserializeJsonFiles();
+            List<Activity> activities = dataStorageService.GetActivities();
             tableLayoutPanelActivities.Controls.Clear();
-
             tableLayoutPanelActivities.RowCount = activities.Count() + 1;
             tableLayoutPanelActivities.Controls.Add(new Label
             {
@@ -88,24 +76,12 @@ namespace Alpha.WinForms
         {
             this.Close();
         }
-        private void DeserializeJsonFiles()
-        {
-            activities = jsonDeserializationService.DeserializeJsonActivities();
-            workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, new List<LevelOfDetail>());
-            alphaCriterions = jsonDeserializationService.DeserializeJsonAlphaCriterions(activities, new List<State>());
-        }
-
-        public void ExportAllToJsonFiles()
-        {
-            jsonSerializationToFileService.ExportActivitiesToJsonFile(activities);
-            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
-            jsonSerializationToFileService.ExportAlphaCriterionsToFile(alphaCriterions);
-        }
 
         private void buttonAddActivity_Click(object sender, EventArgs e)
         {
-            PopupWindowForAddActivity popupWindowForAddActivity = new PopupWindowForAddActivity(this);
+            PopupWindowForAddActivity popupWindowForAddActivity = new PopupWindowForAddActivity();
             popupWindowForAddActivity.ShowDialog();
+            UpdateActivitiesTable();
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
@@ -116,7 +92,7 @@ namespace Alpha.WinForms
             }
             Button b = (Button)sender;
             Guid activityId = Guid.Parse(b.AccessibleName);
-            Activity activity = activities.FirstOrDefault(a => a.GetId() == activityId);
+            Activity activity = dataStorageService.GetActivities().FirstOrDefault(a => a.GetId() == activityId);
             if (activity == null)
             {
                 MessageBox.Show("Some problems with activity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -124,8 +100,7 @@ namespace Alpha.WinForms
             }
             RemoveFromWorkProductCriterion(activity);
             RemoveFromAlphaCriterion(activity);
-            activities.Remove(activity);
-            ExportAllToJsonFiles();
+            dataStorageService.RemoveActivity(activity);
             UpdateActivitiesTable();
         }
         private void RemoveFromWorkProductCriterion(Activity activity)
@@ -133,7 +108,7 @@ namespace Alpha.WinForms
             List<WorkProductCriterion> activityWorkProductCriterions = activity.GetWorkProductCriterions();
             foreach (var workProductCriterion in activityWorkProductCriterions)
             {
-                workProductCriterions.Remove(workProductCriterion);
+                dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
             }
         }
         private void RemoveFromAlphaCriterion(Activity activity)
@@ -141,27 +116,22 @@ namespace Alpha.WinForms
             List<AlphaCriterion> activityAlphaCriterions = activity.GetAlphaCriterions();
             foreach (var alphaCriterion in activityAlphaCriterions)
             {
-                alphaCriterions.Remove(alphaCriterion);
+                dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             }
         }
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
             Guid activityId = Guid.Parse(b.AccessibleName);
-            Activity activity = activities.FirstOrDefault(a => a.GetId() == activityId);
+            Activity activity = dataStorageService.GetActivities().FirstOrDefault(a => a.GetId() == activityId);
             if (activity == null)
             {
                 MessageBox.Show("Some problems with activity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditActivity popupWindowForEditActivity = new PopupWindowForEditActivity(this, activity);
+            PopupWindowForEditActivity popupWindowForEditActivity = new PopupWindowForEditActivity(activity);
             popupWindowForEditActivity.ShowDialog();
-            return;
-        }
-        public void ExportAllToJsonAndUpdateTable()
-        {
-            ExportAllToJsonFiles();
             UpdateActivitiesTable();
-        }
+        }        
     }
 }

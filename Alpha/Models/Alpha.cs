@@ -12,7 +12,7 @@ namespace Alpha
     {
         // TODO Parent contains only ID
         private Alpha Parent { get; set; } = null;
-        public Guid? ParentAlphaId { get; set; }
+        public Guid? ParentAlphaId { get; set; } = null;
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -34,7 +34,8 @@ namespace Alpha
             Name = name;
             Description = description;
             Parent = parent;
-            ParentAlphaId = parent.GetAlphaId();
+            if(parent != null)
+                ParentAlphaId = parent.GetAlphaId();
         }
         public string GetName() => Name;
         public string GetDescription() => Description;

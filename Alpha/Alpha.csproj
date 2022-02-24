@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\JsonPaths.cs" />
+    <Compile Include="Enums\CriterionTypeEnum.cs" />
     <Compile Include="Enums\DegreeOfEvidenceEnum.cs" />
     <Compile Include="Interfaces\IDetailing.cs" />
     <Compile Include="Interfaces\IMainFormInterface.cs" />

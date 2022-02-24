@@ -1,4 +1,5 @@
 ﻿using Alpha.Models;
+using Alpha.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +14,10 @@ namespace Alpha.WinForms
 {
     public partial class PopupWindowForAddWorkProduct : Form
     {
-        WorkProductsTable workProductsTable;
-
-        public PopupWindowForAddWorkProduct(WorkProductsTable workProductsTable)
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForAddWorkProduct()
         {
             InitializeComponent();
-            this.workProductsTable = workProductsTable;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -36,7 +35,7 @@ namespace Alpha.WinForms
                 MessageBox.Show("Please enter work product's description", "Nullable description", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            foreach (var wp in workProductsTable.GetWorkProducts())
+            foreach (var wp in dataStorageService.GetWorkProducts())
             {
                 if (wp.GetName() == workProductName)
                 {
@@ -46,7 +45,7 @@ namespace Alpha.WinForms
             }
 
             WorkProduct workProduct = new WorkProduct(workProductName, workProductDescription);
-            workProductsTable.AddWorkProduct(workProduct);
+            dataStorageService.AddWorkProduct(workProduct);
             this.Close();
         }
 

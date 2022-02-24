@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alpha.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,12 +14,11 @@ namespace Alpha
     public partial class PopupWindowForAddState : Form
     {
         Alpha alpha;
-        PopupWindowForEditAlpha popupWindowForEditAlpha;
-        public PopupWindowForAddState(Alpha alpha, PopupWindowForEditAlpha popupWindowForEditAlpha)
+        DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public PopupWindowForAddState(Alpha alpha)
         {
             InitializeComponent();
             this.alpha = alpha;
-            this.popupWindowForEditAlpha = popupWindowForEditAlpha;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -39,7 +39,7 @@ namespace Alpha
             int stateOrder = alpha.GetStates().Count() * 10;
             State state = new State(stateName, stateDescription, stateOrder, alpha);
             alpha.AddState(state);
-            popupWindowForEditAlpha.UpdateStatesTable();
+            dataStorageService.AddState(state);
             this.Close();
 
         }

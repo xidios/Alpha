@@ -59,5 +59,10 @@ namespace Alpha.Models
         {
             WorkProduct = workProduct;
         }
+
+        public void RemoveCheckpoint(Checkpoint checkpoint)
+        {
+            Checkpoints.Remove(checkpoint);
+        }
     }
 }

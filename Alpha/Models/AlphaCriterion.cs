@@ -11,7 +11,7 @@ namespace Alpha.Models
 
         public string Type { get; set; }
         public string Partial { get; set; }
-        public string Minimal { get; set; }
+        public int Minimal { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private State State { get; set; } = null;
         public Guid StateId { get; set; }
@@ -21,7 +21,7 @@ namespace Alpha.Models
         public Activity GetActivity() => Activity;
         public string GetTypeParameter() => Type;
         public string GetPartial() => Partial;
-        public string GetMinimal() => Minimal;
+        public int GetMinimal() => Minimal;
         public Guid GetActivityId() => ActivityId;
         public Guid GetStateId() => StateId;
         public State GetState() => State;
@@ -29,7 +29,7 @@ namespace Alpha.Models
         {
 
         }
-        public AlphaCriterion(string type, string partial, string minimal, Activity activity)
+        public AlphaCriterion(string type, string partial, int minimal, Activity activity)
         {
             Type = type;
             Partial = partial;

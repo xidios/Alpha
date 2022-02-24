@@ -59,5 +59,9 @@ namespace Alpha.Models
         {
             LevelOfDetails.Sort((x, y) => x.Order.CompareTo(y.Order));
         }
+        public void RemoveLevelOfDetail(LevelOfDetail levelOfDetail)
+        {
+            LevelOfDetails.Remove(levelOfDetail);
+        }
     }
 }

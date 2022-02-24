@@ -11,6 +11,7 @@ namespace Alpha.Interfaces
         string GetName();
         List<Checkpoint> GetCheckpoints();
         void AddCheckpoint(Checkpoint checkpoint);
+        void RemoveCheckpoint(Checkpoint checkpoint);
         Guid GetId();
         void SortListOfCheckpointsByOrder();
         IBaseObject GetBaseObject();

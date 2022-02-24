@@ -18,40 +18,20 @@ using Alpha.Data;
 
 namespace Alpha.WinForms
 {
-    public partial class WorkProductsTable : Form, IMainFormInterface
+    public partial class WorkProductsTable : Form
     {
-        private List<WorkProduct> workProducts = new List<WorkProduct>();
-        private List<WorkProductManifest> workProductManifests = new List<WorkProductManifest>();
-        private List<Activity> activities = new List<Activity>();
-        private List<WorkProductCriterion> workProductCriterions = new List<WorkProductCriterion>();
-        private JsonSerializationToFileService jsonSerializationToFileService = new JsonSerializationToFileService();
-        private JsonDeserializationService jsonDeserializationService = new JsonDeserializationService();
-        public List<Activity> GetActivities() => activities;
-        private List<WorkProductCriterion> workProductCriteria = new List<WorkProductCriterion>();
+        private DataStorageService dataStorageService = DataStorageService.GetInstance();
+        public List<Activity> GetActivities() => dataStorageService.GetActivities();
+        public List<WorkProduct> GetWorkProducts() => dataStorageService.GetWorkProducts();
         public WorkProductsTable()
         {
             InitializeComponent();
             UpdateWorkProductsTable();
         }
-        public void DeleteWorkProductCriterion(WorkProductCriterion workProductCriterion)
-        {
-            workProductCriterions.Remove(workProductCriterion);
-            ExportAllToJsonFiles();
-        }
-        public void ExportAllWorkProductCriterionsToFile()
-        {
-            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
-        }
-        public void AddWorkProductCriterion(WorkProductCriterion workProductCriterion)
-        {
-            workProductCriterions.Add(workProductCriterion);
-            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
-        }
         public void UpdateWorkProductsTable()
         {
-            DeserializeJsonFiles();
+            List<WorkProduct> workProducts = dataStorageService.GetWorkProducts();
             tableLayoutPanelWP.Controls.Clear();
-
             tableLayoutPanelWP.RowCount = workProducts.Count() + 1;
             tableLayoutPanelWP.Controls.Add(new Label
             {
@@ -102,15 +82,15 @@ namespace Alpha.WinForms
         {
             Button b = (Button)sender;
             Guid workProductId = Guid.Parse(b.AccessibleName);
-            WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
+            WorkProduct workProduct = dataStorageService.GetWorkProducts().FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
             if (workProduct == null)
             {
                 MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditWorkProduct popupWindowForEditWorkProduct = new PopupWindowForEditWorkProduct(this, workProduct);
+            PopupWindowForEditWorkProduct popupWindowForEditWorkProduct = new PopupWindowForEditWorkProduct(workProduct);
             popupWindowForEditWorkProduct.ShowDialog();
-            return;
+            UpdateWorkProductsTable();
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
@@ -121,7 +101,7 @@ namespace Alpha.WinForms
             }
             Button b = (Button)sender;
             Guid workProductId = Guid.Parse(b.AccessibleName);
-            WorkProduct workProduct = workProducts.FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
+            WorkProduct workProduct = dataStorageService.GetWorkProducts().FirstOrDefault(wp => wp.GetWorkProductId() == workProductId);
             if (workProduct == null)
             {
                 MessageBox.Show("Some problems with work product", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -129,14 +109,13 @@ namespace Alpha.WinForms
             }
             RemoveFromWorkProductManifests(workProduct);
             RemoveFromWorkProductCriterion(workProduct);
-            workProducts.Remove(workProduct);
-            ExportAllToJsonFiles();
+            dataStorageService.RemoveWorkProduct(workProduct);
             UpdateWorkProductsTable();
         }
         private void RemoveFromWorkProductManifests(WorkProduct workProduct)
         {
             foreach (var workProductManifest in workProduct.GetWorkProductManifests())
-                workProductManifests.Remove(workProductManifest);
+                dataStorageService.RemoveWorkProductManifest(workProductManifest);
         }
         private void RemoveFromWorkProductCriterion(WorkProduct workProduct)
         {
@@ -144,69 +123,18 @@ namespace Alpha.WinForms
             foreach (var levelOfDetail in levelOfDetails)
             {
                 var workProductCriterion = levelOfDetail.GetWorkProductCriterion();
-                workProductCriterions.Remove(workProductCriterion);
+                dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
             }
         }
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        private void DeserializeJsonFiles()
-        {
-            workProducts = jsonDeserializationService.DeserializeJsonWorkProducts();
-            activities = jsonDeserializationService.DeserializeJsonActivities();
-            workProductManifests = jsonDeserializationService.DeserializeJsonWorkProductManifests(new List<Alpha>(), workProducts);
-            jsonDeserializationService.DeserializeJsonLevelOfDetails(workProducts);
-            workProductCriterions = jsonDeserializationService.DeserializeJsonWorkProductCriterions(activities, GetAllLevelOfDetails());
-        }
-
-
-        public void ExportAllToJsonFiles()
-        {
-            jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
-            jsonSerializationToFileService.ExportWorkProductManifestsToJsonFile(workProductManifests);
-            jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(GetAllLevelOfDetails());
-            List<Checkpoint> checkpoints = GetAllCheckpoints(GetAllLevelOfDetails());
-            jsonSerializationToFileService.ExportCheckpointsToJsonFile(checkpoints, JsonPaths.pathToLevelOfDetailCheckpointsFile);
-            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(workProductCriterions);
-        }
-
-        private List<LevelOfDetail> GetAllLevelOfDetails()
-        {
-            List<LevelOfDetail> AllLevelOfDetails = new List<LevelOfDetail>();
-            foreach (var workProduct in workProducts)
-            {
-                AllLevelOfDetails.AddRange(workProduct.GetLevelOfDetails());
-            }
-            return AllLevelOfDetails;
-        }
         private void buttonAddWorkProduct_Click(object sender, EventArgs e)
         {
-            new PopupWindowForAddWorkProduct(this).ShowDialog();
-        }
-        public void AddWorkProduct(WorkProduct workProduct)
-        {
-            workProducts.Add(workProduct);
-            jsonSerializationToFileService.ExportWorkProductsToJsonFile(workProducts);
+            new PopupWindowForAddWorkProduct().ShowDialog();
             UpdateWorkProductsTable();
         }
-        public void ExportAllToJsonAndUpdateTable()
-        {
-            ExportAllToJsonFiles();
-            UpdateWorkProductsTable();
-        }
-        public List<WorkProduct> GetWorkProducts()
-        {
-            return workProducts;
-        }
-        private List<Checkpoint> GetAllCheckpoints(List<LevelOfDetail> levelOfDetails)
-        {
-            List<Checkpoint> checkpoints = new List<Checkpoint>();
-            foreach (var level in levelOfDetails)
-            {
-                checkpoints.AddRange(level.GetCheckpoints());
-            }
-            return checkpoints;
-        }
+
     }
 }
