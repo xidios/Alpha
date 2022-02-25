@@ -183,9 +183,6 @@ namespace Alpha.WinForms
                 return;
             }
             workProduct.RemoveLevelOfDetail(levelOfDetail);
-            WorkProductCriterion workProductCriterion = levelOfDetail.GetWorkProductCriterion();
-            if (workProductCriterion != null)
-                dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
             dataStorageService.RemoveLevelOfDetail(levelOfDetail);
             UpdateLevelOfDetailsTable();
         }

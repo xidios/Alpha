@@ -108,7 +108,6 @@ namespace Alpha.WinForms
                 return;
             }
             RemoveFromWorkProductManifests(workProduct);
-            RemoveFromWorkProductCriterion(workProduct);
             dataStorageService.RemoveWorkProduct(workProduct);
             UpdateWorkProductsTable();
         }
@@ -117,16 +116,7 @@ namespace Alpha.WinForms
             foreach (var workProductManifest in workProduct.GetWorkProductManifests())
                 dataStorageService.RemoveWorkProductManifest(workProductManifest);
         }
-        private void RemoveFromWorkProductCriterion(WorkProduct workProduct)
-        {
-            List<LevelOfDetail> levelOfDetails = workProduct.GetLevelOfDetails();
-            foreach (var levelOfDetail in levelOfDetails)
-            {
-                var workProductCriterion = levelOfDetail.GetWorkProductCriterion();
-                if (workProductCriterion != null)
-                    dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
-            }
-        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();

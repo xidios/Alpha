@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alpha.Enums;
+using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,35 +8,40 @@ using System.Threading.Tasks;
 
 namespace Alpha.Models
 {
-    public class WorkProductCriterion
+    public class WorkProductCriterion : ICriterion
     {
-        public string Type { get; set; }
-        public string Partial { get; set; }
+        public CriterionTypeEnum CriterionTypeEnumValue { get; set; }
+        public bool Partial { get; set; }
         public int Minimal { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private LevelOfDetail LevelOfDetail { get; set; } = null;
         public Guid LevelOfDetailId { get; set; }
         private Activity Activity { get; set; } = null;
         public Guid ActivityId { get; set; }
-       
         public Activity GetActivity() => Activity;
-        public string GetTypeParameter() => Type;
-        public string GetPartial() => Partial;
+        public CriterionTypeEnum GetCriterionType() => CriterionTypeEnumValue;
+        public bool GetPartial() => Partial;
         public int GetMinimal() => Minimal;
         public Guid GetActivityId() => ActivityId;
         public Guid GetLevelOfDetailId() => LevelOfDetailId;
+        public Guid GetId() => Id;
         public LevelOfDetail GetLevelOfDetail() => LevelOfDetail;
+        public IDetailing GetDetail() => LevelOfDetail;
+        public Guid GetDetailId() => LevelOfDetailId;
         public WorkProductCriterion()
         {
 
         }
-        public WorkProductCriterion(string type,string partial, int minimal, Activity activity)
+        public WorkProductCriterion(CriterionTypeEnum criterionTypeEnum,bool partial, int minimal, Activity activity,LevelOfDetail levelOfDetail)
         {
-            Type = type;
+            CriterionTypeEnumValue = criterionTypeEnum;
             Partial = partial;
             Minimal = minimal;
             Activity = activity;
             ActivityId = activity.GetId();
+            LevelOfDetail = levelOfDetail;
+            LevelOfDetailId = LevelOfDetail.GetId();
+
         }
         public void SetActivity(Activity activity)
         {
@@ -46,7 +53,19 @@ namespace Alpha.Models
         {
             LevelOfDetail = levelOfDetail;
             LevelOfDetailId = levelOfDetail.GetId();
-            levelOfDetail.SetWorkProductCriterion(this);
+        }
+        public void SetDetail(IDetailing detail)
+        {
+            LevelOfDetail = (LevelOfDetail)detail;
+            LevelOfDetailId = detail.GetId();
+        }
+        public void SetPartial(bool partial)
+        {
+            Partial = partial;
+        }
+        public void SetMinimal(int minimal)
+        {
+            Minimal = minimal;
         }
 
     }

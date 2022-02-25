@@ -15,7 +15,6 @@ namespace Alpha.WinForms
     public partial class PopupWindowForEditLevelOfDetail : Form
     {
         private LevelOfDetail levelOfDetail;
-        private WorkProductCriterion workProductCriterion = null;
         private DataStorageService dataStorageService = DataStorageService.GetInstance();
         public PopupWindowForEditLevelOfDetail(LevelOfDetail levelOfDetail)
         {
@@ -23,40 +22,12 @@ namespace Alpha.WinForms
             this.levelOfDetail = levelOfDetail;
             this.Text = $"Edit {levelOfDetail.GetName()}";
             UpdateEditLevelOfDetailsUI();
-            UpdateListBoxes();
-            UpdateWorkProductCriterionAndLabel();
         }
         private void UpdateEditLevelOfDetailsUI()
         {
             levelOfDetailNameInput.Text = levelOfDetail.GetName();
             levelOfDetailDescriptionInput.Text = levelOfDetail.GetDescription();
             levelOfDetailOrderInput.Text = levelOfDetail.GetOrder().ToString();
-        }
-        private void UpdateListBoxes()
-        {
-            var activitiesName = dataStorageService.GetActivities().Select(a => a.Name).ToList();
-            foreach (var name in activitiesName)
-            {
-                listBoxOfActivities.Items.Add(name);
-            }
-        }
-        private void UpdateWorkProductCriterionAndLabel()
-        {
-            workProductCriterion = levelOfDetail.GetWorkProductCriterion();
-            if (workProductCriterion == null)
-            {
-                labelWorkProductCriterion.Text = "Work product criterion: null";
-                typeTextBox.Text = "";
-                partialTextBox.Text = "";
-                minimalNumericUpDown.Value = 0;
-                return;
-            }
-            string workProductCriterionActivityName = workProductCriterion.GetActivity().GetName();
-            labelWorkProductCriterion.Text = $"Work product criterion: {workProductCriterionActivityName}";
-            typeTextBox.Text = workProductCriterion.GetTypeParameter();
-            partialTextBox.Text = workProductCriterion.GetPartial();
-            minimalNumericUpDown.Value = workProductCriterion.GetMinimal();
-
         }
 
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -93,79 +64,6 @@ namespace Alpha.WinForms
         {
             this.Close();
         }
-        private void buttonSaveCriterion_Click(object sender, EventArgs e)
-        {
-               
-            string workProductCriterionType = typeTextBox.Text;
-            if (workProductCriterionType == null || workProductCriterionType == "" && workProductCriterion == null)
-            {
-                MessageBox.Show("Work product criterion type was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string workProductCriterionPartial = partialTextBox.Text;
-            if (workProductCriterionPartial == null || workProductCriterionPartial == "" && workProductCriterion == null)
-            {
-                MessageBox.Show("Work product criterion partial was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            int workProductCriterionMinimal = (int)minimalNumericUpDown.Value;
-
-            var activityName = listBoxOfActivities.Text;
-            if (activityName == null || activityName == "" && workProductCriterion == null)
-            {
-                MessageBox.Show("Activity was not selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var activity = dataStorageService.GetActivities().FirstOrDefault(a => a.GetName() == activityName);
-            if (activity == null && workProductCriterion == null)
-            {
-                MessageBox.Show("Some problems with Work Product Criterion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (workProductCriterion == null)
-            {
-                workProductCriterion = new WorkProductCriterion(workProductCriterionType, workProductCriterionPartial, workProductCriterionMinimal, activity);
-                workProductCriterion.SetLevelOfDetail(levelOfDetail);
-                workProductCriterion.SetActivity(activity);
-                dataStorageService.AddWorkProductCriterion(workProductCriterion);               
-            }
-            else
-            {
-                if (activity == null)
-                {
-                    activity = workProductCriterion.GetActivity();
-                }
-                activity.DeleteWorkProductCriterion(workProductCriterion);
-                workProductCriterion.SetActivity(activity);
-                workProductCriterion.Type = workProductCriterionType;
-                workProductCriterion.Partial = workProductCriterionPartial;
-                workProductCriterion.Minimal = workProductCriterionMinimal;
-                dataStorageService.UpdateWorkProductCriterions();
-
-            }
-            UpdateWorkProductCriterionAndLabel();
-        }
-
-        private void buttonDeleteWorkProductCriterion_Click(object sender, EventArgs e)
-        {
-            var dialogResult = MessageBox.Show("Are you sure", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.No)
-            {
-                return;
-            }
-            if (workProductCriterion == null)
-            {
-                return;
-            }
-            workProductCriterion.GetActivity().DeleteWorkProductCriterion(workProductCriterion);
-            LevelOfDetail levelOfDetail = workProductCriterion.GetLevelOfDetail();
-            levelOfDetail.DeleteWorkProductCriterion();
-            dataStorageService.RemoveWorkProductCriterion(workProductCriterion);
-            workProductCriterion = null;
-            UpdateWorkProductCriterionAndLabel();
-        }
+             
     }
 }

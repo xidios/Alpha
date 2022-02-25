@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alpha.Enums;
+using Alpha.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Alpha.Models
 {
-    public class AlphaCriterion
+    public class AlphaCriterion : ICriterion
     {
 
-        public string Type { get; set; }
-        public string Partial { get; set; }
+        public CriterionTypeEnum CriterionTypeEnumValue { get; set; }
+        public bool Partial { get; set; }
         public int Minimal { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         private State State { get; set; } = null;
@@ -19,23 +21,28 @@ namespace Alpha.Models
         public Guid ActivityId { get; set; }
 
         public Activity GetActivity() => Activity;
-        public string GetTypeParameter() => Type;
-        public string GetPartial() => Partial;
+        public CriterionTypeEnum GetCriterionType() => CriterionTypeEnumValue;
+        public bool GetPartial() => Partial;
         public int GetMinimal() => Minimal;
         public Guid GetActivityId() => ActivityId;
         public Guid GetStateId() => StateId;
+        public Guid GetId() => Id;
         public State GetState() => State;
+        public IDetailing GetDetail() => State;
+        public Guid GetDetailId() => StateId;
         public AlphaCriterion()
         {
 
         }
-        public AlphaCriterion(string type, string partial, int minimal, Activity activity)
+        public AlphaCriterion(CriterionTypeEnum type, bool partial, int minimal, Activity activity, State state)
         {
-            Type = type;
+            CriterionTypeEnumValue = type;
             Partial = partial;
             Minimal = minimal;
             Activity = activity;
             ActivityId = activity.GetId();
+            State = state;
+            StateId = state.GetId();
         }
         public void SetActivity(Activity activity)
         {
@@ -47,7 +54,19 @@ namespace Alpha.Models
         {
             State = state;
             StateId = state.GetId();
-            state.SetAlphaContaiment(this);
+        }
+        public void SetDetail(IDetailing detail)
+        {
+            State = (State)detail;
+            StateId = detail.GetId();
+        }
+        public void SetPartial(bool partial)
+        {
+            Partial = partial;
+        }
+        public void SetMinimal(int minimal)
+        {
+            Minimal = minimal;
         }
 
     }

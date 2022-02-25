@@ -41,7 +41,7 @@ namespace Alpha.Models
         {
             WorkProductCriterions.Add(workProductCriterion);
         }
-        public void DeleteWorkProductCriterion(WorkProductCriterion workProductCriterion)
+        public void RemoveWorkProductCriterion(WorkProductCriterion workProductCriterion)
         {
             WorkProductCriterions.Remove(workProductCriterion);
         }
@@ -49,7 +49,7 @@ namespace Alpha.Models
         {
             AlphaCriterions.Add(alphaCriterion);
         }
-        public void DeleteAlphaCriterion(AlphaCriterion alphaCriterion)
+        public void RemoveAlphaCriterion(AlphaCriterion alphaCriterion)
         {
             AlphaCriterions.Remove(alphaCriterion);
         }

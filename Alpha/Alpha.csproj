@@ -82,6 +82,7 @@
     <Compile Include="Data\JsonPaths.cs" />
     <Compile Include="Enums\CriterionTypeEnum.cs" />
     <Compile Include="Enums\DegreeOfEvidenceEnum.cs" />
+    <Compile Include="Interfaces\ICriterion.cs" />
     <Compile Include="Interfaces\IDetailing.cs" />
     <Compile Include="Interfaces\IMainFormInterface.cs" />
     <Compile Include="Interfaces\IBaseObject.cs" />
@@ -115,6 +116,12 @@
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddActivity.Designer.cs">
       <DependentUpon>PopupWindowForAddActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddCriterionInTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForAddCriterionInTable.Designer.cs">
+      <DependentUpon>PopupWindowForAddCriterionInTable.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\PopupWindowForAddDegreeOfEvidence.cs">
       <SubType>Form</SubType>
@@ -189,6 +196,12 @@
     <Compile Include="WinForms\PopupWindowForEditAlpha.Designer.cs">
       <DependentUpon>PopupWindowForEditAlpha.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\PopupWindowForEditCriterion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\PopupWindowForEditCriterion.Designer.cs">
+      <DependentUpon>PopupWindowForEditCriterion.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\PopupWindowForEditDegreeOfEvidence.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,6 +253,9 @@
     <EmbeddedResource Include="WinForms\PopupWindowForAddCheckpoint.resx">
       <DependentUpon>PopupWindowForAddCheckpoint.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForAddCriterionInTable.resx">
+      <DependentUpon>PopupWindowForAddCriterionInTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForAddDegreeOfEvidence.resx">
       <DependentUpon>PopupWindowForAddDegreeOfEvidence.cs</DependentUpon>
     </EmbeddedResource>
@@ -266,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditCheckpoint.resx">
       <DependentUpon>PopupWindowForEditCheckpoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PopupWindowForEditCriterion.resx">
+      <DependentUpon>PopupWindowForEditCriterion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\PopupWindowForEditDegreeOfEvidence.resx">
       <DependentUpon>PopupWindowForEditDegreeOfEvidence.cs</DependentUpon>

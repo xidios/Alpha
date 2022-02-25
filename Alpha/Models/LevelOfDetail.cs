@@ -16,7 +16,6 @@ namespace Alpha.Models
         private WorkProduct WorkProduct { get; set; }
         public Guid WorkProductId { get; set; }
         public int Order { get; set; }
-        private WorkProductCriterion WorkProductCriterion { get; set; } = null;
         private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
         public List<Checkpoint> GetCheckpoints() => Checkpoints;
         public Guid GetId() => Id;
@@ -25,7 +24,6 @@ namespace Alpha.Models
         public string GetDescription() => Description;
         public int GetOrder() => Order;
         public Guid GetWorkProductId() => WorkProductId;
-        public WorkProductCriterion GetWorkProductCriterion() => WorkProductCriterion;
         public IBaseObject GetBaseObject() => WorkProduct;
         public LevelOfDetail()
         {
@@ -38,14 +36,6 @@ namespace Alpha.Models
             Order = order;
             WorkProductId = workProduct.Id;
             WorkProduct = workProduct;
-        }
-        public void SetWorkProductCriterion(WorkProductCriterion workProductCriterion)
-        {
-            WorkProductCriterion = workProductCriterion;
-        }
-        public void DeleteWorkProductCriterion()
-        {
-            WorkProductCriterion = null;
         }
         public void AddCheckpoint(Checkpoint checkpoint)
         {

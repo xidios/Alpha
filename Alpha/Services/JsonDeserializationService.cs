@@ -122,10 +122,6 @@ namespace Alpha.Services
                         workProductCriterion.SetLevelOfDetail(levelOfDetail);
                         continue;
                     }
-                    if (levelOfDetail == null) // w/o level of details
-                    {
-                        workProductCriterion.SetActivity(activity);
-                    }
                 }
                 return workProductCriterions;
             }
@@ -159,10 +155,6 @@ namespace Alpha.Services
                         alphaCriterion.SetActivity(activity);
                         alphaCriterion.SetState(state);
                         continue;
-                    }
-                    if (state == null) // w/o states
-                    {
-                        alphaCriterion.SetActivity(activity);
                     }
                 }
                 return alphaCriterions;
@@ -325,7 +317,7 @@ namespace Alpha.Services
                 }
                 foreach (var checkpoint in checkpoints)
                 {
-                    IDetailing detail = details.First(s => s.GetId() == checkpoint.GetDetailId());
+                    IDetailing detail = details.FirstOrDefault(s => s.GetId() == checkpoint.GetDetailId());
                     if (detail != null)
                     {
                         detail.AddCheckpoint(checkpoint);

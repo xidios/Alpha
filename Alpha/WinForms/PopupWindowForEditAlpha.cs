@@ -284,8 +284,9 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            PopupWindowForEditState popupWindowForEditState = new PopupWindowForEditState(state, form1, this);
+            PopupWindowForEditState popupWindowForEditState = new PopupWindowForEditState(state);
             popupWindowForEditState.ShowDialog();
+            UpdateStatesTable();
         }
         private void buttonDeleteState_Click(object sender, EventArgs e)
         {
@@ -303,9 +304,6 @@ namespace Alpha
                 MessageBox.Show("Some problems with state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            AlphaCriterion alphaCriterion = state.GetAlphaCriterion();
-            if (alphaCriterion != null)
-                dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             states.Remove(state);
             dataStorageService.RemoveState(state);
             UpdateStatesTable();

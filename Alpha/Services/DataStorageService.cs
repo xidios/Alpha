@@ -20,13 +20,13 @@ namespace Alpha.Services
         private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
         private List<WorkProduct> WorkProducts { get; set; } = new List<WorkProduct>();
         private List<LevelOfDetail> LevelOfDetails { get; set; } = new List<LevelOfDetail>();
-        private List<Checkpoint> LevelOfDetailCheckpoints { get; set; } = new List<Checkpoint>();
         private List<Activity> Activities { get; set; } = new List<Activity>();
         private List<WorkProductCriterion> WorkProductCriterions { get; set; } = new List<WorkProductCriterion>();
         private List<AlphaCriterion> AlphaCriterions { get; set; } = new List<AlphaCriterion>();
         private List<WorkProductManifest> WorkProductManifests { get; set; } = new List<WorkProductManifest>();
         private List<IDetailing> Details { get; set; } = new List<IDetailing>();
         private List<ICheckable> Checkables { get; set; } = new List<ICheckable>();
+        private List<ICriterion> Criterions { get; set; } = new List<ICriterion>();
         private List<DegreeOfEvidence> DegreesOfEvidence { get; set; } = new List<DegreeOfEvidence>();
 
         public List<Alpha> GetAlphas() => Alphas;
@@ -44,6 +44,11 @@ namespace Alpha.Services
         {
             UpdateIDetailsList();
             return Details;
+        }
+        public List<ICriterion> GetCriterions()
+        {
+            UpdateICriterionList();
+            return Criterions;
         }
         public static DataStorageService GetInstance()
         {
@@ -98,6 +103,18 @@ namespace Alpha.Services
                 Checkables.Add(checkpoint);
             }
         }
+        private void UpdateICriterionList()
+        {
+            Criterions.Clear();
+            foreach (var criterion in WorkProductCriterions)
+            {
+                Criterions.Add(criterion);
+            }
+            foreach (var criterion in AlphaCriterions)
+            {
+                Criterions.Add(criterion);
+            }
+        }
         public void AddAlpha(Alpha alpha)
         {
             Alphas.Add(alpha);
@@ -109,20 +126,27 @@ namespace Alpha.Services
         }
         public void RemoveAlpha(Alpha alpha)
         {
-            List<State> statesForRemove = alpha.GetStates();
-            foreach (var state in statesForRemove)
-            {
-                RemoveCheckpointsByDetail(state);
-                States.Remove(state);
-                Details.Remove(state);
-                Checkables.Remove(state);
-            }
+            RemoveStatesByAlpha(alpha);
             Alphas.Remove(alpha);
             jsonSerializationToFileService.ExportAlphasToFile(Alphas);
             jsonSerializationToFileService.ExportStatesToJsonFile(States);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
             jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(AlphaCriterions);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(WorkProductCriterions);
         }
+        private void RemoveStatesByAlpha(Alpha alpha)
+        {
+            List<State> statesForRemove = alpha.GetStates();
+            foreach (var state in statesForRemove)
+            {
+                RemoveCheckpointsAndCriteriaByDetail(state);
+                States.Remove(state);
+                Details.Remove(state);
+                Checkables.Remove(state);
+            }
+        }
+
         public void AddWorkProduct(WorkProduct workProduct)
         {
             WorkProducts.Add(workProduct);
@@ -133,7 +157,7 @@ namespace Alpha.Services
             List<LevelOfDetail> lodForRemove = workProduct.GetLevelOfDetails();
             foreach (var levelOfDetail in lodForRemove)
             {
-                RemoveCheckpointsByDetail(levelOfDetail);
+                RemoveCheckpointsAndCriteriaByDetail(levelOfDetail);
                 LevelOfDetails.Remove(levelOfDetail);
                 Details.Remove(levelOfDetail);
                 Checkables.Remove(levelOfDetail);
@@ -143,6 +167,8 @@ namespace Alpha.Services
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
             jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(AlphaCriterions);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(WorkProductCriterions);
         }
         public void UpdateWorkProducts()
         {
@@ -169,8 +195,6 @@ namespace Alpha.Services
         }
         public void RemoveAlphaCriterion(AlphaCriterion alphaCriterion)
         {
-            State state = alphaCriterion.GetState();
-            state.DeleteAlphaCriterion();
             AlphaCriterions.Remove(alphaCriterion);
             jsonSerializationToFileService.ExportAlphaCriterionsToFile(AlphaCriterions);
         }
@@ -202,7 +226,7 @@ namespace Alpha.Services
         }
         public void RemoveState(State state)
         {
-            RemoveCheckpointsByDetail(state);
+            RemoveCheckpointsAndCriteriaByDetail(state);
             States.Remove(state);
             Details.Remove(state);
             Checkables.Remove(state);
@@ -210,6 +234,8 @@ namespace Alpha.Services
             jsonSerializationToFileService.ExportStatesToJsonFile(States);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
             jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(AlphaCriterions);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(WorkProductCriterions);
         }
         public void UpdateStates()
         {
@@ -272,8 +298,6 @@ namespace Alpha.Services
         }
         public void RemoveWorkProductCriterion(WorkProductCriterion workProductCriterion)
         {
-            LevelOfDetail levelOfDetail = workProductCriterion.GetLevelOfDetail();
-            levelOfDetail.DeleteWorkProductCriterion();
             WorkProductCriterions.Remove(workProductCriterion);
             jsonSerializationToFileService.ExportWorkProductCriterionsToFile(WorkProductCriterions);
         }
@@ -290,7 +314,7 @@ namespace Alpha.Services
         }
         public void RemoveLevelOfDetail(LevelOfDetail levelOfDetail)
         {
-            RemoveCheckpointsByDetail(levelOfDetail);
+            RemoveCheckpointsAndCriteriaByDetail(levelOfDetail);
             LevelOfDetails.Remove(levelOfDetail);
             Checkables.Remove(levelOfDetail);
             Details.Remove(levelOfDetail);
@@ -298,14 +322,28 @@ namespace Alpha.Services
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
             jsonSerializationToFileService.ExportCheckpointsToJsonFile(Checkpoints);
             jsonSerializationToFileService.ExportDegreesOfEvidenceToJsonFile(DegreesOfEvidence);
+            jsonSerializationToFileService.ExportAlphaCriterionsToFile(AlphaCriterions);
+            jsonSerializationToFileService.ExportWorkProductCriterionsToFile(WorkProductCriterions);
         }
         public void UpdateLevelOfDetails()
         {
             jsonSerializationToFileService.ExportLevelOfDetailsToJsonFile(LevelOfDetails);
         }
-        private void RemoveCheckpointsByDetail(IDetailing detail)
+        private void RemoveCheckpointsAndCriteriaByDetail(IDetailing detail)
         {
             List<Checkpoint> checkpointsForRemove = detail.GetCheckpoints();
+            List<ICriterion> criteria = GetCriterions().Where(c => c.GetDetailId() == detail.GetId()).ToList();
+            foreach (var criterion in criteria)
+            {
+                if (criterion.GetType() == typeof(AlphaCriterion))
+                {
+                    AlphaCriterions.Remove((AlphaCriterion)criterion);
+                }
+                else if (criterion.GetType() == typeof(WorkProductCriterion))
+                {
+                    WorkProductCriterions.Remove((WorkProductCriterion)criterion);
+                }
+            }
             foreach (var checkpoint in checkpointsForRemove)
             {
                 RemoveDegreesOfEvidenceByCheckpoint(checkpoint);

@@ -18,7 +18,6 @@ namespace Alpha
         public Guid AlphaId { get; set; }
         public int Order { get; set; }
         private List<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
-        private AlphaCriterion AlphaCriterion { get; set; } = null;
 
         public State()
         {
@@ -36,7 +35,6 @@ namespace Alpha
         public string GetSpecialId() => SpecialId;
         public string GetName() => Name;
         public List<Checkpoint> GetCheckpoints() => Checkpoints;
-        public AlphaCriterion GetAlphaCriterion() => AlphaCriterion;
         public IBaseObject GetBaseObject() => Alpha;
         public void AddCheckpoint(Checkpoint checkpoint)
         {
@@ -45,14 +43,6 @@ namespace Alpha
         public void SortListOfCheckpointsByOrder()
         {
             Checkpoints.Sort((x, y) => x.Order.CompareTo(y.Order));
-        }
-        public void SetAlphaContaiment(AlphaCriterion alphaCriterion)
-        {
-            AlphaCriterion = alphaCriterion;
-        }
-        public void DeleteAlphaCriterion()
-        {
-            AlphaCriterion = null;
         }
         public void SetAlpha(Alpha alpha)
         {

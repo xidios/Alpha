@@ -8,6 +8,8 @@ namespace Alpha.Interfaces
 {
     public interface IDetailing
     {
+        string Name { get; set; }
+        Guid Id { get; set; }
         string GetName();
         List<Checkpoint> GetCheckpoints();
         void AddCheckpoint(Checkpoint checkpoint);

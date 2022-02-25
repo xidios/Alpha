@@ -103,6 +103,7 @@ namespace Alpha.WinForms
             dataStorageService.RemoveActivity(activity);
             UpdateActivitiesTable();
         }
+        //TODO: move this logic into dataStorageService
         private void RemoveFromWorkProductCriterion(Activity activity)
         {
             List<WorkProductCriterion> activityWorkProductCriterions = activity.GetWorkProductCriterions();
@@ -119,6 +120,7 @@ namespace Alpha.WinForms
                 dataStorageService.RemoveAlphaCriterion(alphaCriterion);
             }
         }
+        //
         private void buttonEdit_Click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
