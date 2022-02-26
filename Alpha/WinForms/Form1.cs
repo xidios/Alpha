@@ -95,7 +95,7 @@ namespace Alpha
 
                 tableLayoutPanel1.Controls.Add(alphaNameLabel, 0, i);
 
-                if (alpha.ParentAlphaId != null)
+                if (alpha.GetAlphaParent() != null)
                 {
                     Label alphaParentNameLabel = new Label();
                     alphaParentNameLabel.Text = alpha.GetAlphaParent().GetName();
@@ -148,10 +148,18 @@ namespace Alpha
                 MessageBox.Show("Some problems with alpha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            RemoveFromAlphaParent(alpha);
             RemoveFromAlphaContains(alpha);
             RemoveFromWokrProductManifests(alpha);
             dataStorageService.RemoveAlpha(alpha);
             UpdateAlphasTable();
+        }
+        private void RemoveFromAlphaParent(Alpha alpha)
+        {
+            List<Alpha> alphas = dataStorageService.GetAlphas();
+            List<Alpha> alphasWithParentCurrentAlpha = alphas.Where(a => a.GetAlphaParentId() == alpha.GetAlphaId()).ToList();
+            foreach (Alpha a in alphasWithParentCurrentAlpha)
+                a.DeleteAlphaParent();
         }
         private void RemoveFromAlphaContains(Alpha alpha)
         {

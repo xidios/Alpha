@@ -37,6 +37,8 @@
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.stateOrderInput = new System.Windows.Forms.NumericUpDown();
+            this.specialIdInput = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stateOrderInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,7 +89,7 @@
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(21, 213);
+            this.buttonEdit.Location = new System.Drawing.Point(21, 253);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
             this.buttonEdit.TabIndex = 19;
@@ -97,7 +99,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(102, 213);
+            this.buttonClose.Location = new System.Drawing.Point(102, 253);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 18;
@@ -117,11 +119,30 @@
             this.stateOrderInput.Size = new System.Drawing.Size(282, 20);
             this.stateOrderInput.TabIndex = 20;
             // 
+            // specialIdInput
+            // 
+            this.specialIdInput.Location = new System.Drawing.Point(21, 227);
+            this.specialIdInput.MaxLength = 100;
+            this.specialIdInput.Name = "specialIdInput";
+            this.specialIdInput.Size = new System.Drawing.Size(282, 20);
+            this.specialIdInput.TabIndex = 21;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 210);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Special ID ( can be nullable )";
+            // 
             // PopupWindowForEditState
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 253);
+            this.ClientSize = new System.Drawing.Size(320, 288);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.specialIdInput);
             this.Controls.Add(this.stateOrderInput);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.buttonClose);
@@ -149,5 +170,7 @@
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.NumericUpDown stateOrderInput;
+        private System.Windows.Forms.TextBox specialIdInput;
+        private System.Windows.Forms.Label label4;
     }
 }

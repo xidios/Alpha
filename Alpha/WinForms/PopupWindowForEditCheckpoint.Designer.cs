@@ -38,6 +38,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonAddDegreeOfEvidence = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.specialIdInput = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.checkpointOrderInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +57,7 @@
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(12, 244);
+            this.buttonEdit.Location = new System.Drawing.Point(12, 291);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
             this.buttonEdit.TabIndex = 35;
@@ -65,7 +67,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(103, 244);
+            this.buttonClose.Location = new System.Drawing.Point(93, 291);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 34;
@@ -129,11 +131,30 @@
             this.buttonAddDegreeOfEvidence.UseVisualStyleBackColor = true;
             this.buttonAddDegreeOfEvidence.Click += new System.EventHandler(this.buttonAddDegreeOfEvidence_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 248);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 39;
+            this.label4.Text = "Special ID ( can be nullable )";
+            // 
+            // specialIdInput
+            // 
+            this.specialIdInput.Location = new System.Drawing.Point(13, 265);
+            this.specialIdInput.MaxLength = 100;
+            this.specialIdInput.Name = "specialIdInput";
+            this.specialIdInput.Size = new System.Drawing.Size(282, 20);
+            this.specialIdInput.TabIndex = 38;
+            // 
             // PopupWindowForEditCheckpoint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(307, 276);
+            this.ClientSize = new System.Drawing.Size(307, 326);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.specialIdInput);
             this.Controls.Add(this.buttonAddDegreeOfEvidence);
             this.Controls.Add(this.checkpointOrderInput);
             this.Controls.Add(this.buttonEdit);
@@ -163,5 +184,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonAddDegreeOfEvidence;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox specialIdInput;
     }
 }

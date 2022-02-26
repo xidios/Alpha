@@ -63,5 +63,9 @@ namespace Alpha.Models
         {
             LevelOfDetails.Remove(levelOfDetail);
         }
+        public void RemoveWorkProductManifest(WorkProductManifest workProductManifest)
+        {
+            WorkProductManifests.Remove(workProductManifest);
+        }
     }
 }

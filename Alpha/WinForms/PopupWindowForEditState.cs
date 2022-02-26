@@ -28,6 +28,8 @@ namespace Alpha
             stateNameInput.Text = state.Name;
             stateDescriptionInput.Text = state.Description;
             stateOrderInput.Text = state.Order.ToString();
+            string specialId = state.GetSpecialId();
+            specialIdInput.Text = (specialId == null) ? "" : specialId;
         }
         private void buttonClose_Click(object sender, EventArgs e)
         {
@@ -55,11 +57,12 @@ namespace Alpha
                 MessageBox.Show("Please enter state's order", "Nullable order", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
 
             state.Name = stateName;
             state.Description = stateDescription;
             state.Order = Int32.Parse(stateOdred);
+            state.SetSpecialId(specialId);
             dataStorageService.UpdateStates();
             this.Close();
         }

@@ -37,7 +37,8 @@ namespace Alpha
                 return;
             }
             int stateOrder = alpha.GetStates().Count() * 10;
-            State state = new State(stateName, stateDescription, stateOrder, alpha);
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
+            State state = new State(stateName, stateDescription, stateOrder, alpha, specialId);
             alpha.AddState(state);
             dataStorageService.AddState(state);
             this.Close();

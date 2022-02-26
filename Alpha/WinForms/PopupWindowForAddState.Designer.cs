@@ -35,11 +35,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.stateDescriptionInput = new System.Windows.Forms.RichTextBox();
             this.stateNameInput = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.specialIdInput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(70, 173);
+            this.buttonAdd.Location = new System.Drawing.Point(69, 218);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 0;
@@ -49,7 +51,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(151, 173);
+            this.buttonClose.Location = new System.Drawing.Point(150, 218);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
@@ -93,11 +95,30 @@
             this.stateNameInput.Size = new System.Drawing.Size(282, 20);
             this.stateNameInput.TabIndex = 10;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 175);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Special ID ( can be nullable )";
+            // 
+            // specialIdInput
+            // 
+            this.specialIdInput.Location = new System.Drawing.Point(12, 192);
+            this.specialIdInput.MaxLength = 100;
+            this.specialIdInput.Name = "specialIdInput";
+            this.specialIdInput.Size = new System.Drawing.Size(282, 20);
+            this.specialIdInput.TabIndex = 23;
+            // 
             // PopupWindowForAddState
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(306, 217);
+            this.ClientSize = new System.Drawing.Size(306, 252);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.specialIdInput);
             this.Controls.Add(this.stateDescriptionInput);
             this.Controls.Add(this.stateNameInput);
             this.Controls.Add(this.label2);
@@ -120,5 +141,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox stateDescriptionInput;
         private System.Windows.Forms.TextBox stateNameInput;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox specialIdInput;
     }
 }

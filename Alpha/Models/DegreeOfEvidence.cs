@@ -10,8 +10,6 @@ namespace Alpha.Models
     public class DegreeOfEvidence
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public string ICheckableSpecialId { get; set; } = null;
-
         public Guid ICheckableId { get; set; }
         public bool TypeOfEvidence { get; set; } = false;
         private ICheckable ICheckableObject { get; set; }
@@ -24,7 +22,7 @@ namespace Alpha.Models
         public Guid GetICheckableId() => ICheckableId;
         public Guid GetId() => Id;
         public ICheckable GetICheckable() => ICheckableObject;
-        public string GetICheckableSpecialId() => ICheckableSpecialId;
+        public string GetICheckableSpecialId() => ICheckableObject.GetSpecialId();
         public Guid GetCheckpointId() => CheckpointId;
 
         public DegreeOfEvidence()
@@ -39,7 +37,6 @@ namespace Alpha.Models
             ICheckableId = icheckable.GetId();
             TypeOfEvidence = typeOfEvidence;
             DegreeOfEvidenceEnumValue = degreeOfEvidenceEnum;
-            ICheckableSpecialId = icheckable.GetSpecialId();
         }
         public void SetICheckable(ICheckable icheckable)
         {

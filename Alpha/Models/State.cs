@@ -23,13 +23,14 @@ namespace Alpha
         {
 
         }
-        public State (string name, string desctiption,int order, Alpha alpha)
+        public State (string name, string desctiption,int order, Alpha alpha, string specialId)
         {
             Name = name;
             Description = desctiption;
             Order = order;
             AlphaId = alpha.Id;
             Alpha = alpha;
+            SpecialId = specialId;
         }
         public Guid GetId() => Id;
         public string GetSpecialId() => SpecialId;
@@ -51,6 +52,10 @@ namespace Alpha
         public void RemoveCheckpoint(Checkpoint checkpoint)
         {
             Checkpoints.Remove(checkpoint);
+        }
+        public void SetSpecialId(string specialId)
+        {
+            SpecialId = specialId;
         }
     }
 }

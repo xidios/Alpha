@@ -57,7 +57,10 @@ namespace Alpha.Services
                         if (alphaParentId != null)
                         {
                             Alpha alphaParent = alphas.FirstOrDefault(a => a.Id == alphaParentId);
-                            alpha.SetParentAlpha(alphaParent);
+                            if (alphaParent == null)
+                                alpha.DeleteAlphaParent();
+                            else
+                                alpha.SetParentAlpha(alphaParent);
                         }
                     }
                     return alphas;
@@ -323,7 +326,6 @@ namespace Alpha.Services
                         detail.AddCheckpoint(checkpoint);
                     }
                 }
-                //DeserializeJsonDegreesOfEvidence(checkpoints);
                 SortDetailsCheckpointsByOrder(details);
                 return checkpoints;
             }

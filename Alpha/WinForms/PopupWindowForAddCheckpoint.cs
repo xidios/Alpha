@@ -44,7 +44,8 @@ namespace Alpha
                 return;
             }
             int stateOrder = detail.GetCheckpoints().Count() * 10;
-            Checkpoint checkpoint = new Checkpoint(stateName, stateDescription, stateOrder, detail);
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
+            Checkpoint checkpoint = new Checkpoint(stateName, stateDescription, stateOrder, detail, specialId);
             detail.AddCheckpoint(checkpoint);
             dataStorageService.AddCheckpoint(checkpoint);
             this.Close();

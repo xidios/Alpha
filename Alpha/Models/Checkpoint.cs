@@ -22,12 +22,13 @@ namespace Alpha
         {
 
         }
-        public Checkpoint(string name,string description,int order, IDetailing detail)
+        public Checkpoint(string name,string description,int order, IDetailing detail,string specialId)
         {
             Name = name;
             Description = description;
             Order = order;
             DetailId = detail.GetId();
+            SpecialId = specialId;
         }
         public Guid GetId() => Id;
         public string GetSpecialId() => SpecialId;
@@ -42,6 +43,10 @@ namespace Alpha
         public void RemoveDegreeOfEvidence(DegreeOfEvidence degreeOfEvidence)
         {
             DegreeOfEvidences.Remove(degreeOfEvidence);
+        }
+        public void SetSpecialId(string specialId)
+        {
+            SpecialId = specialId;
         }
     }
 }

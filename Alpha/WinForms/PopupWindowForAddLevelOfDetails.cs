@@ -44,7 +44,9 @@ namespace Alpha.WinForms
                 return;
             }
             int levelOfDatailOrder = workProduct.GetLevelOfDetails().Count() * 10;
-            LevelOfDetail levelOfDetail = new LevelOfDetail(levelOfDatailName, levelOfDatailDescription, levelOfDatailOrder, workProduct);
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
+            
+            LevelOfDetail levelOfDetail = new LevelOfDetail(levelOfDatailName, levelOfDatailDescription, levelOfDatailOrder, workProduct, specialId);
             workProduct.AddLevelOfDetailToList(levelOfDetail);
             dataStorageService.AddLevelOfDetail(levelOfDetail);
             this.Close();

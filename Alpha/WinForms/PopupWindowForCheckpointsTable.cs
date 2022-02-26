@@ -33,12 +33,14 @@ namespace Alpha
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
                 Text = "Checkpoint",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(150,20)
             }, 0, 0);
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
                 Text = "Description",
-                Font = new Font(Label.DefaultFont, FontStyle.Bold)
+                Font = new Font(Label.DefaultFont, FontStyle.Bold),
+                Size = new Size(150, 20)
             }, 1, 0);
             tableLayoutPanelOfCheckpoints.Controls.Add(new Label
             {
@@ -62,9 +64,11 @@ namespace Alpha
                 Checkpoint checkpoint = checkpoints[i - 1];
                 Guid stateId = checkpoint.GetId();
                 Label checkpointNameLabel = new Label();
+                checkpointNameLabel.AutoSize = true;
                 checkpointNameLabel.Text = checkpoint.Name;
 
                 Label checkpointDescription = new Label();
+                checkpointDescription.AutoSize = true;
                 checkpointDescription.Text = checkpoint.Description;
 
                 Label checkpointOrder = new Label();
@@ -131,6 +135,11 @@ namespace Alpha
             PopupWindowForEditCheckpoint popupWindowForEditCheckpoint = new PopupWindowForEditCheckpoint(checkpoint,detail);
             popupWindowForEditCheckpoint.ShowDialog();
             UpdateCheckpointsTable();
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

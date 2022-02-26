@@ -29,13 +29,14 @@ namespace Alpha.Models
         {
 
         }
-        public LevelOfDetail(string name, string description, int order, WorkProduct workProduct)
+        public LevelOfDetail(string name, string description, int order, WorkProduct workProduct,string specialId)
         {
             Name = name;
             Description = description;
             Order = order;
             WorkProductId = workProduct.Id;
             WorkProduct = workProduct;
+            SpecialId = specialId;
         }
         public void AddCheckpoint(Checkpoint checkpoint)
         {
@@ -49,10 +50,13 @@ namespace Alpha.Models
         {
             WorkProduct = workProduct;
         }
-
         public void RemoveCheckpoint(Checkpoint checkpoint)
         {
             Checkpoints.Remove(checkpoint);
+        }
+        public void SetSpecialId(string specialId)
+        {
+            SpecialId = specialId;
         }
     }
 }

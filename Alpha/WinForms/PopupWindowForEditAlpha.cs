@@ -69,7 +69,8 @@ namespace Alpha
         private void UpdateWorkProductManifestAndLabel()
         {
 
-            workProductManifest = alpha.GetWorkProductManifest();
+            workProductManifest = dataStorageService.GetWorkProductManifests()
+                .FirstOrDefault(w => w.GetAlphaId() == alpha.GetAlphaId());
             if (workProductManifest == null)
             {
                 labelWorkProductManifest.Text = "Work Product: null";
@@ -86,7 +87,8 @@ namespace Alpha
         private void UpdateAplhaContainmentAndLabel()
         {
 
-            alphaContaiment = alpha.GetSupperAlphaContainment();
+            alphaContaiment = dataStorageService.GetAlphaContaiments()
+                .FirstOrDefault(a => a.GetSupAlphaId() == alpha.GetAlphaId());
             if (alphaContaiment == null)
             {
                 labelSubAlpha.Text = "Subordinate Alpha: null";
@@ -103,7 +105,7 @@ namespace Alpha
         {
             tableLayoutPanelOfStates.Controls.Clear();
 
-            tableLayoutPanelOfStates.RowCount = alpha.GetStates().Count() + 1; //не бейте
+            tableLayoutPanelOfStates.RowCount = alpha.GetStates().Count() + 1;
             tableLayoutPanelOfStates.Controls.Add(new Label
             {
                 Text = "State",
@@ -325,7 +327,7 @@ namespace Alpha
                 return;
             }
             decimal upperBound = upperBoundOfAlphaCotainmentNumericUpDown.Value;
-            decimal lowerBound = lowerBoundOfAlphaCotainmentNumericUpDown.Value;            
+            decimal lowerBound = lowerBoundOfAlphaCotainmentNumericUpDown.Value;
             if (alphaContaiment == null)
             {
                 alphaContaiment = new AlphaContaiment(upperBound, lowerBound, alpha, subAlpha);
@@ -365,7 +367,7 @@ namespace Alpha
                 return;
             }
             decimal upperBound = upperBoundOfWorkProductManifestUpDown.Value;
-            decimal lowerBound = lowerBoundOfWorkProductManifestUpDown.Value;            
+            decimal lowerBound = lowerBoundOfWorkProductManifestUpDown.Value;
             if (workProductManifest == null)
             {
                 workProductManifest = new WorkProductManifest(upperBound, lowerBound, alpha, workProduct);

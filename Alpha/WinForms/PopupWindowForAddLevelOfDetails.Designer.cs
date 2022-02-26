@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.specialIdInput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // levelOfDetailDescriptionInput
@@ -75,7 +77,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(152, 196);
+            this.buttonClose.Location = new System.Drawing.Point(153, 242);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 13;
@@ -85,7 +87,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(71, 196);
+            this.buttonAdd.Location = new System.Drawing.Point(72, 242);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 12;
@@ -93,11 +95,30 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 199);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "Special ID ( can be nullable )";
+            // 
+            // specialIdInput
+            // 
+            this.specialIdInput.Location = new System.Drawing.Point(13, 216);
+            this.specialIdInput.MaxLength = 100;
+            this.specialIdInput.Name = "specialIdInput";
+            this.specialIdInput.Size = new System.Drawing.Size(282, 20);
+            this.specialIdInput.TabIndex = 27;
+            // 
             // PopupWindowForAddLevelOfDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(305, 258);
+            this.ClientSize = new System.Drawing.Size(305, 277);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.specialIdInput);
             this.Controls.Add(this.levelOfDetailDescriptionInput);
             this.Controls.Add(this.levelOfDetailNameInput);
             this.Controls.Add(this.label2);
@@ -120,5 +141,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox specialIdInput;
     }
 }

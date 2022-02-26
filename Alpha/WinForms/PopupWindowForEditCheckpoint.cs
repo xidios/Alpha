@@ -27,6 +27,8 @@ namespace Alpha
             checkpointNameInput.Text = checkpoint.Name;
             checkpointDescriptionInput.Text = checkpoint.Description;
             checkpointOrderInput.Text = checkpoint.Order.ToString();
+            string specialId = checkpoint.GetSpecialId();
+            specialIdInput.Text = (specialId == null) ? "" : specialId;
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -55,10 +57,11 @@ namespace Alpha
                 MessageBox.Show("Please enter checkpoint's order", "Nullable order", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
             checkpoint.Name = checkpointName;
             checkpoint.Description = checkpointDescription;
             checkpoint.Order = Int32.Parse(checkpointOdred);
+            checkpoint.SetSpecialId(specialId);
             dataStorageService.UpdateCheckpoints();
             this.Close();
         }

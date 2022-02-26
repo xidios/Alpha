@@ -28,6 +28,8 @@ namespace Alpha.WinForms
             levelOfDetailNameInput.Text = levelOfDetail.GetName();
             levelOfDetailDescriptionInput.Text = levelOfDetail.GetDescription();
             levelOfDetailOrderInput.Text = levelOfDetail.GetOrder().ToString();
+            string specialId = levelOfDetail.GetSpecialId();
+            specialIdInput.Text = (specialId == null) ? "" : specialId;
         }
 
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -51,11 +53,12 @@ namespace Alpha.WinForms
                 MessageBox.Show("Please enter level of detail's order", "Nullable order", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            string specialId = (specialIdInput.Text == "") ? null : specialIdInput.Text;
 
             levelOfDetail.Name = levelOfDetailName;
             levelOfDetail.Description = levelOfDetailDescription;
             levelOfDetail.Order = Int32.Parse(levelOfDetailOdred);
+            levelOfDetail.SetSpecialId(specialId);
             dataStorageService.UpdateLevelOfDetails();
             this.Close();
         }

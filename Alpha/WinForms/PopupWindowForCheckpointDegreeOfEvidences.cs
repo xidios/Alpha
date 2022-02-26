@@ -31,7 +31,8 @@ namespace Alpha.WinForms
         public void UpdateDegreesOfEvidenceTable()
         {
             tableLayoutPanelDegreeOfEvidence.Controls.Clear();
-            List<DegreeOfEvidence> degreeOfEvidences = checkpoint.GetDegreeOfEvidences();
+            List<DegreeOfEvidence> degreeOfEvidences = dataStorageService.GetDegreesOfEvidence()
+                .Where(d=>d.GetCheckpointId()==checkpoint.GetId()).ToList();
             tableLayoutPanelDegreeOfEvidence.RowCount = degreeOfEvidences.Count() + 1;
             tableLayoutPanelDegreeOfEvidence.Controls.Add(new Label
             {

@@ -33,6 +33,7 @@ namespace Alpha
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanelOfCheckpoints = new System.Windows.Forms.TableLayoutPanel();
             this.buttonAddCheckpoint = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,11 +73,22 @@ namespace Alpha
             this.buttonAddCheckpoint.UseVisualStyleBackColor = true;
             this.buttonAddCheckpoint.Click += new System.EventHandler(this.buttonAddCheckpoint_Click);
             // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(769, 23);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(75, 23);
+            this.buttonClose.TabIndex = 2;
+            this.buttonClose.Text = "Close";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            // 
             // PopupWindowForCheckpointsTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 450);
+            this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonAddCheckpoint);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -92,5 +104,6 @@ namespace Alpha
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonAddCheckpoint;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOfCheckpoints;
+        private System.Windows.Forms.Button buttonClose;
     }
 }
