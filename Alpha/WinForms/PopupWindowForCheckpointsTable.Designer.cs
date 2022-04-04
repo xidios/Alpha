@@ -48,6 +48,7 @@ namespace Alpha
             // 
             // tableLayoutPanelOfCheckpoints
             // 
+            this.tableLayoutPanelOfCheckpoints.AutoScroll = true;
             this.tableLayoutPanelOfCheckpoints.ColumnCount = 5;
             this.tableLayoutPanelOfCheckpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelOfCheckpoints.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());

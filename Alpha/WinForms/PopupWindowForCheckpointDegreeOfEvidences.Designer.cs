@@ -117,6 +117,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(703, 562);
             this.Controls.Add(this.buttonAddDegreeOfEvidence);
             this.Controls.Add(this.tableLayoutPanelDegreeOfEvidence);

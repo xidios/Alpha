@@ -325,7 +325,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Alpha-logos_black.png" />
     <Content Include="Data\Icons8-Ios7-Science-Alpha.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
